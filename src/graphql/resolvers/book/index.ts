@@ -1,4 +1,6 @@
-export default () => [
+import { Book } from '../../__generated__/resolvers-types';
+
+export default (): Book[] => [
   {
     title: 'The Awakening',
     author: 'Kate Chopin'
