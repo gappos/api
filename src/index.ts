@@ -52,7 +52,7 @@ const server = new ApolloServer({
 //  2. installs your ApolloServer instance as middleware
 //  3. prepares your app to handle incoming requests
 const { url } = await startStandaloneServer(server, {
-  listen: { port: +process.env.PORT || 3009 }
+  listen: { port: +process.env.PORT || 3000 }
 });
 
 console.log(`🚀  Server ready at: ${url}`);
