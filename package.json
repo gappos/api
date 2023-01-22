@@ -7,20 +7,24 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "compile": "tsc",
     "compile:watch": "tsc --watch",
+    "compile:clear": "rm -rf ./dist",
+    "compile": "tsc",
     "start": "npm run compile && node --experimental-specifier-resolution=node ./dist/index.js",
     "dev": "PORT=3009 nodemon --experimental-specifier-resolution=node ./dist/index.js",
     "gen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@apollo/server": "^4.3.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
     "graphql": "^16.6.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.16.4",
     "@graphql-codegen/typescript": "^2.8.7",
     "@graphql-codegen/typescript-resolvers": "^2.7.12",
+    "@types/express": "^4.17.15",
     "@types/node": "^18.11.18",
     "nodemon": "^2.0.20",
     "ts-node": "^10.9.1",
