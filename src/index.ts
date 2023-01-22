@@ -26,6 +26,6 @@ app.use(
   expressMiddleware(server, { context })
 );
 
-const port = parseInt(process.env.PORT) || 3000;
+const port = parseInt(process.env.PORT as string) || 3000;
 await new Promise<void>(resolve => httpServer.listen({ port }, resolve));
 console.log(`Genealogy tree API ready at ${port} port.`);

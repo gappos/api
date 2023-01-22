@@ -4,7 +4,7 @@ import books from './book';
 export default {
   Query: { books },
   Mutation: {
-    addBook(book: BookInput): boolean {
+    addBook(_book: BookInput): boolean {
       return true;
     }
   }
