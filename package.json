@@ -12,7 +12,11 @@
     "compile": "tsc",
     "start": "npm run compile && node --experimental-specifier-resolution=node ./dist/index.js",
     "dev": "PORT=3009 nodemon --experimental-specifier-resolution=node ./dist/index.js",
-    "gen": "graphql-codegen --config codegen.yml"
+    "gen": "graphql-codegen --config codegen.yml",
+    "docker:run": "node --experimental-specifier-resolution=node ./dist/index.js",
+    "docker:build": "yarn compile:clear && yarn compile && docker build -t gapp/backend .",
+    "docker:up": "yarn docker:build && docker-compose up -d",
+    "docker:build:push": "yarn compile:clear && yarn compile && docker build -t arturasmckwcz/gapp-backend . && docker push arturasmckwcz/gapp-backend"
   },
   "dependencies": {
     "@apollo/server": "^4.3.0",
