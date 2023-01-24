@@ -13,4 +13,4 @@ COPY src/graphql/schema.graphql ./src/graphql/schema.graphql
 
 EXPOSE 3000
 
-CMD ["yarn", "docker:run"]
+CMD ["yarn", "start"]
