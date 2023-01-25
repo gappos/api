@@ -5,10 +5,11 @@ services:
     container_name: postgres
     image: postgres
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-gapp}
     volumes:
-      - ./db-data:/var/lib/postgresgl/data
+      - ./db-data:/var/lib/postgresql/data
     ports:
       - 5432:5432
 
@@ -16,8 +17,8 @@ services:
     container_name: pgadmin_container
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@gapp.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
     ports:
       - 3005:80
 
@@ -28,3 +29,4 @@ services:
       - ./src:/gapp/src
     ports:
       - 3009:3000
+      - 9229:9229

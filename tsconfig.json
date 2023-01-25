@@ -64,7 +64,7 @@
     "allowSyntheticDefaultImports": true, // "esModuleInterop": false, // Emit '__importStar' and '__importDefault' helpers for runtime babel ecosystem compatibility and enable '--allowSyntheticDefaultImports' for typesystem compatibility.
     // "maxNodeModuleJsDepth": 0, // The maximum dependency depth to search under node_modules and load JavaScript files. Only applicable with --allowJs.
     // "preserveSymlinks": false, // Do not resolve the real path of symlinks.
-    "resolveJsonModule": true // Include modules imported with '.json' extension.
+    "resolveJsonModule": true, // Include modules imported with '.json' extension.
 
     // Emit options
     // "declaration": false, // Generates corresponding '.d.ts' file.
@@ -81,8 +81,8 @@
     // "noResolve": false, // Do not add triple-slash references or module import targets to the list of compiled files.
     // "preserveConstEnums": false, // Do not erase const enum declarations in generated code.
     // "removeComments": false, // Remove all comments except copy-right header comments beginning with //!
-    // "experimentalDecorators": true, // Enables experimental support for ES7 decorators.
-    // "emitDecoratorMetadata": true, // Enables experimental support for emitting type metadata for decorators.
+    "experimentalDecorators": true, // Enables experimental support for ES7 decorators.
+    "emitDecoratorMetadata": true // Enables experimental support for emitting type metadata for decorators.
 
     // Source map options
     // "sourceMap": false, // Generates corresponding '.map' file.
