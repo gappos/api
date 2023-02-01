@@ -1,4 +1,3 @@
-import { DefaultMutationResponse } from '..';
 import { Book } from '../../../models';
 import { BooksCreationAttributes } from '../../../models/book/model';
 
@@ -12,11 +11,11 @@ export const getBooks = async (): Promise<Book[]> => {
 
 export const addBook = async (
   bookAttributes: BooksCreationAttributes
-): Promise<DefaultMutationResponse> => {
+): Promise<boolean> => {
   const book = new Book(bookAttributes);
   try {
     book.save();
-    return { success: true };
+    return true;
   } catch (error) {
     throw error;
   }
