@@ -13,15 +13,6 @@ services:
     ports:
       - 5432:5432
 
-  pgadmin:
-    container_name: pgadmin_container
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@gapp.com}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-    ports:
-      - 3005:80
-
   api:
     container_name: gapp-backend-dev
     image: gapp/backend-dev
