@@ -1,16 +1,21 @@
-import { Book } from '../../__generated__/resolvers-types';
+import { Arg, Query, Mutation, Resolver } from 'type-graphql';
+import { Book } from '../../../models';
+import { addBook, getBooks } from './helpers';
 
-export default (): Book[] => [
-  {
-    title: 'The Awakening',
-    author: 'Kate Chopin'
-  },
-  {
-    title: 'City of Glass',
-    author: 'Paul Auster'
-  },
-  {
-    title: 'Armageddon',
-    author: 'Paul Coehlo'
+@Resolver(Book)
+export class BooksResolvers {
+  // @ts-ignore:
+  @Query(returns => [Book])
+  async books(): Promise<Book[]> {
+    return await getBooks();
   }
-];
+
+  // @ts-ignore:
+  @Mutation(returns => Boolean)
+  async addBook(
+    @Arg('title') title: string,
+    @Arg('author') author: string
+  ): Promise<boolean> {
+    return await addBook({ title, author });
+  }
+}
