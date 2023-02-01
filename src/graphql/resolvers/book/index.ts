@@ -1,16 +1,12 @@
-import { Book } from '../../__generated__/resolvers-types';
+import { Query, Resolver } from 'type-graphql';
+import { Book } from '../../../models';
+import getBooks from './getBooks';
 
-export default (): Book[] => [
-  {
-    title: 'The Awakening',
-    author: 'Kate Chopin'
-  },
-  {
-    title: 'City of Glass',
-    author: 'Paul Auster'
-  },
-  {
-    title: 'Armageddon',
-    author: 'Paul Coehlo'
+@Resolver(Book)
+export class BooksResolver {
+  // @ts-ignore:
+  @Query(returns => [Book])
+  async books(): Promise<Book[]> {
+    return await getBooks();
   }
-];
+}
