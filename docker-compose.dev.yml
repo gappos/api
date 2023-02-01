@@ -22,7 +22,7 @@ services:
     ports:
       - 3005:80
 
-  api-dev:
+  api:
     container_name: gapp-backend-dev
     image: gapp/backend-dev
     volumes:

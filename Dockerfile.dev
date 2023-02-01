@@ -5,7 +5,7 @@ COPY package.json ./
 COPY yarn.lock ./
 RUN yarn install --frozen-lockfile
 
-RUN echo node-modules\ndist>.dockerignore
+RUN echo node-modules\ndist\ndb-data>.dockerignore
 COPY . .
 RUN rm .dockerignore
 RUN yarn compile
