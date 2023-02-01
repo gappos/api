@@ -9,7 +9,6 @@ COPY tsconfig.json ./
 RUN yarn install --pure-lockfile
 
 COPY dist ./dist
-COPY src/graphql/schema.graphql ./src/graphql/schema.graphql
 
 EXPOSE 3000
 
