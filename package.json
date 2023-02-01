@@ -11,7 +11,7 @@
     "compile:clear": "rm -rf ./dist",
     "compile": "tsc",
     "start": "node --experimental-specifier-resolution=node ./dist/index.js",
-    "start:dev": "nodemon -e ts --exec 'tsc && node --trace-warnings --inspect=0.0.0.0:9229 --experimental-specifier-resolution=node ./dist/index.js' || exit 1",
+    "start:dev": "nodemon -e ts --exec 'tsc && node --trace-warnings --inspect=0.0.0.0:9229 --experimental-specifier-resolution=node ./dist/index.js || exit 1'",
     "dev": "PORT=3009 nodemon --experimental-specifier-resolution=node ./dist/index.js",
     "gen": "graphql-codegen --config codegen.yml",
     "migrate": "sequelize db:migrate",
@@ -19,9 +19,7 @@
     "docker:build:dev": "docker build -f ./Dockerfile.dev -t gapp/backend-dev .",
     "docker:up:dev": "yarn docker:build:dev && docker-compose -f ./docker-compose.dev.yml -p gapp-backend-dev up",
     "docker:build": "yarn compile:clear && yarn compile && docker build -t gapp/backend .",
-    "docker-migrate": "docker-compose -p gapp-backend-dev -f docker-compose-dev.yml run --rm gapp-backend-dev wait-for-pg -- yarn run migrate",
-    "docker-migrate-undo": "docker-compose -p gapp-backend-dev -f docker-compose-dev.yml run --rm gapp-backend-dev wait-for-pg -- yarn run migrate:undo",
-    "docker:up": "yarn docker:build && docker-compose -p gapp-backend up -d",
+    "docker:up": "yarn docker:build && docker-compose -p gapp-backend up",
     "docker:build:push": "yarn compile:clear && yarn compile && docker build -t arturasmckwcz/gapp-backend . && docker push arturasmckwcz/gapp-backend"
   },
   "dependencies": {
@@ -31,7 +29,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "graphql": "^16.6.0",
-    "pg": "^8.8.0",
+    "pg": "^8.9.0",
     "pg-hstore": "^2.3.4",
     "reflect-metadata": "^0.1.13",
     "sequelize": "^6.28.0",
