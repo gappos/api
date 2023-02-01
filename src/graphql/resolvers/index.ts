@@ -1,7 +1,13 @@
-import { BuildSchemaOptions } from 'type-graphql';
-import { BooksResolver } from './book';
-import { HelloResolver } from './hello';
+import { BuildSchemaOptions, Field, ObjectType } from 'type-graphql';
+import { BooksResolvers } from './book';
+import { HelloResolvers } from './hello';
+
+@ObjectType()
+export class DefaultMutationResponse {
+  @Field()
+  success: boolean;
+}
 
 export const resolvers: BuildSchemaOptions = {
-  resolvers: [BooksResolver, HelloResolver]
+  resolvers: [BooksResolvers, HelloResolvers]
 };

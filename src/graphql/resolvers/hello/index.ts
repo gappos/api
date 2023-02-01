@@ -7,7 +7,7 @@ class HelloWorld {
 }
 
 @Resolver()
-export class HelloResolver {
+export class HelloResolvers {
   // @ts-ignore:
   @Query(returns => HelloWorld)
   async helloMessage() {
