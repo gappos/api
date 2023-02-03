@@ -15,7 +15,9 @@ services:
 
   api:
     container_name: gapp-backend-dev
-    image: gapp/backend-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
     volumes:
       - ./src:/gapp/src
     ports:
