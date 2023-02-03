@@ -9,14 +9,16 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       POSTGRES_DB: ${POSTGRES_DB:-gapp}
-    # command: bash -c "echo \"SELECT 'CREATE DATABASE gapp' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'gapp')\gexec\" | psql -U postgres"
     ports:
       - 5432:5432
 
   api:
     container_name: gapp-backend
     image: gapp/backend
+    command: ['hold_on_for_db', 'then', 'yarn', 'migrate:run']
     environment:
+      HOLD_ON_FOR_DB_HOST: ${HOLD_ON_FOR_DB_HOST:-db}
+      HOLD_ON_FOR_DB_USER: ${HOLD_ON_FOR_DB_USER:-postgres}
       DB_CONNECTION_STRING: postgres://postgres:postgres@db:5432/gapp
     ports:
       - 3000:3000

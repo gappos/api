@@ -1,3 +1,1 @@
-import Book from './book/model';
-
-export { Book };
+export * from './book';

@@ -33,7 +33,7 @@ export type BooksCreationAttributes = Optional<
   underscored: true,
   timestamps: false
 })
-export default class Book
+export class Book
   extends Model<BooksAttributes, BooksCreationAttributes>
   implements BooksAttributes
 {
