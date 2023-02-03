@@ -12,10 +12,8 @@ export const addBook = async (
   bookAttributes: BooksCreationAttributes
 ): Promise<boolean> => {
   const book = new Book(bookAttributes);
-  try {
-    book.save();
-    return true;
-  } catch (error) {
-    throw error;
-  }
+  book.save().catch(error => {
+    console.log('ERROR {model: Book, method: save}:', error.message);
+  });
+  return true;
 };
