@@ -14,12 +14,12 @@ services:
       - 5432:5432
 
   api:
-    container_name: gapp-backend-dev
+    container_name: gapp-backend
     build:
       context: .
       dockerfile: Dockerfile.dev
     volumes:
       - ./src:/gapp/src
     ports:
-      - 3009:3000
+      - 3000:3000
       - 9229:9229
