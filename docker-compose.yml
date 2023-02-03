@@ -15,6 +15,8 @@ services:
   api:
     container_name: gapp-backend
     image: gapp/backend
+    depends_on:
+      - db
     command: ['hold_on_for_db', 'then', 'yarn', 'migrate:run']
     environment:
       HOLD_ON_FOR_DB_HOST: ${HOLD_ON_FOR_DB_HOST:-db}
