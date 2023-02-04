@@ -23,7 +23,8 @@
     "docker:up": "yarn docker:build && docker volume create gapp-db && docker-compose -p gapp-backend up",
     "docker:build:push": "yarn compile:clear && yarn compile && docker build -t arturasmckwcz/gapp-backend . && docker push arturasmckwcz/gapp-backend",
     "docker:migrate": "yarn docker:build && docker volume create gapp-db && docker-compose -p gapp-backend run --rm api scripts/hold_on_for_db then yarn migrate",
-    "docker:migrate:undo": "yarn docker:build && docker volume create gapp-db && docker-compose -p gapp-backend run --rm api scripts/hold_on_for_db then yarn migrate:undo"
+    "docker:migrate:undo": "yarn docker:build && docker volume create gapp-db && docker-compose -p gapp-backend run --rm api scripts/hold_on_for_db then yarn migrate:undo",
+    "re-prettier": "npx prettier --write \"./**/*.{js,jsx,ts,tsx,json}\""
   },
   "dependencies": {
     "@apollo/server": "^4.3.2",
