@@ -13,9 +13,10 @@ export const addBook = async (
 ): Promise<boolean> => {
   const book = new Book(bookAttributes);
   try {
-    book.save();
+    await book.save();
     return true;
   } catch (error) {
-    throw error;
+    console.log('ERROR {model: Book, method: save}:', (error as Error).message);
   }
+  return false;
 };
