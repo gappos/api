@@ -26,9 +26,7 @@ export interface PersonAttributes {
   dob: Date;
   dod?: Date;
   placeId?: string;
-  place?: Location;
   pobId?: string;
-  placeOfBirth?: Location;
 }
 type PersonAttributesDefaultValues = 'id';
 
