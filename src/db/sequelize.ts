@@ -1,20 +1,20 @@
-import { Sequelize, SequelizeOptions } from "sequelize-typescript";
-import dotenv from "dotenv";
+import { Sequelize, SequelizeOptions } from 'sequelize-typescript';
+import dotenv from 'dotenv';
 
-import { Book } from "../models";
+import { Book, Location, Person } from '../models';
 
 dotenv.config();
 const uri: string = process.env.DB_CONNECTION_STRING as string;
 const options: SequelizeOptions = {
   logging: true,
-  dialect: "postgres",
+  dialect: 'postgres',
 };
 
 if (!uri) throw new Error("Connection to the DB hasn't been set");
 
 const sequelize = new Sequelize(uri, options);
 
-const models = [Book];
+const models = [Book, Location, Person];
 sequelize.addModels(models);
 
 export default sequelize;
