@@ -2,11 +2,11 @@ import { Optional } from 'sequelize/types';
 import {
   AllowNull,
   AutoIncrement,
+  BelongsTo,
   Column,
   DataType,
   Default,
   ForeignKey,
-  HasMany,
   Model,
   PrimaryKey,
   Table,
@@ -73,6 +73,11 @@ export class Person
   @Column
   middleName: string;
 
+  @Field()
+  name(): string {
+    return `${this.firstName} ${this.middleName} ${this.lastName}`;
+  }
+
   @AllowNull(false)
   @Field(() => String)
   @Column(DataType.ENUM(...Object.values(Gender)))
@@ -87,25 +92,23 @@ export class Person
   @Column
   dod: Date;
 
+  @Field()
   @AllowNull(true)
   @ForeignKey(() => Location)
   @Column(DataType.UUID)
   placeId: string;
 
-  @Field(() => Location, { nullable: true })
-  @HasMany(() => Location, {
-    foreignKey: 'placeId',
-  })
-  place: Location;
-
+  @Field()
   @AllowNull(true)
   @ForeignKey(() => Location)
   @Column(DataType.UUID)
   pobId: string;
 
   @Field(() => Location, { nullable: true })
-  @HasMany(() => Location, {
-    foreignKey: 'pobId',
-  })
+  @BelongsTo(() => Location, 'placeId')
+  place: Location;
+
+  @Field(() => Location, { nullable: true })
+  @BelongsTo(() => Location, 'pobId')
   placeOfBirth: Location;
 }
