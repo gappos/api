@@ -1,8 +1,19 @@
-import { Gender, Person, PersonCreationAttributes } from '../../../models';
+import {
+  Gender,
+  Location,
+  Person,
+  PersonCreationAttributes,
+} from '../../../models';
 
 export const getPersons = (): Promise<Person[]> => {
   try {
-    return Person.findAll();
+    return Person.findAll({
+      include: [
+        { model: Location, as: 'place', foreignKey: 'placeId' },
+        { model: Location, as: 'placeOfBirth', foreignKey: 'pobId' },
+      ],
+    });
+    // return Person.findAll();
   } catch (error) {
     throw error;
   }
