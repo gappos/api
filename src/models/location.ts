@@ -5,6 +5,7 @@ import {
   Column,
   DataType,
   Default,
+  HasMany,
   Model,
   PrimaryKey,
   Table,
@@ -12,6 +13,7 @@ import {
 } from 'sequelize-typescript';
 import { v4 as uuidv4 } from 'uuid';
 import { ArgsType, Field, ObjectType } from 'type-graphql';
+import { Person } from './person';
 
 export interface LocationAttributes {
   id: string;
@@ -62,6 +64,14 @@ export class Location
   @AllowNull(true)
   @Column
   place?: string;
+
+  @Field(() => [Person], { nullable: true })
+  @HasMany(() => Person, 'placeId')
+  personsLiving: Person[];
+
+  @Field(() => [Person], { nullable: true })
+  @HasMany(() => Person, 'pobId')
+  personsBorn: Person[];
 
   @Field({ nullable: true })
   xnr?: string;
