@@ -1,8 +1,14 @@
-import { Location, LocationCreationAttributes } from '../../../models';
+import { Location, LocationCreationAttributes, Person } from '../../../models';
 
 export const getLocations = async (): Promise<Location[]> => {
   try {
-    return await Location.findAll();
+    // return await Location.findAll();
+    return await Location.findAll({
+      include: [
+        { model: Person, as: 'personsLiving', foreignKey: 'placeId' },
+        { model: Person, as: 'personsBorn', foreignKey: 'pobId' },
+      ],
+    });
   } catch (error) {
     throw error;
   }
