@@ -14,7 +14,6 @@ export class PersonResolvers {
   async addPerson(
     @Arg('personAttributes', () => PersonInput) personAttributes: PersonInput,
   ): Promise<boolean> {
-    console.log('PersonResolvers:addPerson:\n', personAttributes);
     return await addPerson(personAttributes);
   }
 }

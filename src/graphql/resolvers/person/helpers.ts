@@ -13,7 +13,6 @@ export const getPersons = (): Promise<Person[]> => {
         { model: Location, as: 'placeOfBirth', foreignKey: 'pobId' },
       ],
     });
-    // return Person.findAll();
   } catch (error) {
     throw error;
   }
