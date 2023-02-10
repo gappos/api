@@ -13,7 +13,6 @@ export const getPersons = (): Promise<Person[]> => {
         { model: Location, as: 'placeOfBirth', foreignKey: 'pobId' },
       ],
     });
-    // return Person.findAll();
   } catch (error) {
     throw error;
   }
@@ -34,9 +33,8 @@ export const addPerson = async (attributes: {
     dob: new Date(attributes.dob),
     dod: attributes.dod ? new Date(attributes.dod) : undefined,
   };
-  const person = new Person(personAttributes);
   try {
-    person.save();
+    await Person.create(personAttributes);
     return true;
   } catch (error) {
     console.log(

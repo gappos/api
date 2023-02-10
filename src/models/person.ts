@@ -12,7 +12,7 @@ import {
   Table,
   Unique,
 } from 'sequelize-typescript';
-import { Field, ObjectType } from 'type-graphql';
+import { Field, InputType, ObjectType } from 'type-graphql';
 import { v4 as uuidv4 } from 'uuid';
 import { Gender } from './types';
 import { Location } from './location';
@@ -75,7 +75,9 @@ export class Person
 
   @Field()
   name(): string {
-    return `${this.firstName} ${this.middleName} ${this.lastName}`;
+    return `${this.firstName} ${this.middleName ? this.middleName + ' ' : ''}${
+      this.lastName
+    }`;
   }
 
   @AllowNull(false)
@@ -111,4 +113,31 @@ export class Person
   @Field(() => Location, { nullable: true })
   @BelongsTo(() => Location, 'pobId')
   placeOfBirth: Location;
+}
+
+@InputType()
+export class PersonInput {
+  @Field()
+  firstName: string;
+
+  @Field()
+  lastName: string;
+
+  @Field(() => String)
+  gender: Gender;
+
+  @Field()
+  dob: string;
+
+  @Field({ nullable: true })
+  middleName?: string;
+
+  @Field({ nullable: true })
+  placeId?: string;
+
+  @Field({ nullable: true })
+  pobId?: string;
+
+  @Field({ nullable: true })
+  dod?: string;
 }
