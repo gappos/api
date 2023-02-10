@@ -14,14 +14,11 @@ export const getLocations = async (): Promise<Location[]> => {
   }
 };
 
-export const addLocation = async ({
-  country,
-  city,
-  place,
-}: LocationCreationAttributes): Promise<boolean> => {
-  const location = new Location({ country, city, place });
+export const addLocation = async (
+  locationAttributes: LocationCreationAttributes,
+): Promise<boolean> => {
   try {
-    await location.save();
+    await Location.create(locationAttributes);
     return true;
   } catch (error) {
     console.log(
