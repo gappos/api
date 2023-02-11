@@ -15,11 +15,12 @@ services:
 
   api:
     container_name: gapp-backend
-    image: gapp/backend-dev
+    image: gapp-backend-api
     depends_on:
       - db
-    volumes:
-      - ./src:/gapp/src
+    environment:
+      HOLD_ON_FOR_DB_HOST: ${HOLD_ON_FOR_DB_HOST:-db}
+      HOLD_ON_FOR_DB_USER: ${HOLD_ON_FOR_DB_USER:-postgres}
+      DB_CONNECTION_STRING: postgres://postgres:postgres@db:5432/gapp
     ports:
       - 3000:3000
-      - 9229:9229
