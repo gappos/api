@@ -8,13 +8,11 @@ class HelloWorld {
 
 @Resolver()
 export class HelloResolvers {
-  // @ts-ignore:
-  @Query((returns) => HelloWorld)
+  @Query(() => HelloWorld)
   async helloMessage() {
     return { message: 'Hello World!' };
   }
-  // @ts-ignore:
-  @Query((returns) => String)
+  @Query(() => String)
   async hello() {
     return 'Hello World!';
   }
