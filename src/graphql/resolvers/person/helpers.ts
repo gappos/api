@@ -1,9 +1,4 @@
-import {
-  Gender,
-  Location,
-  Person,
-  PersonCreationAttributes,
-} from '../../../models';
+import { Gender, Location, Person, PersonCreationAttributes } from '../../../models';
 
 export const getPersons = (): Promise<Person[]> => {
   try {
@@ -37,10 +32,7 @@ export const addPerson = async (attributes: {
     await Person.create(personAttributes);
     return true;
   } catch (error) {
-    console.log(
-      'ERROR {model: Person, method: save}:',
-      (error as Error).message,
-    );
+    console.log('ERROR {model: Person, method: save}:', (error as Error).message);
   }
   return false;
 };

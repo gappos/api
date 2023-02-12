@@ -5,10 +5,5 @@ import { LocationResolvers } from './location';
 import { PersonResolvers } from './person';
 
 export const resolvers: BuildSchemaOptions = {
-  resolvers: [
-    BooksResolvers,
-    HelloResolvers,
-    LocationResolvers,
-    PersonResolvers,
-  ],
+  resolvers: [BooksResolvers, HelloResolvers, LocationResolvers, PersonResolvers],
 };

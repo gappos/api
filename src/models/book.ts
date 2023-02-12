@@ -1,4 +1,4 @@
-import { Optional } from "sequelize/types";
+import { Optional } from 'sequelize/types';
 import {
   AllowNull,
   AutoIncrement,
@@ -8,28 +8,25 @@ import {
   PrimaryKey,
   Table,
   Unique,
-} from "sequelize-typescript";
-import { Field, ObjectType } from "type-graphql";
+} from 'sequelize-typescript';
+import { Field, ObjectType } from 'type-graphql';
 
 export interface BooksAttributes {
   id: number;
   title: string;
   author: string;
 }
-type BooksAttributesDefaultValues = "id";
+type BooksAttributesDefaultValues = 'id';
 
-export type BooksCreationAttributes = Optional<
-  BooksAttributes,
-  BooksAttributesDefaultValues
->;
+export type BooksCreationAttributes = Optional<BooksAttributes, BooksAttributesDefaultValues>;
 
 @ObjectType({
-  description: "Book",
+  description: 'Book',
 })
 @Table({
-  schema: "public",
-  modelName: "book",
-  tableName: "book",
+  schema: 'public',
+  modelName: 'book',
+  tableName: 'book',
   underscored: true,
   timestamps: false,
 })
