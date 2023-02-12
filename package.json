@@ -10,7 +10,7 @@
     "compile:watch": "tsc --watch",
     "compile:clear": "rm -rf ./dist",
     "compile": "tsc",
-    "lint": "eslint src/**/*.ts",
+    "lint": "eslint --max-warnings 0 src",
     "format": "eslint src/**/*.ts --fix",
     "start": "node ./dist/index.js",
     "start:dev": "nodemon -e ts --exec 'tsc && node --trace-warnings --inspect=0.0.0.0:9229 ./dist/index.js || exit 1'",
@@ -54,6 +54,7 @@
     "cpy-cli": "^4.2.0",
     "eslint": "^8.34.0",
     "husky": "^8.0.3",
+    "lint-staged": "^13.1.1",
     "nodemon": "^2.0.20",
     "sequelize-cli": "^6.6.0",
     "ts-node": "^10.9.1",
@@ -61,7 +62,11 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint"
+      "pre-commit": "lint-staged",
+      "pre-push": "yarn lint"
     }
+  },
+  "lint-staged": {
+    "*.{js,ts}": "eslint --fix"
   }
 }
