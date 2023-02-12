@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-const NAME = "book";
+const NAME = 'book';
 const COLUMNS = (Sequelize) => ({
   id: {
     type: Sequelize.INTEGER,

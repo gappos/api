@@ -1,6 +1,6 @@
-import { Arg, Query, Mutation, Resolver } from "type-graphql";
-import { Book } from "../../../models";
-import { addBook, getBooks } from "./helpers";
+import { Arg, Query, Mutation, Resolver } from 'type-graphql';
+import { Book } from '../../../models';
+import { addBook, getBooks } from './helpers';
 
 @Resolver(Book)
 export class BooksResolvers {
@@ -12,10 +12,7 @@ export class BooksResolvers {
 
   // @ts-ignore:
   @Mutation((returns) => Boolean)
-  async addBook(
-    @Arg("title") title: string,
-    @Arg("author") author: string
-  ): Promise<boolean> {
+  async addBook(@Arg('title') title: string, @Arg('author') author: string): Promise<boolean> {
     return await addBook({ title, author });
   }
 }

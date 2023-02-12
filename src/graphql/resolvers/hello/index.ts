@@ -1,6 +1,6 @@
-import { Field, ObjectType, Query, Resolver } from "type-graphql";
+import { Field, ObjectType, Query, Resolver } from 'type-graphql';
 
-@ObjectType("HelloWorld")
+@ObjectType('HelloWorld')
 class HelloWorld {
   @Field()
   message: string;
@@ -11,11 +11,11 @@ export class HelloResolvers {
   // @ts-ignore:
   @Query((returns) => HelloWorld)
   async helloMessage() {
-    return { message: "Hello World!" };
+    return { message: 'Hello World!' };
   }
   // @ts-ignore:
   @Query((returns) => String)
   async hello() {
-    return "Hello World!";
+    return 'Hello World!';
   }
 }

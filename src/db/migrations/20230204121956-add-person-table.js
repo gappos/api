@@ -12,7 +12,7 @@ const LOCATION_TABLE_PATH = {
 
 const GENDERS = ['male', 'female'];
 
-const COLUMNS = Sequelize => ({
+const COLUMNS = (Sequelize) => ({
   id: {
     type: Sequelize.UUID,
     allowNull: false,
@@ -69,11 +69,11 @@ const INDEXED_FIELDS = [];
 module.exports = {
   async up(queryInterface, Sequelize) {
     // Create table
-    return queryInterface.sequelize.transaction(async transaction => {
+    return queryInterface.sequelize.transaction(async (transaction) => {
       await queryInterface.createTable(TABLE_PATH, COLUMNS(Sequelize), {
         transaction,
       });
-      INDEXED_FIELDS.forEach(async field => {
+      INDEXED_FIELDS.forEach(async (field) => {
         await queryInterface.addIndex(TABLE_PATH, [field], {
           transaction,
         });
@@ -82,8 +82,8 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    return queryInterface.sequelize.transaction(async transaction => {
-      INDEXED_FIELDS.forEach(async field => {
+    return queryInterface.sequelize.transaction(async (transaction) => {
+      INDEXED_FIELDS.forEach(async (field) => {
         await queryInterface.removeIndex(TABLE_PATH, [field], {
           transaction,
         });

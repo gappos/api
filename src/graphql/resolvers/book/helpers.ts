@@ -1,4 +1,4 @@
-import { Book, BooksCreationAttributes } from "../../../models";
+import { Book, BooksCreationAttributes } from '../../../models';
 
 export const getBooks = async (): Promise<Book[]> => {
   try {
@@ -8,9 +8,7 @@ export const getBooks = async (): Promise<Book[]> => {
   }
 };
 
-export const addBook = async (
-  bookAttributes: BooksCreationAttributes
-): Promise<boolean> => {
+export const addBook = async (bookAttributes: BooksCreationAttributes): Promise<boolean> => {
   const book = new Book(bookAttributes);
   try {
     await book.save();

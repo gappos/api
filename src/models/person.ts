@@ -30,10 +30,7 @@ export interface PersonAttributes {
 }
 type PersonAttributesDefaultValues = 'id';
 
-export type PersonCreationAttributes = Optional<
-  PersonAttributes,
-  PersonAttributesDefaultValues
->;
+export type PersonCreationAttributes = Optional<PersonAttributes, PersonAttributesDefaultValues>;
 
 @ObjectType({
   description: 'Person',
@@ -75,9 +72,7 @@ export class Person
 
   @Field()
   name(): string {
-    return `${this.firstName} ${this.middleName ? this.middleName + ' ' : ''}${
-      this.lastName
-    }`;
+    return `${this.firstName} ${this.middleName ? this.middleName + ' ' : ''}${this.lastName}`;
   }
 
   @AllowNull(false)

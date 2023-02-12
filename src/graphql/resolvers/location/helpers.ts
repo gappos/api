@@ -21,10 +21,7 @@ export const addLocation = async (
     await Location.create(locationAttributes);
     return true;
   } catch (error) {
-    console.log(
-      'ERROR {model: Location, method: save}:',
-      (error as Error).message,
-    );
+    console.log('ERROR {model: Location, method: save}:', (error as Error).message);
   }
   return false;
 };

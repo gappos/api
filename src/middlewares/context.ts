@@ -8,10 +8,7 @@ interface ContextType extends BaseContext {
   res: Response;
 }
 
-export default async ({
-  req,
-  res,
-}: ExpressContextFunctionArgument): Promise<ContextType> => {
+export default async ({ req, res }: ExpressContextFunctionArgument): Promise<ContextType> => {
   queryLogger(req);
   return { req, res };
 };
