@@ -53,9 +53,15 @@
     "@typescript-eslint/parser": "^5.51.0",
     "cpy-cli": "^4.2.0",
     "eslint": "^8.34.0",
+    "husky": "^8.0.3",
     "nodemon": "^2.0.20",
     "sequelize-cli": "^6.6.0",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint"
+    }
   }
 }
