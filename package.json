@@ -34,7 +34,7 @@
     "re-prettier": "npx prettier --write \"./**/*.{js,jsx,ts,tsx,json}\""
   },
   "dependencies": {
-    "@apollo/server": "^4.3.2",
+    "@apollo/server": "^4.3.3",
     "class-validator": "^0.14.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
