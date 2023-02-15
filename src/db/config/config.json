@@ -4,7 +4,7 @@
     "dialect": "postgres"
   },
   "test": {
-    "use_env_variable": "DB_CONNECTION_STRING",
+    "use_env_variable": "DB_CONNECTION_STRING_TEST",
     "dialect": "postgres"
   },
   "production": {

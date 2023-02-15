@@ -14,8 +14,10 @@ import {
 } from 'sequelize-typescript';
 import { Field, InputType, ObjectType } from 'type-graphql';
 import { v4 as uuidv4 } from 'uuid';
+
 import { Gender } from './types';
 import { Location } from './location';
+import { getName } from './utils';
 
 export interface PersonAttributes {
   id: string;
@@ -72,7 +74,7 @@ export class Person
 
   @Field()
   name(): string {
-    return `${this.firstName} ${this.middleName ? this.middleName + ' ' : ''}${this.lastName}`;
+    return getName(this.firstName, this.middleName, this.lastName);
   }
 
   @AllowNull(false)

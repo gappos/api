@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+  db-test:
+    container_name: postgres-test
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-mocha}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mocha}
+      POSTGRES_DB: ${POSTGRES_DB:-mocha}
+    ports:
+      - 5433:5432
+
+  api-test:
+    container_name: gapp-test
+    image: gapp/backend-test
+    environment:
+      DB_CONNECTION_STRING: postgres://mocha@db:5433/mocha
+    command: ['yarn', 'test']
+    depends_on:
+      - db-test
+    volumes:
+      - ./src:/gapp/src
+    ports:
+      - 3000:3000
+      - 9229:9229
