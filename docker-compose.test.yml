@@ -15,8 +15,8 @@ services:
     container_name: gapp-test
     image: gapp/backend-test
     environment:
-      DB_CONNECTION_STRING: postgres://mocha@db:5433/mocha
-    command: ['yarn', 'test']
+      DB_CONNECTION_STRING: postgres://mocha@db:5432/mocha
+    command: yarn test
     depends_on:
       - db-test
     volumes:
