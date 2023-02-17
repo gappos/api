@@ -1,6 +1,6 @@
 import expect from 'expect';
 
-import { getName } from '../models/utils';
+import { getName } from '../../models/utils';
 
 describe('models utils', () => {
   describe('getName()', () => {
