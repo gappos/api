@@ -1,26 +1,34 @@
 version: '3.3'
 
 services:
-  db-test:
-    container_name: postgres-test
-    image: postgres
+  db:
+    container_name: postgres
+    build:
+      context: ./postgres
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-mocha}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mocha}
-      POSTGRES_DB: ${POSTGRES_DB:-mocha}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-gapp}
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
     ports:
-      - 5433:5432
+      - 5432:5432
 
   api-test:
     container_name: gapp-test
     image: gapp/backend-test
-    environment:
-      DB_CONNECTION_STRING: postgres://mocha@db:5432/mocha
-    command: yarn test
+    command: scripts/hold_on_for_db then yarn test
     depends_on:
-      - db-test
+      - db
     volumes:
       - ./src:/gapp/src
     ports:
       - 3000:3000
       - 9229:9229
+
+x-conditional-start:
+  postgres:
+    test: ['CMD-SHELL', 'pg_isready -h db -p 5432']
+    interval: 5s
+    timeout: 30s
+    retries: 3
