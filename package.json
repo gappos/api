@@ -13,6 +13,7 @@
     "lint": "eslint --max-warnings 0 src",
     "format": "eslint src/**/*.ts --fix",
     "test": "mocha --require ts-node/register --recursive 'src/**/*.test.ts'",
+    "test:github": "mocha --require ts-node/register --recursive 'src/test/{helpers,resolvers}/**/*.test.ts'",
     "start": "node ./dist/index.js",
     "start:dev": "nodemon -e ts --exec 'tsc && node --trace-warnings --inspect=0.0.0.0:9229 ./dist/index.js || exit 1'",
     "dev": "PORT=3009 nodemon ./dist/index.js",

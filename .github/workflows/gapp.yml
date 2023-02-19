@@ -16,4 +16,4 @@ jobs:
       - run: |
           yarn install --frozen-lockfile
       - run: |
-          yarn test
+          yarn test:github
