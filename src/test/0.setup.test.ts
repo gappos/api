@@ -9,7 +9,6 @@ before(async () => {
 });
 
 after(async () => {
-  await sequelize.drop();
   await sequelize.close();
 });
 

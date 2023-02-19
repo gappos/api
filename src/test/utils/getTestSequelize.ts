@@ -15,6 +15,7 @@ const getTestSequelize = async (): Promise<Sequelize> => {
   const testUri = process.env.DB_CONNECTION_STRING_TEST as string;
   if (!testUri) throw new Error("Connection to the test DB hasn't been set");
 
+  console.log('getTestSequelize:testUri', testUri);
   const sequelizeOptions: SequelizeOptions = {
     logging: false,
     dialect: 'postgres',
@@ -23,9 +24,6 @@ const getTestSequelize = async (): Promise<Sequelize> => {
 
   // Define your models here
   sequelize.addModels([Book, Person, Location]);
-
-  // Sync the models with the database
-  await sequelize.sync();
 
   return sequelize;
 };
