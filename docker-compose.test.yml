@@ -3,12 +3,8 @@ version: '3.3'
 services:
   db:
     container_name: postgres
-    build:
-      context: ./postgres
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      POSTGRES_DB: ${POSTGRES_DB:-gapp}
+    image: gapp/db
+    build: ./postgres
     volumes:
       - ./db-data:/var/lib/postgresql/data
     ports:
@@ -17,9 +13,15 @@ services:
   api-test:
     container_name: gapp-test
     image: gapp/backend-test
-    command: scripts/hold_on_for_db then yarn test
+    command: sh -c "scripts/hold_on_for_db then yarn migrate && yarn test"
     depends_on:
       - db
+    environment:
+      NODE_ENV: test
+      HOLD_ON_FOR_DB_HOST: ${HOLD_ON_FOR_DB_HOST:-db}
+      HOLD_ON_FOR_DB_USER: ${HOLD_ON_FOR_DB_USER:-mocha}
+      DB_CONNECTION_STRING_TEST: postgres://mocha:mocha@db:5432/mocha
+      # DEBUG: sequelize*
     volumes:
       - ./src:/gapp/src
     ports:
