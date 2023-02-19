@@ -4,6 +4,9 @@ on:
   pull_request:
     branches: ['develop']
 
+env:
+  DB_CONNECTION_STRING_TEST: postgres://mocha:mocha@localhost:5432/mocha
+
 jobs:
   test:
     runs-on: ubuntu-latest
