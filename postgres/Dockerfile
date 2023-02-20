@@ -1,6 +1,5 @@
-FROM postgres
+FROM postgres:15
 
-ADD init_mocha.sql /docker-entrypoint-initdb.d/
 ADD 000-mocha-database.sh /docker-entrypoint-initdb.d/
 
 ENV POSTGRES_USER=${POSTGRES_USER:-postgres}
