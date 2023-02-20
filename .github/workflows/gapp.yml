@@ -19,9 +19,6 @@ jobs:
       - name: Wait for PostgreSQL to be ready
         run: |
           until nc -z localhost 5432; do sleep 1; done
-      - name: Run migrations
-        run: |
-          yarn migrate
 
   test:
     runs-on: ubuntu-latest
@@ -32,6 +29,9 @@ jobs:
           node-version: '18'
       - name: Install dependencies
         run: yarn
+      - name: Run migrations
+        run: |
+          yarn migrate
       - name: Run tests
         run: yarn test
         env:
