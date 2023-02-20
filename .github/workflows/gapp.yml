@@ -4,7 +4,6 @@ on: push
 
 jobs:
   db:
-  test:
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -17,14 +16,24 @@ jobs:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-      - run: |
-          yarn install --frozen-lockfile
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          until nc -z localhost 5432; do sleep 1; done
+      - name: Run migrations
+        run: |
+          yarn migrate
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: yarn
+      - name: Run tests
+        run: yarn test
         env:
           NODE-ENV: test
           DB_CONNECTION_STRING_TEST: postgres://mocha:mocha@localhost:5432/mocha
-      - run: |
-          yarn migrate
-      - run: |
-          yarn test
