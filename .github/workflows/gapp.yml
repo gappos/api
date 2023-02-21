@@ -12,7 +12,5 @@ jobs:
           node-version: 18
           cache: yarn
 
-      - name: Install dependencies
-        run: yarn install
       - name: Run docker:test
         run: yarn docker:test
