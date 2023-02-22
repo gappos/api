@@ -1,19 +1,10 @@
 version: '3.3'
 
 services:
-  db:
-    container_name: postgres
-    image: gapp/db
-    build: ./postgres
-    volumes:
-      - ./db-data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
-
-  api-test:
-    container_name: gapp-test
-    image: gapp/backend-test
-    command: sh -c "scripts/hold_on_for_db then yarn migrate && yarn test"
+  api:
+    container_name: gapp-backend
+    image: gapp/backend
+    build: .
     depends_on:
       - db
     environment:
@@ -21,16 +12,10 @@ services:
       HOLD_ON_FOR_DB_HOST: ${HOLD_ON_FOR_DB_HOST:-db}
       HOLD_ON_FOR_DB_USER: ${HOLD_ON_FOR_DB_USER:-mocha}
       DB_CONNECTION_STRING_TEST: postgres://mocha:mocha@db:5432/mocha
-      # DEBUG: sequelize*
-    volumes:
-      - ./src:/gapp/src
     ports:
       - 3000:3000
-      - 9229:9229
+    command: sh -c "scripts/hold_on_for_db then yarn migrate && yarn test"
 
-x-conditional-start:
-  postgres:
-    test: ['CMD-SHELL', 'pg_isready -h db -p 5432']
-    interval: 5s
-    timeout: 30s
-    retries: 3
+volumes:
+  dbdata:
+    external: true

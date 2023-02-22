@@ -1,18 +1,10 @@
 version: '3.3'
 
 services:
-  db:
-    container_name: postgres
-    image: gapp/db
-    build: ./postgres
-    volumes:
-      - ./db-data:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
-
   api:
     container_name: gapp-backend
-    image: gapp/backend-migrate
+    image: gapp/backend
+    build: .
     depends_on:
       - db
     environment:
@@ -23,9 +15,6 @@ services:
     ports:
       - 3000:3000
 
-x-conditional-start:
-  postgres:
-    test: ['CMD-SHELL', 'pg_isready -h db -p 5432']
-    interval: 5s
-    timeout: 30s
-    retries: 3
+volumes:
+  dbdata:
+    external: true
