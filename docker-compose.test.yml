@@ -12,6 +12,8 @@ services:
       HOLD_ON_FOR_DB_HOST: ${HOLD_ON_FOR_DB_HOST:-db}
       HOLD_ON_FOR_DB_USER: ${HOLD_ON_FOR_DB_USER:-mocha}
       DB_CONNECTION_STRING_TEST: postgres://mocha:mocha@db:5432/mocha
+    volumes:
+      - ./src:/gapp/src
     ports:
       - 3000:3000
     command: sh -c "scripts/hold_on_for_db then yarn migrate && yarn test"
