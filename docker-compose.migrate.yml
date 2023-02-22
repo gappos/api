@@ -12,7 +12,8 @@ services:
 
   api:
     container_name: gapp-backend
-    image: gapp/backend-migrate
+    image: gapp/backend
+    build: .
     depends_on:
       - db
     environment:
