@@ -3,7 +3,7 @@
 set -e
 
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
-  SELECT 'CREATE USER mocha WITH PASSWORD ''mocha'' SUPERUSER;'
+  SELECT 'CREATE USER mocha SUPERUSER;'
   WHERE NOT EXISTS (SELECT usename FROM "pg_catalog"."pg_user" WHERE usename='mocha') \gexec
 
 
