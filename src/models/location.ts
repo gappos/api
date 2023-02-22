@@ -14,6 +14,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import { Field, InputType, ObjectType } from 'type-graphql';
 import { Person } from './person';
+import { getAddress } from './utils';
 
 export interface LocationAttributes {
   id: string;
@@ -59,6 +60,11 @@ export class Location
   @AllowNull(true)
   @Column
   city?: string;
+
+  @Field()
+  address(): string {
+    return getAddress(this.place, this.city, this.country);
+  }
 
   @Field({ nullable: true })
   @AllowNull(true)
