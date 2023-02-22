@@ -21,13 +21,14 @@
     "migration:create": "sequelize migration:create --migrations-path ./src/db/migrations",
     "migrate": "sequelize db:migrate --migrations-path ./dist/db/migrations",
     "migrate:undo": "sequelize db:migrate:undo",
+    "docker:create:volume": "docker volume create dbdata || true",
     "docker:build:dev": "yarn compile:clear && yarn compile && yarn copy:sequelize:config && docker build -f Dockerfile.dev -t gapp/backend-dev .",
     "docker:build:test": "yarn compile:clear && yarn compile && yarn copy:sequelize:config && docker build -f Dockerfile.test -t gapp/backend-test .",
     "docker:build:migrate": "yarn compile:clear && yarn compile && yarn copy:sequelize:config && docker build -t gapp/backend-migrate .",
-    "docker:dev": "yarn docker:build:dev && docker-compose -f ./docker-compose.dev.yml -p gapp-backend up",
+    "docker:dev": "yarn docker:build:dev && yarn docker:create:volume && docker-compose -f ./docker-compose.dev.yml -p gapp-backend up",
     "docker:test": "yarn docker:build:test && docker-compose -f ./docker-compose.test.yml -p gapp-backend run --rm api-test && docker image rm gapp/backend-test",
-    "docker:migrate": "yarn docker:build:migrate && docker-compose -f docker-compose.migrate.yml -p gapp-backend run --rm api scripts/hold_on_for_db then yarn migrate && docker image rm gapp/backend-migrate",
-    "docker:migrate:undo": "yarn docker:build:migrate && docker-compose -f docker-compose.migrate.yml -p gapp-backend run --rm api scripts/hold_on_for_db then yarn migrate:undo && docker image rm gapp/backend-migrate",
+    "docker:migrate": "yarn docker:build:migrate && yarn docker:create:volume && docker-compose -f docker-compose.migrate.yml -p gapp-backend run --rm api scripts/hold_on_for_db then yarn migrate && docker image rm gapp/backend-migrate",
+    "docker:migrate:undo": "yarn docker:build:migrate && yarndocker:create:volume && docker-compose -f docker-compose.migrate.yml -p gapp-backend run --rm api scripts/hold_on_for_db then yarn migrate:undo && docker image rm gapp/backend-migrate",
     "re-prettier": "npx prettier --write \"./**/*.{js,jsx,ts,tsx,json}\""
   },
   "dependencies": {
