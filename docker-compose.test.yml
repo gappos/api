@@ -1,15 +1,6 @@
 version: '3.3'
 
 services:
-  db:
-    container_name: postgres
-    image: gapp/db
-    build: ./postgres
-    volumes:
-      - dbdata:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
-
   api:
     container_name: gapp-backend
     image: gapp/backend
@@ -23,7 +14,6 @@ services:
       DB_CONNECTION_STRING_TEST: postgres://mocha:mocha@db:5432/mocha
     ports:
       - 3000:3000
-      - 9229:9229
     command: sh -c "scripts/hold_on_for_db then yarn migrate && yarn test"
 
 volumes:

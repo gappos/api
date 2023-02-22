@@ -1,15 +1,6 @@
 version: '3.3'
 
 services:
-  db:
-    container_name: postgres
-    image: gapp/db
-    build: ./postgres
-    volumes:
-      - dbdata:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
-
   api:
     container_name: gapp-backend
     image: gapp/backend
@@ -18,12 +9,12 @@ services:
       - db
     environment:
       NODE_ENV: development
-    command: yarn start:dev
     volumes:
       - ./src:/gapp/src
     ports:
       - 3000:3000
       - 9229:9229
+    command: yarn start:dev
 
 volumes:
   dbdata:

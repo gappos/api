@@ -22,9 +22,10 @@
     "migrate": "sequelize db:migrate --migrations-path ./dist/db/migrations",
     "migrate:undo": "sequelize db:migrate:undo",
     "docker:create:volume": "docker volume create dbdata || true",
-    "docker:dev": "yarn compile:clear && yarn docker:create:volume && docker-compose -f ./docker-compose.dev.yml -p gapp-backend up",
-    "docker:test": "yarn compile:clear && yarn docker:create:volume && docker-compose -f ./docker-compose.test.yml -p gapp-backend run --rm api",
-    "docker:migrate": "yarn compile:clear && yarn docker:create:volume && docker-compose -f docker-compose.migrate.yml -p gapp-backend run --rm api scripts/hold_on_for_db then yarn migrate",
+    "docker:prepare": "yarn compile:clear && yarn docker:create:volume",
+    "docker:dev": "yarn docker:prepare && docker-compose -f docker-compose.yml -f docker-compose.dev.yml -p gapp-backend up",
+    "docker:test": "yarn docker:prepare && docker-compose -f docker-compose.yml -f docker-compose.test.yml -p gapp-backend run --rm api",
+    "docker:migrate": "yarn docker:prepare && docker-compose -f docker-compose.yml -f docker-compose.migrate.yml -p gapp-backend run --rm api scripts/hold_on_for_db then yarn migrate",
     "docker:migrate:undo": "yarn docker:build:migrate && yarn docker:create:volume && docker-compose -f docker-compose.migrate.yml -p gapp-backend run --rm api scripts/hold_on_for_db then yarn migrate:undo",
     "re-prettier": "npx prettier --write \"./**/*.{js,jsx,ts,tsx,json}\""
   },
