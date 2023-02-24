@@ -7,6 +7,7 @@
   "license": "MIT",
   "type": "commonjs",
   "scripts": {
+    "build": "echo I HAVE GOT TRIGGERED && pwd",
     "copy:sequelize:config": "cp -R ./src/db/config ./dist/db/config",
     "compile:watch": "tsc --watch",
     "compile:clear": "rm -rf ./dist && yarn compile",
