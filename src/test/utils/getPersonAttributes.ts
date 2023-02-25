@@ -2,11 +2,12 @@ import { LocationAttributes, PersonCreationAttributes } from '../../models';
 
 const getPersonAttributes = (
   personAttributes: PersonCreationAttributes,
-  locationAttributes: LocationAttributes,
+  placeLocationAttributes: LocationAttributes,
+  pobLocationAttributes: LocationAttributes,
 ): PersonCreationAttributes => ({
   ...personAttributes,
-  placeId: locationAttributes.id,
-  pobId: locationAttributes.id,
+  placeId: placeLocationAttributes.id,
+  pobId: pobLocationAttributes.id,
 });
 
 export default getPersonAttributes;
