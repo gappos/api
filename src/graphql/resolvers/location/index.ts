@@ -1,6 +1,6 @@
 import { Query, Mutation, Resolver, Arg } from 'type-graphql';
 import { Location, LocationInput } from '../../../models';
-import { addLocation, getLocations } from './helpers';
+import { addLocation, getLocations, updateLocation } from './helpers';
 
 @Resolver(() => Location)
 export class LocationResolvers {
@@ -15,5 +15,13 @@ export class LocationResolvers {
     locationAttributes: LocationInput,
   ): Promise<boolean> {
     return addLocation(locationAttributes);
+  }
+
+  @Mutation(() => Boolean)
+  async updateLocation(
+    @Arg('id') id: string,
+    @Arg('locationAttributes', () => LocationInput) locationAttributes: LocationInput,
+  ) {
+    return await updateLocation(id, locationAttributes);
   }
 }
