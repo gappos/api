@@ -82,7 +82,7 @@ export class Location
 
 @InputType()
 export class LocationInput {
-  @Field()
+  @Field({ nullable: true })
   country: string;
 
   @Field({ nullable: true })

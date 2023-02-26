@@ -7,7 +7,7 @@ import {
   Person,
   PersonCreationAttributes,
 } from '../../models';
-import getPersonAttributes from '../helpers/getPersonAttributes';
+import getPersonAttributes from '../utils/getPersonAttributes';
 
 describe('Person model', () => {
   const locationAttributes: LocationCreationAttributes = {
@@ -21,6 +21,7 @@ describe('Person model', () => {
     middleName: 'The Orphan',
     gender: Gender.MALE,
     dob: new Date('2000-02-02'),
+    dod: new Date('2023-02-02'),
   };
   let location: Location;
 
@@ -33,7 +34,9 @@ describe('Person model', () => {
   });
 
   it('should create a new person', async () => {
-    const person = await Person.create(getPersonAttributes(personAttributes, location.dataValues));
+    const person = await Person.create(
+      getPersonAttributes(personAttributes, location.dataValues, location.dataValues),
+    );
 
     expect(person.id).toBeDefined();
     expect(person.firstName).toBe(personAttributes.firstName);
@@ -46,7 +49,9 @@ describe('Person model', () => {
   });
 
   it('should update an existing person', async () => {
-    const person = await Person.create(getPersonAttributes(personAttributes, location.dataValues));
+    const person = await Person.create(
+      getPersonAttributes(personAttributes, location.dataValues, location.dataValues),
+    );
     const dod = new Date();
 
     await person.update({ dod });
