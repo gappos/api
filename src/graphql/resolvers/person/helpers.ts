@@ -1,7 +1,7 @@
 import { Location, Person, PersonCreationAttributes, PersonInput } from '../../../models';
+import { logger } from '../../../utils';
 
-const log = (method: string, errorMsg: string) =>
-  console.log(`ERROR {model: Person, method: ${method}}}:`, errorMsg);
+const log = logger('Person');
 
 export const getPersons = (): Promise<Person[]> => {
   try {
@@ -12,7 +12,7 @@ export const getPersons = (): Promise<Person[]> => {
       ],
     });
   } catch (error) {
-    log('findAll', (error as Error).message);
+    log.error('findAll', (error as Error).message);
   }
   return Promise.reject([]);
 };
@@ -27,7 +27,7 @@ export const addPerson = async (attributes: PersonInput): Promise<boolean> => {
     await Person.create(personAttributes);
     return true;
   } catch (error) {
-    log('create', (error as Error).message);
+    log.error('create', (error as Error).message);
   }
   return false;
 };
@@ -42,7 +42,7 @@ export const updatePerson = async (id: string, attributes: PersonInput): Promise
     Person.update(personAttributes, { where: { id } });
     return true;
   } catch (error) {
-    log('update', (error as Error).message);
+    log.error('update', (error as Error).message);
   }
   return false;
 };

@@ -2,12 +2,12 @@ import { Sequelize, SequelizeOptions } from 'sequelize-typescript';
 import dotenv from 'dotenv';
 
 import { Book, Location, Person } from '../models';
-import logger from './logger';
+import { logger } from '../utils';
 
 dotenv.config();
 const uri: string = process.env.DB_CONNECTION_STRING as string;
 const options: SequelizeOptions = {
-  logging: logger,
+  logging: logger().sequelize,
   dialect: 'postgres',
 };
 
