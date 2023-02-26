@@ -1,7 +1,7 @@
 import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 
 import { Person, PersonInput } from '../../../models';
-import { getPersons, addPerson } from './helpers';
+import { getPersons, addPerson, updatePerson } from './helpers';
 
 @Resolver(() => Person)
 export class PersonResolvers {
@@ -15,5 +15,13 @@ export class PersonResolvers {
     @Arg('personAttributes', () => PersonInput) personAttributes: PersonInput,
   ): Promise<boolean> {
     return await addPerson(personAttributes);
+  }
+
+  @Mutation(() => Boolean)
+  async updatePerson(
+    @Arg('id') id: string,
+    @Arg('personAttributes', () => PersonInput) personAttributes: PersonInput,
+  ) {
+    return await updatePerson(id, personAttributes);
   }
 }

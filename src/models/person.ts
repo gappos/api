@@ -114,16 +114,16 @@ export class Person
 
 @InputType()
 export class PersonInput {
-  @Field()
+  @Field({ nullable: true })
   firstName: string;
 
-  @Field()
+  @Field({ nullable: true })
   lastName: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   gender: Gender;
 
-  @Field()
+  @Field({ nullable: true })
   dob: string;
 
   @Field({ nullable: true })

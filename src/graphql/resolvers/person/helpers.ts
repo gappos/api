@@ -1,4 +1,7 @@
-import { Gender, Location, Person, PersonCreationAttributes } from '../../../models';
+import { Location, Person, PersonCreationAttributes, PersonInput } from '../../../models';
+
+const log = (method: string, errorMsg: string) =>
+  console.log(`ERROR {model: Person, method: ${method}}}:`, errorMsg);
 
 export const getPersons = (): Promise<Person[]> => {
   try {
@@ -9,30 +12,37 @@ export const getPersons = (): Promise<Person[]> => {
       ],
     });
   } catch (error) {
-    throw error;
+    log('findAll', (error as Error).message);
   }
+  return Promise.reject([]);
 };
 
-export const addPerson = async (attributes: {
-  firstName: string;
-  lastName: string;
-  gender: Gender;
-  dob: string;
-  middleName?: string;
-  placeId?: string;
-  pobId?: string;
-  dod?: string;
-}): Promise<boolean> => {
+export const addPerson = async (attributes: PersonInput): Promise<boolean> => {
   const personAttributes: PersonCreationAttributes = {
-    ...attributes,
+    ...(attributes as unknown as PersonCreationAttributes),
     dob: new Date(attributes.dob),
-    dod: attributes.dod ? new Date(attributes.dod) : undefined,
+    ...(attributes.dod ? { dod: new Date(attributes.dod) } : {}),
   };
   try {
     await Person.create(personAttributes);
     return true;
   } catch (error) {
-    console.log('ERROR {model: Person, method: save}:', (error as Error).message);
+    log('create', (error as Error).message);
+  }
+  return false;
+};
+
+export const updatePerson = async (id: string, attributes: PersonInput): Promise<boolean> => {
+  const personAttributes: Partial<PersonCreationAttributes> = {
+    ...(attributes as unknown as Partial<PersonCreationAttributes>),
+    ...(attributes.dob ? { dob: new Date(attributes.dob) } : {}),
+    ...(attributes.dod ? { dod: new Date(attributes.dod) } : {}),
+  };
+  try {
+    Person.update(personAttributes, { where: { id } });
+    return true;
+  } catch (error) {
+    log('update', (error as Error).message);
   }
   return false;
 };
