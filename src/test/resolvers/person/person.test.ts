@@ -40,7 +40,10 @@ describe('PersonResolvers', () => {
         firstName: '',
         lastName: '',
         gender: Gender.FEMALE,
-        dob: new Date().toISOString(),
+        dob: '',
+        dod: '',
+        placeId: '',
+        pobId: '',
       };
 
       result = await resolver.addPerson(personAttributes);
@@ -56,7 +59,7 @@ describe('PersonResolvers', () => {
 
     it('should be called with proper arg', async () => {
       const calledAttributesProps = Object.keys(createStub.args[0][0]).sort();
-      const expectedAttributesProps = ['firstName', 'lastName', 'gender', 'dob', 'dod'].sort();
+      const expectedAttributesProps = Object.keys(personAttributes).sort();
       expect(calledAttributesProps).toEqual(expectedAttributesProps);
     });
   });
