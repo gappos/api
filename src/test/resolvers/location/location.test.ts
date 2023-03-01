@@ -54,7 +54,7 @@ describe('LocationResolvers', () => {
 
     it('should be called with proper arg', async () => {
       const calledAttributesProps = Object.keys(resolverStub.args[0][0]).sort();
-      const expectedAttributesProps = ['country', 'city', 'place'].sort();
+      const expectedAttributesProps = Object.keys(locationAttributes).sort();
       expect(calledAttributesProps).toEqual(expectedAttributesProps);
     });
   });
