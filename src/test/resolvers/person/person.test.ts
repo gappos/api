@@ -6,21 +6,30 @@ import { PersonResolvers } from '../../../graphql/resolvers/person';
 
 describe('PersonResolvers', () => {
   let resolver: PersonResolvers;
-  let createStub: SinonStub;
+  let resolverStub: SinonStub;
+  const personAttributes: PersonInput = {
+    firstName: '',
+    lastName: '',
+    gender: Gender.FEMALE,
+    dob: '',
+    dod: '',
+    placeId: '',
+    pobId: '',
+  };
 
   describe('persons', () => {
     before(() => {
       resolver = new PersonResolvers();
-      createStub = stub(Person, 'findAll');
+      resolverStub = stub(Person, 'findAll');
     });
 
     after(() => {
-      createStub.restore();
+      resolverStub.restore();
     });
 
     it('should return an array of persons', async () => {
-      const expectedPersons: unknown[] = [{}];
-      createStub.resolves(expectedPersons);
+      const expectedPersons: Person[] = [];
+      resolverStub.resolves(expectedPersons);
 
       const actualPersons = await resolver.persons();
 
@@ -29,36 +38,53 @@ describe('PersonResolvers', () => {
   });
 
   describe('addPerson', () => {
-    let result: unknown;
-    let personAttributes: PersonInput;
+    let result: boolean;
 
     before(async () => {
       resolver = new PersonResolvers();
-      createStub = stub(Person, 'create').resolves();
-
-      personAttributes = {
-        firstName: '',
-        lastName: '',
-        gender: Gender.FEMALE,
-        dob: '',
-        dod: '',
-        placeId: '',
-        pobId: '',
-      };
+      resolverStub = stub(Person, 'create').resolves();
 
       result = await resolver.addPerson(personAttributes);
     });
 
     after(() => {
-      createStub.restore();
+      resolverStub.restore();
     });
 
     it('should return true', async () => {
-      expect(result).toBeTruthy();
+      expect(result).toBe(true);
     });
 
     it('should be called with proper arg', async () => {
-      const calledAttributesProps = Object.keys(createStub.args[0][0]).sort();
+      const calledAttributesProps = Object.keys(resolverStub.args[0][0]).sort();
+      const expectedAttributesProps = Object.keys(personAttributes).sort();
+      expect(calledAttributesProps).toEqual(expectedAttributesProps);
+    });
+  });
+  describe('updatePerson', () => {
+    let result: boolean;
+    const id = 'blah-blah';
+
+    before(async () => {
+      resolver = new PersonResolvers();
+      resolverStub = stub(Person, 'update').resolves();
+
+      result = await resolver.updatePerson(id, personAttributes);
+    });
+
+    after(() => {
+      resolverStub.restore();
+    });
+
+    it('should return true', async () => {
+      expect(result).toBe(true);
+    });
+
+    it('should be called with proper args', async () => {
+      const calledId = resolverStub.args[0][1];
+      expect(calledId).toEqual({ where: { id } });
+
+      const calledAttributesProps = Object.keys(resolverStub.args[0][0]).sort();
       const expectedAttributesProps = Object.keys(personAttributes).sort();
       expect(calledAttributesProps).toEqual(expectedAttributesProps);
     });
