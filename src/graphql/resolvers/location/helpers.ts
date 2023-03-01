@@ -1,3 +1,5 @@
+import { Op } from 'sequelize';
+
 import { Location, LocationCreationAttributes, LocationInput, Person } from '../../../models';
 
 export const getLocations = async (): Promise<Location[]> => {
@@ -5,8 +7,20 @@ export const getLocations = async (): Promise<Location[]> => {
     // return await Location.findAll();
     return await Location.findAll({
       include: [
-        { model: Person, as: 'personsLiving', foreignKey: 'placeId' },
-        { model: Person, as: 'personsBorn', foreignKey: 'pobId' },
+        {
+          model: Person,
+          as: 'personsLiving',
+          foreignKey: 'placeId',
+          where: { dod: { [Op.is]: null } },
+          required: false,
+        },
+        {
+          model: Person,
+          as: 'personsBorn',
+          foreignKey: 'pobId',
+          where: { dod: { [Op.is]: null } },
+          required: false,
+        },
       ],
     });
   } catch (error) {
