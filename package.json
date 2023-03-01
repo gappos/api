@@ -7,7 +7,7 @@
   "license": "MIT",
   "type": "commonjs",
   "scripts": {
-    "stage": "git checkout develop && git pull",
+    "stage": "git checkout develop && git pull && yarn docker:migrate",
     "copy:sequelize:config": "cp -R ./src/db/config ./dist/db/config",
     "compile:watch": "tsc --watch",
     "compile:clear": "rm -rf ./dist && yarn compile",
