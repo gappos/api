@@ -10,7 +10,7 @@ services:
     environment:
       NODE_ENV: development
     volumes:
-      - ./src:/gapp/src
+      - ./:/gapp
     ports:
       - 3000:3000
       - 9229:9229
