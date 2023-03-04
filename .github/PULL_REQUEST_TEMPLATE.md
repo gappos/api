@@ -10,7 +10,7 @@
 <!-- Please list major changes. Would be good if that matches commits -->
 
 ## Screenshots
-<!-- Please provide screenshots if aplicable -->
+<!-- Please provide screenshots if applicable -->
 
 
 ## Checklist
