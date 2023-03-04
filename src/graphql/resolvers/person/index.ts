@@ -1,13 +1,30 @@
-import { Arg, Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root } from 'type-graphql';
 
-import { Person, PersonInput } from '../../../models';
-import { getPersons, addPerson, updatePerson } from './helpers';
+import { Location, Person, PersonInput } from '../../../models';
+import { Context } from '../../context';
+import {
+  // getPersons,
+  addPerson,
+  updatePerson,
+} from './helpers';
 
 @Resolver(() => Person)
 export class PersonResolvers {
   @Query(() => [Person])
   async persons(): Promise<Person[]> {
-    return await getPersons();
+    return await Person.findAll();
+  }
+
+  @FieldResolver()
+  @Query(() => Location)
+  async place(@Root() parent: Person, @Ctx() ctx: Context) {
+    return await ctx.placeLoader.load(parent.placeId);
+  }
+
+  @FieldResolver()
+  @Query(() => Location)
+  async placeOfBirth(@Root() parent: Person, @Ctx() ctx: Context) {
+    return await ctx.placeLoader.load(parent.pobId);
   }
 
   @Mutation(() => Boolean)
