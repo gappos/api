@@ -7,7 +7,7 @@ import {
   Person,
   PersonCreationAttributes,
 } from '../../models';
-import getPersonAttributes from '../utils/getPersonAttributes';
+import { getPersonAttributes } from '../utils/utils';
 
 describe('Person model', () => {
   const locationAttributes: LocationCreationAttributes = {
