@@ -3,29 +3,23 @@ import { Op } from 'sequelize';
 
 import { Location, Person } from '../../models';
 
-type PeopleAtLocation = { locationId: string; people: Person[] };
-
-export const getPeopleAtLocations = async (
-  locationIds: readonly string[],
-  key: string,
-): Promise<PeopleAtLocation[]> =>
-  await Promise.all(
-    locationIds.map(async (locationId) => ({
-      locationId,
-      people: await Person.findAll({ where: { [key]: locationId } }),
-    })),
-  );
-
 export class PeopleLoader extends DataLoader<string, Person[]> {
-  constructor(key: string) {
+  constructor(key: 'placeId' | 'pobId') {
     super(async (locationIds: readonly string[]) => {
-      const people = await getPeopleAtLocations(locationIds, key);
+      const people = await Person.findAll({ where: { [key]: { [Op.in]: locationIds } } });
 
-      const sorted = locationIds.map(
-        (id) => people.find((personsAtLocation) => personsAtLocation.locationId === id)?.people,
+      const peopleByPlaceId: { [locationId: string]: Person[] } = people.reduce(
+        (acc: { [locationId: string]: Person[] }, person: Person) => {
+          if (!acc[person[key]]) {
+            acc[person[key]] = [];
+          }
+          acc[person[key]].push(person);
+          return acc;
+        },
+        {},
       );
 
-      return sorted as Person[][];
+      return locationIds.map((locationId) => peopleByPlaceId[locationId] || []);
     });
   }
 }

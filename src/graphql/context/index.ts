@@ -1,12 +1,12 @@
 import DataLoader from 'dataloader';
 
-import { Location, Person } from '../../models';
+import { Location } from '../../models';
 import { PeopleLoader, placesLoader } from './loaders';
 export * from './loaders';
 
 export interface Context {
   placeLoader: DataLoader<string, Location>;
-  peopleLivingLoader: DataLoader<string, Person[]>;
+  peopleLivingLoader: PeopleLoader;
   peopleBornLoader: PeopleLoader;
 }
 
