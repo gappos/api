@@ -1,6 +1,6 @@
 import DataLoader from 'dataloader';
-import { Context, PeopleLoader } from '../../graphql';
-import { Location, LocationAttributes, PersonCreationAttributes } from '../../models';
+import { Context } from '../../graphql';
+import { Location, LocationAttributes, Person, PersonCreationAttributes } from '../../models';
 
 export const getPersonAttributes = (
   personAttributes: PersonCreationAttributes,
@@ -14,6 +14,6 @@ export const getPersonAttributes = (
 
 export const getContextForTest = (): Context => ({
   placeLoader: {} as DataLoader<string, Location, string>,
-  peopleLivingLoader: {} as PeopleLoader,
-  peopleBornLoader: {} as PeopleLoader,
+  peopleLivingLoader: {} as DataLoader<string, Person[], string>,
+  peopleBornLoader: {} as DataLoader<string, Person[], string>,
 });

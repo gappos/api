@@ -1,17 +1,17 @@
 import DataLoader from 'dataloader';
 
-import { Location } from '../../models';
-import { PeopleLoader, placesLoader } from './loaders';
+import { Location, Person } from '../../models';
+import { getPeopleLoader, getPlacesLoader } from './loaders';
 export * from './loaders';
 
 export interface Context {
   placeLoader: DataLoader<string, Location>;
-  peopleLivingLoader: PeopleLoader;
-  peopleBornLoader: PeopleLoader;
+  peopleLivingLoader: DataLoader<string, Person[]>;
+  peopleBornLoader: DataLoader<string, Person[]>;
 }
 
 export const graphqlContext = (): Context => ({
-  placeLoader: new DataLoader(placesLoader),
-  peopleLivingLoader: new PeopleLoader('placeId'),
-  peopleBornLoader: new PeopleLoader('pobId'),
+  placeLoader: new DataLoader(getPlacesLoader()),
+  peopleLivingLoader: new DataLoader(getPeopleLoader('placeId')),
+  peopleBornLoader: new DataLoader(getPeopleLoader('pobId')),
 });
