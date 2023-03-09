@@ -33,6 +33,11 @@ describe('Person model', () => {
     await Person.destroy({ where: {} });
   });
 
+  after(async () => {
+    await Person.destroy({ where: {} });
+    await Location.destroy({ where: {} });
+  });
+
   it('should create a new person', async () => {
     const person = await Person.create(
       getPersonAttributes(personAttributes, location.dataValues, location.dataValues),

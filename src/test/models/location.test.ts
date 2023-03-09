@@ -12,6 +12,10 @@ describe('Location model', () => {
     await Location.destroy({ where: {} });
   });
 
+  after(async () => {
+    await Location.destroy({ where: {} });
+  });
+
   it('should create a new location', async () => {
     const location = await Location.create(locationAttributes);
 
