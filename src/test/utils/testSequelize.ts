@@ -8,11 +8,9 @@ import { Person } from '../../models';
 dotenv.config();
 
 let sequelize: Sequelize;
-let count = 0;
 
 export const getTestSequelize = async (): Promise<Sequelize> => {
   if (sequelize) return sequelize;
-  console.log(`getTestSequelize #${++count}`);
 
   const testUri = process.env.DB_CONNECTION_STRING_TEST as string;
   if (!testUri) throw new Error("Connection to the test DB hasn't been set");
