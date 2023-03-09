@@ -3,11 +3,11 @@ import { SinonStub, stub } from 'sinon';
 
 import { Gender, Person, PersonInput, Location } from '../../../models';
 import { PersonResolvers } from '../../../graphql/resolvers/person';
-import { getContextForTest } from '../../utils/utils';
+import { createLocationForTest, createPersonForTest, getContextForTest } from '../../utils/utils';
 
 describe('PersonResolvers', () => {
   let resolver: PersonResolvers;
-  let resolverStub: SinonStub;
+  let modelMethodStub: SinonStub;
   const id = 'blah-blah';
   const personAttributes: PersonInput = {
     firstName: '',
@@ -24,16 +24,16 @@ describe('PersonResolvers', () => {
   });
   describe('persons', () => {
     before(() => {
-      resolverStub = stub(Person, 'findAll');
+      modelMethodStub = stub(Person, 'findAll');
     });
 
     after(() => {
-      resolverStub.restore();
+      modelMethodStub.restore();
     });
 
     it('should return an array of persons', async () => {
       const expectedPersons: Person[] = [];
-      resolverStub.resolves(expectedPersons);
+      modelMethodStub.resolves(expectedPersons);
 
       const actualPersons = await resolver.persons();
 
@@ -45,13 +45,13 @@ describe('PersonResolvers', () => {
     let result: boolean;
 
     before(async () => {
-      resolverStub = stub(Person, 'create').resolves();
+      modelMethodStub = stub(Person, 'create').resolves();
 
       result = await resolver.addPerson(personAttributes);
     });
 
     after(() => {
-      resolverStub.restore();
+      modelMethodStub.restore();
     });
 
     it('should return true', async () => {
@@ -59,7 +59,7 @@ describe('PersonResolvers', () => {
     });
 
     it('should be called with proper arg', async () => {
-      const calledAttributesProps = Object.keys(resolverStub.args[0][0]).sort();
+      const calledAttributesProps = Object.keys(modelMethodStub.args[0][0]).sort();
       const expectedAttributesProps = Object.keys(personAttributes).sort();
       expect(calledAttributesProps).toEqual(expectedAttributesProps);
     });
@@ -68,13 +68,13 @@ describe('PersonResolvers', () => {
     let result: boolean;
 
     before(async () => {
-      resolverStub = stub(Person, 'update').resolves();
+      modelMethodStub = stub(Person, 'update').resolves();
 
       result = await resolver.updatePerson(id, personAttributes);
     });
 
     after(() => {
-      resolverStub.restore();
+      modelMethodStub.restore();
     });
 
     it('should return true', async () => {
@@ -82,10 +82,10 @@ describe('PersonResolvers', () => {
     });
 
     it('should be called with proper args', async () => {
-      const calledId = resolverStub.args[0][1];
+      const calledId = modelMethodStub.args[0][1];
       expect(calledId).toEqual({ where: { id } });
 
-      const calledAttributesProps = Object.keys(resolverStub.args[0][0]).sort();
+      const calledAttributesProps = Object.keys(modelMethodStub.args[0][0]).sort();
       const expectedAttributesProps = Object.keys(personAttributes).sort();
       expect(calledAttributesProps).toEqual(expectedAttributesProps);
     });
@@ -95,13 +95,15 @@ describe('PersonResolvers', () => {
     let place: Location;
     let placeOfBirth: Location;
     const ctx = getContextForTest();
-    const person = { ...personAttributes, id, dob: new Date(), dod: new Date() } as Person;
-    const location = { country: '', city: '' } as Location;
+    // const person = { ...personAttributes, id, dob: new Date(), dod: new Date() } as Person;
+    const location = createLocationForTest();
+    const person = createPersonForTest(location.id, location.id);
+    // const location = { country: '', city: '' } as Location;
 
     before(async () => {
       ctx.placeLoader.load = () => Promise.resolve(location);
       place = await resolver.place(person, ctx);
-      placeOfBirth = await resolver.place(person, ctx);
+      placeOfBirth = await resolver.placeOfBirth(person, ctx);
     });
 
     it('place should return a location', () => {
