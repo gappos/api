@@ -3,6 +3,7 @@ import { SinonStub, stub } from 'sinon';
 
 import { Location, LocationInput } from '../../../models';
 import { LocationResolvers } from '../../../graphql/resolvers/location';
+import { createLocationForTest, createPersonForTest, getContextForTest } from '../../utils/utils';
 
 describe('LocationResolvers', () => {
   let resolver: LocationResolvers;
@@ -85,6 +86,31 @@ describe('LocationResolvers', () => {
       const calledAttributesProps = Object.keys(resolverStub.args[0][0]).sort();
       const expectedAttributesProps = ['country', 'city', 'place'].sort();
       expect(calledAttributesProps).toEqual(expectedAttributesProps);
+    });
+  });
+
+  console.log('location field resolvers');
+  describe('field resolvers', () => {
+    const locationResolvers = new LocationResolvers();
+    const ctx = getContextForTest();
+    const parent = createLocationForTest();
+    const people = [
+      createPersonForTest(parent.id, parent.id),
+      createPersonForTest(parent.id, parent.id),
+    ];
+
+    it('peopleLiving should return an array of people living in the given location', async () => {
+      ctx.peopleLivingLoader.load = () => Promise.resolve(people);
+
+      const result = await locationResolvers.personsLiving(parent, ctx);
+      expect(result).toEqual(people);
+    });
+
+    it('peopleBorn should return an array of people born in the given location', async () => {
+      ctx.peopleBornLoader.load = () => Promise.resolve(people);
+
+      const result = await locationResolvers.personsLiving(parent, ctx);
+      expect(result).toEqual(people);
     });
   });
 });

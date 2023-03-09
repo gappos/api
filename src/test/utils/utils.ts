@@ -1,6 +1,14 @@
 import DataLoader from 'dataloader';
 import { Context } from '../../graphql';
-import { Location, LocationAttributes, Person, PersonCreationAttributes } from '../../models';
+import {
+  Gender,
+  Location,
+  LocationAttributes,
+  Person,
+  PersonCreationAttributes,
+} from '../../models';
+
+const randomString = () => '' + Math.random();
 
 export const getPersonAttributes = (
   personAttributes: PersonCreationAttributes,
@@ -17,3 +25,19 @@ export const getContextForTest = (): Context => ({
   peopleLivingLoader: {} as DataLoader<string, Person[], string>,
   peopleBornLoader: {} as DataLoader<string, Person[], string>,
 });
+
+export const createPersonForTest = (placeId?: string, pobId?: string) =>
+  new Person({
+    firstName: randomString(),
+    lastName: randomString(),
+    gender: Math.random() >= 0.5 ? Gender.MALE : Gender.FEMALE,
+    dob: new Date(),
+    placeId,
+    pobId,
+  });
+
+export const createLocationForTest = () =>
+  new Location({
+    country: randomString(),
+    city: randomString(),
+  });

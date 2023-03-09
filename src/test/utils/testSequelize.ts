@@ -9,7 +9,7 @@ dotenv.config();
 
 let sequelize: Sequelize;
 
-const getTestSequelize = async (): Promise<Sequelize> => {
+export const getTestSequelize = async (): Promise<Sequelize> => {
   if (sequelize) return sequelize;
 
   const testUri = process.env.DB_CONNECTION_STRING_TEST as string;
@@ -27,4 +27,4 @@ const getTestSequelize = async (): Promise<Sequelize> => {
   return sequelize;
 };
 
-export default getTestSequelize;
+(async () => await getTestSequelize())();
