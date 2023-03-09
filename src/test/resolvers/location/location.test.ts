@@ -89,7 +89,6 @@ describe('LocationResolvers', () => {
     });
   });
 
-  console.log('location field resolvers');
   describe('field resolvers', () => {
     const locationResolvers = new LocationResolvers();
     const ctx = getContextForTest();
