@@ -1,7 +1,7 @@
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript';
 import dotenv from 'dotenv';
 
-import { Book, Location, Person } from '../models';
+import { Book, Location, Person, Child } from '../models';
 import { logger } from '../utils';
 
 dotenv.config();
@@ -15,7 +15,7 @@ if (!uri) throw new Error("Connection to the DB hasn't been set");
 
 const sequelize = new Sequelize(uri, options);
 
-const models = [Book, Location, Person];
+const models = [Book, Location, Person, Child];
 sequelize.addModels(models);
 
 export default sequelize;
