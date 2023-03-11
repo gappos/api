@@ -7,6 +7,7 @@ import {
   DataType,
   Default,
   ForeignKey,
+  HasMany,
   Model,
   PrimaryKey,
   Table,
@@ -18,6 +19,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Gender } from './types';
 import { Location } from './location';
 import { getName } from './utils';
+import { Child } from './child';
 
 export interface PersonAttributes {
   id: string;
@@ -102,6 +104,14 @@ export class Person
   @ForeignKey(() => Location)
   @Column(DataType.UUID)
   pobId: string;
+
+  @Field(() => [Person], { nullable: true })
+  @HasMany(() => Child, 'parentId')
+  children: Person[];
+
+  @Field(() => [Person], { nullable: true })
+  @HasMany(() => Child, 'childId')
+  parents: Person[];
 
   @Field(() => Location, { nullable: true })
   @BelongsTo(() => Location, 'placeId')
