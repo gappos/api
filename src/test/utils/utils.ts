@@ -1,9 +1,11 @@
 import DataLoader from 'dataloader';
 import { Context } from '../../graphql';
 import {
+  Child,
   Gender,
   Location,
   LocationAttributes,
+  ParentRelation,
   Person,
   PersonCreationAttributes,
   Spouse,
@@ -49,6 +51,16 @@ export const createFamilyForTest = () => {
   const mother = createPersonForTest(home.id, home.id);
   const child = createPersonForTest(home.id, home.id);
   const spouse = new Spouse({ partner1Id: father.id, partner2Id: mother.id, wedding: new Date() });
+  const childFather = new Child({
+    childId: child.id,
+    parentId: father.id,
+    relation: ParentRelation.FATHER,
+  });
+  const childMother = new Child({
+    childId: child.id,
+    parentId: mother.id,
+    relation: ParentRelation.MOTHER,
+  });
 
-  return { home, father, mother, child, spouse };
+  return { home, father, mother, child, spouse, childFather, childMother };
 };
