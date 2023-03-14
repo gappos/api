@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
 
-import { Person, PersonCreationAttributes, PersonInput, Spouse } from '../../../models';
+import { Child, Person, PersonCreationAttributes, PersonInput, Spouse } from '../../../models';
 import { logger } from '../../../utils';
 
 const log = logger('Person');
@@ -49,7 +49,19 @@ export const getSpouses = async (partner: Person): Promise<Person[]> => {
       where: { id: { [Op.in]: spousesIds } },
     });
   } catch (error) {
-    log.error('findAll', (error as Error).message);
+    log.error('spouses', (error as Error).message);
+  }
+  return Promise.reject([]);
+};
+
+export const getParents = async (child: Person): Promise<Person[]> => {
+  try {
+    const parentsIds = (await Child.findAll({ where: { childId: child.id } })).map(
+      ({ parentId }) => parentId,
+    );
+    return await Person.findAll({ where: { id: { [Op.in]: parentsIds } } });
+  } catch (error) {
+    log.error('spouses', (error as Error).message);
   }
   return Promise.reject([]);
 };
