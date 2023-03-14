@@ -3,7 +3,6 @@ import { SinonStub, stub } from 'sinon';
 
 import { Gender, Person, PersonInput, Location, Spouse } from '../../../models';
 import { PersonResolvers } from '../../../graphql/resolvers/person';
-import * as personHelpers from '../../../graphql/resolvers/person/helpers';
 import {
   createFamilyForTest,
   createLocationForTest,
@@ -122,12 +121,15 @@ describe('PersonResolvers', () => {
 
     describe('family', () => {
       const family = createFamilyForTest();
-      let getSpousesStub: SinonStub;
 
       before(async () => {
-        Object.keys(family).forEach(async (key: string) =>
-          family[key as keyof typeof family].save(),
-        );
+        await family.home.save();
+        await family.father.save();
+        await family.mother.save();
+        await family.child.save();
+        await family.spouse.save();
+        await family.childFather.save();
+        await family.childMother.save();
       });
 
       after(async () => {
@@ -137,19 +139,23 @@ describe('PersonResolvers', () => {
       });
 
       it('should return spouse for father', async () => {
-        getSpousesStub = stub(personHelpers, 'getSpouses').resolves([family.mother]);
         const spouses = await resolver.spouses(family.father);
-        getSpousesStub.restore();
 
-        expect(spouses).toEqual([family.mother]);
+        expect(spouses.map(({ dataValues }) => dataValues)).toEqual([family.mother.dataValues]);
       });
 
       it('should return spouse for mother', async () => {
-        getSpousesStub = stub(personHelpers, 'getSpouses').resolves([family.father]);
         const spouses = await resolver.spouses(family.mother);
-        getSpousesStub.restore();
 
-        expect(spouses).toEqual([family.father]);
+        expect(spouses.map(({ dataValues }) => dataValues)).toEqual([family.father.dataValues]);
+      });
+
+      it('should return parents for child', async () => {
+        const parents = await resolver.parents(family.child);
+
+        expect(parents.map(({ dataValues }) => dataValues).sort()).toEqual(
+          [family.father.dataValues, family.mother.dataValues].sort(),
+        );
       });
     });
   });
