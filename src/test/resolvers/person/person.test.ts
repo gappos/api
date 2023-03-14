@@ -149,6 +149,14 @@ describe('PersonResolvers', () => {
 
         expect(spouses.map(({ dataValues }) => dataValues)).toEqual([family.father.dataValues]);
       });
+
+      it('should return parents for child', async () => {
+        const parents = await resolver.parents(family.child);
+
+        expect(parents.map(({ dataValues }) => dataValues).sort()).toEqual(
+          [family.father.dataValues, family.mother.dataValues].sort(),
+        );
+      });
     });
   });
 });
