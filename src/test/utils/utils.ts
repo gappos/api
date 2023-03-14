@@ -6,6 +6,7 @@ import {
   LocationAttributes,
   Person,
   PersonCreationAttributes,
+  Spouse,
 } from '../../models';
 
 const randomString = () => '' + Math.random();
@@ -41,3 +42,13 @@ export const createLocationForTest = () =>
     country: randomString(),
     city: randomString(),
   });
+
+export const createFamilyForTest = () => {
+  const home = createLocationForTest();
+  const father = createPersonForTest(home.id, home.id);
+  const mother = createPersonForTest(home.id, home.id);
+  const child = createPersonForTest(home.id, home.id);
+  const spouse = new Spouse({ partner1Id: father.id, partner2Id: mother.id, wedding: new Date() });
+
+  return { home, father, mother, child, spouse };
+};

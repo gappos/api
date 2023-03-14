@@ -20,6 +20,7 @@ import { Gender } from './types';
 import { Location } from './location';
 import { getName } from './utils';
 import { Child } from './child';
+import { Spouse } from './spouse';
 
 export interface PersonAttributes {
   id: string;
@@ -104,6 +105,10 @@ export class Person
   @ForeignKey(() => Location)
   @Column(DataType.UUID)
   pobId: string;
+
+  @Field(() => [Person], { nullable: true })
+  @HasMany(() => Spouse)
+  spouses: Person[];
 
   @Field(() => [Person], { nullable: true })
   @HasMany(() => Child, 'parentId')

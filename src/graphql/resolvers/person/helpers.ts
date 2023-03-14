@@ -1,21 +1,9 @@
-import { Location, Person, PersonCreationAttributes, PersonInput } from '../../../models';
+import { Op } from 'sequelize';
+
+import { Person, PersonCreationAttributes, PersonInput, Spouse } from '../../../models';
 import { logger } from '../../../utils';
 
 const log = logger('Person');
-
-export const getPersons = (): Promise<Person[]> => {
-  try {
-    return Person.findAll({
-      include: [
-        { model: Location, as: 'place', foreignKey: 'placeId' },
-        { model: Location, as: 'placeOfBirth', foreignKey: 'pobId' },
-      ],
-    });
-  } catch (error) {
-    log.error('findAll', (error as Error).message);
-  }
-  return Promise.reject([]);
-};
 
 export const addPerson = async (attributes: PersonInput): Promise<boolean> => {
   const personAttributes: PersonCreationAttributes = {
@@ -45,4 +33,23 @@ export const updatePerson = async (id: string, attributes: PersonInput): Promise
     log.error('update', (error as Error).message);
   }
   return false;
+};
+
+export const getSpouses = async (partner: Person): Promise<Person[]> => {
+  try {
+    const spousesIds = (
+      await Spouse.findAll({
+        where: {
+          [Op.or]: [{ partner1Id: partner.id }, { partner2Id: partner.id }],
+        },
+      })
+    ).map((spouse) => (spouse.partner1Id === partner.id ? spouse.partner2Id : spouse.partner1Id));
+
+    return Person.findAll({
+      where: { id: { [Op.in]: spousesIds } },
+    });
+  } catch (error) {
+    log.error('findAll', (error as Error).message);
+  }
+  return Promise.reject([]);
 };
