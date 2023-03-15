@@ -24,7 +24,7 @@
     "docker:create:volume": "docker volume create dbdata || true",
     "docker:prepare": "yarn compile:clear && yarn docker:create:volume",
     "docker:dev": "yarn docker:prepare && docker-compose -f docker-compose.yml -f docker-compose.dev.yml -p gapp-backend up",
-    "docker:test": "yarn docker:prepare && docker-compose -f docker-compose.yml -f docker-compose.test.yml -p gapp-backend run --rm api",
+    "docker:test": "yarn docker:prepare && docker-compose -f docker-compose.yml -f docker-compose.test.yml -p gapp-backend run --rm api scripts/hold_on_for_db then yarn migrate && yarn test",
     "docker:migrate": "yarn docker:prepare && docker-compose -f docker-compose.yml -f docker-compose.migrate.yml -p gapp-backend run --rm api scripts/hold_on_for_db then yarn migrate",
     "docker:migrate:undo": "yarn docker:prepare && docker-compose -f docker-compose.yml -f docker-compose.migrate.yml -p gapp-backend run --rm api scripts/hold_on_for_db then yarn migrate:undo",
     "re-prettier": "npx prettier --write \"./**/*.{js,jsx,ts,tsx,json}\""
