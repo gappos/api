@@ -15,6 +15,11 @@ if (!uri) throw new Error("Connection to the DB hasn't been set");
 
 const sequelize = new Sequelize(uri, options);
 
+sequelize
+  .authenticate()
+  .then(() => console.log(`Connected to DB using ${uri}`))
+  .catch((error) => console.error('Failed to connect to DB\n', error));
+
 const models = [Book, Location, Person, Child, Spouse];
 sequelize.addModels(models);
 
