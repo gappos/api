@@ -1,9 +1,5 @@
-import { BuildSchemaOptions } from 'type-graphql';
-import { BooksResolvers } from './book';
-import { HelloResolvers } from './hello';
-import { LocationResolvers } from './location';
-import { PersonResolvers } from './person';
-
-export const resolvers: BuildSchemaOptions = {
-  resolvers: [BooksResolvers, HelloResolvers, LocationResolvers, PersonResolvers],
-};
+export * from './hello';
+export * from './book';
+export * from './location';
+export * from './person';
+export * from './resolvers';
