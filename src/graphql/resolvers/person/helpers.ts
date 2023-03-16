@@ -61,7 +61,19 @@ export const getParents = async (child: Person): Promise<Person[]> => {
     );
     return await Person.findAll({ where: { id: { [Op.in]: parentsIds } } });
   } catch (error) {
-    log.error('spouses', (error as Error).message);
+    log.error('children', (error as Error).message);
+  }
+  return Promise.reject([]);
+};
+
+export const getChildren = async (parent: Person): Promise<Person[]> => {
+  try {
+    const childrenIds = (await Child.findAll({ where: { parentId: parent.id } })).map(
+      ({ childId }) => childId,
+    );
+    return await Person.findAll({ where: { id: { [Op.in]: childrenIds } } });
+  } catch (error) {
+    log.error('parents', (error as Error).message);
   }
   return Promise.reject([]);
 };

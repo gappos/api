@@ -2,7 +2,7 @@ import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root } from 'type-g
 
 import { Location, Person, PersonInput } from '../../../models';
 import { Context } from '../../context';
-import { addPerson, getParents, getSpouses, updatePerson } from './helpers';
+import { addPerson, getChildren, getParents, getSpouses, updatePerson } from './helpers';
 
 @Resolver(() => Person)
 export class PersonResolvers {
@@ -21,6 +21,12 @@ export class PersonResolvers {
   @Query(() => [Person])
   async parents(@Root() parent: Person) {
     return getParents(parent);
+  }
+
+  @FieldResolver()
+  @Query(() => [Person])
+  async children(@Root() parent: Person) {
+    return getChildren(parent);
   }
 
   @FieldResolver()
