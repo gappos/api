@@ -16,6 +16,7 @@ services:
       - ./:/gapp
     ports:
       - 3000:3000
+    command: sh -c "scripts/hold_on_for_db then yarn migrate && yarn test"
 
 volumes:
   dbdata:
