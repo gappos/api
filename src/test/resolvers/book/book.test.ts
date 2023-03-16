@@ -1,7 +1,7 @@
 import { expect } from 'expect';
 import { SinonStub, stub } from 'sinon';
 import { Book } from '../../../models';
-import { BooksResolvers } from '../../../graphql/resolvers/book';
+import { BooksResolvers } from '../../../graphql';
 
 describe('BooksResolvers', () => {
   let resolver: BooksResolvers;

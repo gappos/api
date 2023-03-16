@@ -2,7 +2,7 @@ import { expect } from 'expect';
 import { SinonStub, stub } from 'sinon';
 
 import { Gender, Person, PersonInput, Location, Spouse } from '../../../models';
-import { PersonResolvers } from '../../../graphql/resolvers/person';
+import { PersonResolvers } from '../../../graphql';
 import {
   createFamilyForTest,
   createLocationForTest,
