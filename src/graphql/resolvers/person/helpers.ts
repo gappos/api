@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
 
-import { Child, Person, PersonCreationAttributes, Spouse } from '../../../models';
+import { Child, ParentRelation, Person, PersonCreationAttributes, Spouse } from '../../../models';
 import { logger } from '../../../utils';
 import { PersonBirthInput } from './events';
 import { PersonInput } from './person';
@@ -80,7 +80,69 @@ export const getChildren = async (parent: Person): Promise<Person[]> => {
   return Promise.reject([]);
 };
 
-export const createBirth = async (parents: PersonBirthInput) => {
-  if (parents) return true;
-  return false;
+export const createBirth = async ({
+  childAttributes,
+  motherId,
+  fatherId,
+  parentId,
+  parent2Id,
+}: PersonBirthInput) => {
+  let newBorn: Person | null = null;
+
+  interface Parents {
+    mainParentId?: string;
+    secondParentId?: string;
+  }
+  const { mainParentId, secondParentId }: Parents = [
+    motherId,
+    fatherId,
+    parentId,
+    parent2Id,
+  ].reduce((acc: Parents, parentId, idx, arr) => {
+    if (parentId && !acc.mainParentId) acc.mainParentId = parentId;
+    if (parentId && !acc.secondParentId && idx < arr.length - 1) acc.secondParentId = arr[idx + 1];
+    return acc;
+  }, {});
+
+  const mainParent = mainParentId
+    ? await Person.findByPk(mainParentId)
+    : secondParentId && (await Person.findByPk(secondParentId));
+
+  const pobId = (mainParent as Person)?.placeId;
+  try {
+    newBorn = await Person.create({
+      ...(childAttributes as unknown as PersonCreationAttributes),
+      dob: new Date(),
+      ...(pobId ? { pobId, placeId: pobId } : {}),
+    });
+  } catch (error) {
+    log.error('create', (error as Error).message);
+  }
+  if (!newBorn) return false;
+
+  if (mainParentId) {
+    const relation: ParentRelation =
+      mainParentId === motherId
+        ? ParentRelation.MOTHER
+        : mainParentId === fatherId
+        ? ParentRelation.FATHER
+        : ParentRelation.PARENT;
+    try {
+      await Child.create({ childId: newBorn.id, parentId: mainParentId, relation });
+    } catch (error) {
+      logger('Child').error('create', (error as Error).message);
+    }
+  }
+
+  if (secondParentId) {
+    const relation: ParentRelation =
+      secondParentId === fatherId ? ParentRelation.FATHER : ParentRelation.PARENT;
+    try {
+      await Child.create({ childId: newBorn.id, parentId: secondParentId, relation });
+    } catch (error) {
+      logger('Child').error('create', (error as Error).message);
+    }
+  }
+
+  return true;
 };
