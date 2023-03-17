@@ -1,14 +1,16 @@
 import { Op } from 'sequelize';
 
-import { Child, Person, PersonCreationAttributes, PersonInput, Spouse } from '../../../models';
+import { Child, Person, PersonCreationAttributes, Spouse } from '../../../models';
 import { logger } from '../../../utils';
+import { PersonBirthInput } from './events';
+import { PersonInput } from './person';
 
 const log = logger('Person');
 
 export const addPerson = async (attributes: PersonInput): Promise<boolean> => {
   const personAttributes: PersonCreationAttributes = {
     ...(attributes as unknown as PersonCreationAttributes),
-    dob: new Date(attributes.dob),
+    dob: attributes.dob ? new Date(attributes.dob) : new Date(),
     ...(attributes.dod ? { dod: new Date(attributes.dod) } : {}),
   };
   try {
@@ -76,4 +78,9 @@ export const getChildren = async (parent: Person): Promise<Person[]> => {
     log.error('parents', (error as Error).message);
   }
   return Promise.reject([]);
+};
+
+export const createBirth = async (parents: PersonBirthInput) => {
+  if (parents) return true;
+  return false;
 };
