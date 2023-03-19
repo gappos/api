@@ -7,12 +7,20 @@ import { createLocationForTest, createPersonForTest, randomString } from '../../
 describe('events mutations', () => {
   const personEventResolvers = new PersonEventsResolvers();
 
+  after(async () => {
+    await Child.destroy({ where: {} });
+    await Spouse.destroy({ where: {} });
+    await Person.destroy({ where: {} });
+    await Location.destroy({ where: {} });
+  });
+
   describe('birth', () => {
     const placeLiving = createLocationForTest();
     const placeBorn = createLocationForTest();
     const personMother = createPersonForTest(placeLiving.id, placeBorn.id);
     const personFather = createPersonForTest(placeLiving.id, placeBorn.id);
     const personParent = createPersonForTest(placeLiving.id, placeBorn.id);
+    let newborn: Person | null;
 
     before(async () => {
       await placeLiving.save();
@@ -22,19 +30,12 @@ describe('events mutations', () => {
       await personParent.save();
     });
 
-    after(async () => {
-      await Child.destroy({ where: {} });
-      await Person.destroy({ where: {} });
-      await Location.destroy({ where: {} });
-    });
-
     describe('create a newborn to a mother and a father', () => {
       const childAttributes: PersonInput = {
         firstName: randomString(),
         lastName: randomString(),
         gender: Gender.FEMALE,
       };
-      let newborn: Person | null;
 
       before(async () => {
         await personEventResolvers.birth({
@@ -115,7 +116,6 @@ describe('events mutations', () => {
         lastName: randomString(),
         gender: Gender.FEMALE,
       };
-      let newborn: Person | null;
 
       before(async () => {
         await personEventResolvers.birth({
@@ -196,7 +196,6 @@ describe('events mutations', () => {
         lastName: randomString(),
         gender: Gender.FEMALE,
       };
-      let newborn: Person | null;
 
       before(async () => {
         await personEventResolvers.birth({
@@ -256,7 +255,6 @@ describe('events mutations', () => {
         lastName: randomString(),
         gender: Gender.FEMALE,
       };
-      let newborn: Person | null;
 
       before(async () => {
         await personEventResolvers.birth({
@@ -323,10 +321,6 @@ describe('events mutations', () => {
       personBeforeDeath = await Person.findByPk(person.id);
     });
 
-    after(async () => {
-      person.destroy();
-    });
-
     it('should find the person with dod=NULL', async () => {
       expect(personBeforeDeath).toBeTruthy();
       expect(personBeforeDeath?.dod).toBe(null);
@@ -350,16 +344,50 @@ describe('events mutations', () => {
       await personEventResolvers.marriage({ partner1Id: partner1.id, partner2Id: partner2.id });
     });
 
-    after(async () => {
-      partner1.destroy();
-      partner2.destroy();
-    });
-
     it('should find a rec in spouse', async () => {
       const marriage = await Spouse.findOne({
         where: { partner1Id: partner1.id, partner2Id: partner2.id },
       });
       expect(marriage).toBeTruthy();
+    });
+  });
+
+  describe('divorce', () => {
+    const partner1 = createPersonForTest();
+    const partner2 = createPersonForTest();
+    let marriage: Spouse | null;
+
+    before(async () => {
+      await partner1.save();
+      await partner2.save();
+    });
+
+    afterEach(async () => {
+      await marriage?.destroy();
+    });
+
+    it('should divorce partner1', async () => {
+      await personEventResolvers.marriage({ partner1Id: partner1.id, partner2Id: partner2.id });
+      marriage = await Spouse.findOne({
+        where: { partner1Id: partner1.id, partner2Id: partner2.id },
+      });
+
+      expect(await personEventResolvers.divorce(marriage?.partner1Id as string)).toBe(true);
+
+      await marriage?.reload();
+      expect(marriage?.divorce).toBeTruthy();
+    });
+
+    it('should divorce partner2', async () => {
+      await personEventResolvers.marriage({ partner1Id: partner1.id, partner2Id: partner2.id });
+      marriage = await Spouse.findOne({
+        where: { partner1Id: partner1.id, partner2Id: partner2.id },
+      });
+
+      expect(await personEventResolvers.divorce(marriage?.partner2Id as string)).toBe(true);
+
+      await marriage?.reload();
+      expect(marriage?.divorce).toBeTruthy();
     });
   });
 });

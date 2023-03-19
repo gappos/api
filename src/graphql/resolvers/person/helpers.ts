@@ -164,3 +164,19 @@ export const createMarriage = async (couple: PersonMarriageInput): Promise<boole
   }
   return true;
 };
+
+export const divorcePartner = async (partnerId: string): Promise<boolean> => {
+  try {
+    const marriage = await Spouse.findOne({
+      where: { [Op.or]: [{ partner1Id: partnerId }, { partner2Id: partnerId }] },
+    });
+
+    if (!marriage) return false;
+
+    await marriage.update({ divorce: new Date() });
+  } catch (error) {
+    logger('Spouse').error('update', (error as Error).message);
+    return false;
+  }
+  return true;
+};
