@@ -1,4 +1,4 @@
-name: test
+name: Run tests
 
 on: push
 
@@ -14,5 +14,5 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Run docker:test
+      - name: Run yarn docker:test
         run: yarn docker:test
