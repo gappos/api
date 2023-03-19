@@ -11,7 +11,7 @@ import {
   Spouse,
 } from '../../models';
 
-const randomString = () => '' + Math.random();
+export const randomString = () => '' + Math.random();
 
 export const getPersonAttributes = (
   personAttributes: PersonCreationAttributes,
