@@ -53,3 +53,11 @@ export class PersonBirthInput {
   @Field({ nullable: true })
   parent2Id?: string;
 }
+
+@InputType()
+export class PersonMarriageInput {
+  @Field({ nullable: false })
+  partner1Id: string;
+  @Field({ nullable: false })
+  partner2Id: string;
+}

@@ -2,7 +2,7 @@ import { Op } from 'sequelize';
 
 import { Child, ParentRelation, Person, PersonCreationAttributes, Spouse } from '../../../models';
 import { logger } from '../../../utils';
-import { PersonInput, PersonBirthInput } from '../types';
+import { PersonInput, PersonBirthInput, PersonMarriageInput } from '../types';
 
 const log = logger('Person');
 
@@ -133,6 +133,7 @@ export const createBirth = async ({
       await Child.create({ childId: newBorn.id, parentId: mainParentId, relation });
     } catch (error) {
       logger('Child').error('create', (error as Error).message);
+      return false;
     }
   }
 
@@ -143,8 +144,23 @@ export const createBirth = async ({
       await Child.create({ childId: newBorn.id, parentId: secondParentId, relation });
     } catch (error) {
       logger('Child').error('create', (error as Error).message);
+      return false;
     }
   }
 
+  return true;
+};
+
+export const createMarriage = async (couple: PersonMarriageInput): Promise<boolean> => {
+  try {
+    await Spouse.create({
+      partner1Id: couple.partner1Id,
+      partner2Id: couple.partner2Id,
+      wedding: new Date(),
+    });
+  } catch (error) {
+    logger('Spouse').error('create', (error as Error).message);
+    return false;
+  }
   return true;
 };
