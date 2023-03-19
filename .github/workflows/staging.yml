@@ -1,6 +1,8 @@
 name: Build and push Docker image for staging
 on:
   pull_request:
+    types:
+      - closed
     branches:
       - develop
 jobs:
