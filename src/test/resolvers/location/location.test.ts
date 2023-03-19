@@ -1,8 +1,8 @@
 import { expect } from 'expect';
 import { SinonStub, stub } from 'sinon';
 
-import { Location, LocationInput } from '../../../models';
-import { LocationResolvers } from '../../../graphql';
+import { Location } from '../../../models';
+import { LocationResolvers, LocationInput } from '../../../graphql';
 import { createLocationForTest, createPersonForTest, getContextForTest } from '../../utils/utils';
 
 describe('LocationResolvers', () => {

@@ -1,6 +1,8 @@
 import { Query, Mutation, Resolver, Arg, FieldResolver, Root, Ctx } from 'type-graphql';
-import { Location, LocationInput, Person } from '../../../models';
+
+import { Location, Person } from '../../../models';
 import { Context } from '../../context';
+import { LocationInput } from '../types';
 import { addLocation, updateLocation } from './helpers';
 
 @Resolver(() => Location)

@@ -1,6 +1,7 @@
 import { Op } from 'sequelize';
 
-import { Location, LocationCreationAttributes, LocationInput, Person } from '../../../models';
+import { Location, LocationCreationAttributes, Person } from '../../../models';
+import { LocationInput } from '../types';
 
 export const getLocations = async (): Promise<Location[]> => {
   try {

@@ -12,7 +12,7 @@ import {
   Unique,
 } from 'sequelize-typescript';
 import { v4 as uuidv4 } from 'uuid';
-import { Field, InputType, ObjectType } from 'type-graphql';
+import { Field, ObjectType } from 'type-graphql';
 import { Person } from './person';
 import { getAddress } from './utils';
 
@@ -78,16 +78,4 @@ export class Location
   @Field(() => [Person], { nullable: true })
   @HasMany(() => Person, 'pobId')
   personsBorn: Person[];
-}
-
-@InputType()
-export class LocationInput {
-  @Field({ nullable: true })
-  country: string;
-
-  @Field({ nullable: true })
-  city?: string;
-
-  @Field({ nullable: true })
-  place?: string;
 }
