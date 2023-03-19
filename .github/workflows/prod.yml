@@ -1,6 +1,8 @@
 name: Build and push Docker image for production
 on:
   pull_request:
+    types:
+      -closed
     branches:
       - main
 jobs:
