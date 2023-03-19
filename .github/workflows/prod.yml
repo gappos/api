@@ -1,6 +1,6 @@
 name: Build and push Docker image for production
 on:
-  merge:
+  pull_request:
     branches:
       - main
 jobs:
