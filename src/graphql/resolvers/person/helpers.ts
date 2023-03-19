@@ -21,14 +21,17 @@ export const addPerson = async (attributes: PersonInput): Promise<boolean> => {
   return false;
 };
 
-export const updatePerson = async (id: string, attributes: PersonInput): Promise<boolean> => {
+export const updatePerson = async (
+  id: string,
+  attributes: Partial<PersonInput>,
+): Promise<boolean> => {
   const personAttributes: Partial<PersonCreationAttributes> = {
     ...(attributes as unknown as Partial<PersonCreationAttributes>),
     ...(attributes.dob ? { dob: new Date(attributes.dob) } : {}),
     ...(attributes.dod ? { dod: new Date(attributes.dod) } : {}),
   };
   try {
-    Person.update(personAttributes, { where: { id } });
+    await Person.update(personAttributes, { where: { id } });
     return true;
   } catch (error) {
     log.error('update', (error as Error).message);
