@@ -17,5 +17,5 @@ services:
     command: yarn start:dev
 
 volumes:
-  dbdata:
+  gapp-db:
     external: true
