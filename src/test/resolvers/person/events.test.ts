@@ -5,14 +5,14 @@ import { Child, Person, Location, Gender, ParentRelation } from '../../../models
 import { createLocationForTest, createPersonForTest, randomString } from '../../utils/utils';
 
 describe('events mutations', () => {
+  const personEventResolvers = new PersonEventsResolvers();
+
   describe('birth', () => {
     const placeLiving = createLocationForTest();
     const placeBorn = createLocationForTest();
     const personMother = createPersonForTest(placeLiving.id, placeBorn.id);
     const personFather = createPersonForTest(placeLiving.id, placeBorn.id);
     const personParent = createPersonForTest(placeLiving.id, placeBorn.id);
-
-    const personEventResolvers = new PersonEventsResolvers();
 
     before(async () => {
       await placeLiving.save();
@@ -311,6 +311,32 @@ describe('events mutations', () => {
           relation: ParentRelation.PARENT,
         });
       });
+    });
+  });
+
+  describe('death', () => {
+    const person = createPersonForTest();
+    let personBeforeDeath: Person | null;
+
+    before(async () => {
+      await person.save();
+      personBeforeDeath = await Person.findByPk(person.id);
+    });
+
+    after(async () => {
+      person.destroy();
+    });
+
+    it('should find the person with dod=NULL', async () => {
+      expect(personBeforeDeath).toBeTruthy();
+      expect(personBeforeDeath?.dod).toBe(null);
+    });
+
+    it('should dod be set for the person', async () => {
+      expect(await personEventResolvers.death(personBeforeDeath?.id as string)).toBe(true);
+
+      await personBeforeDeath?.reload();
+      expect(personBeforeDeath?.dod).toBeTruthy();
     });
   });
 });
