@@ -4,12 +4,12 @@ WORKDIR /gapp
 
 COPY package.json ./
 COPY yarn.lock ./
-COPY tsconfig.json ./
 
 RUN yarn install --pure-lockfile
-RUN yarn compile
 
-COPY ./dist ./dist
+COPY . .
+
+RUN yarn compile
 
 EXPOSE 3000
 
