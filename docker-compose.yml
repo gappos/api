@@ -6,7 +6,7 @@ services:
     image: gapp/db
     build: ./postgres
     volumes:
-      - dbdata:/var/lib/postgresql/data
+      - gapp-db:/var/lib/postgresql/data
     ports:
       - 5432:5432
 
@@ -20,5 +20,5 @@ services:
       - 3000:3000
 
 volumes:
-  dbdata:
+  gapp-db:
     external: true

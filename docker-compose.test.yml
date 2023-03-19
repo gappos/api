@@ -19,5 +19,5 @@ services:
     command: sh -c "scripts/hold_on_for_db then yarn migrate && yarn test"
 
 volumes:
-  dbdata:
+  gapp-db:
     external: true
