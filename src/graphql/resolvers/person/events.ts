@@ -1,20 +1,7 @@
-import { Arg, Field, InputType, Mutation, Resolver } from 'type-graphql';
-import { PersonInput } from './person';
-import { createBirth } from './helpers';
+import { Arg, Mutation, Resolver } from 'type-graphql';
 
-@InputType()
-export class PersonBirthInput {
-  @Field({ nullable: false })
-  childAttributes: PersonInput;
-  @Field({ nullable: true })
-  motherId?: string;
-  @Field({ nullable: true })
-  fatherId?: string;
-  @Field({ nullable: true })
-  parentId?: string;
-  @Field({ nullable: true })
-  parent2Id?: string;
-}
+import { PersonBirthInput } from '../types';
+import { createBirth } from './helpers';
 
 @Resolver()
 export class PersonEventsResolvers {
