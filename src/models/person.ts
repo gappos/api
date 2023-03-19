@@ -13,7 +13,7 @@ import {
   Table,
   Unique,
 } from 'sequelize-typescript';
-import { Field, InputType, ObjectType } from 'type-graphql';
+import { Field, ObjectType } from 'type-graphql';
 import { v4 as uuidv4 } from 'uuid';
 
 import { Gender } from './types';
@@ -125,31 +125,4 @@ export class Person
   @Field(() => Location, { nullable: true })
   @BelongsTo(() => Location, 'pobId')
   placeOfBirth: Location;
-}
-
-@InputType()
-export class PersonInput {
-  @Field({ nullable: true })
-  firstName: string;
-
-  @Field({ nullable: true })
-  lastName: string;
-
-  @Field(() => String, { nullable: true })
-  gender: Gender;
-
-  @Field({ nullable: true })
-  dob: string;
-
-  @Field({ nullable: true })
-  middleName?: string;
-
-  @Field({ nullable: true })
-  placeId?: string;
-
-  @Field({ nullable: true })
-  pobId?: string;
-
-  @Field({ nullable: true })
-  dod?: string;
 }

@@ -1,8 +1,8 @@
 import { expect } from 'expect';
 import { SinonStub, stub } from 'sinon';
 
-import { Gender, Person, PersonInput, Location, Spouse } from '../../../models';
-import { PersonResolvers } from '../../../graphql';
+import { Gender, Person, Location, Spouse } from '../../../models';
+import { PersonResolvers, PersonInput } from '../../../graphql';
 import {
   createFamilyForTest,
   createLocationForTest,
