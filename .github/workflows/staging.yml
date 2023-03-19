@@ -1,6 +1,6 @@
 name: Build and push Docker image for staging
 on:
-  merge:
+  pull_request:
     branches:
       - develop
 jobs:
