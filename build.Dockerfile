@@ -5,7 +5,6 @@ WORKDIR /gapp
 COPY package.json ./
 COPY yarn.lock ./
 COPY tsconfig.json ./
-COPY sequelizerc ./
 
 RUN yarn install --pure-lockfile
 
