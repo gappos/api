@@ -1,7 +1,7 @@
 import expect from 'expect';
 
 import { PersonEventsResolvers, PersonInput } from '../../../graphql';
-import { Child, Person, Location, Gender, ParentRelation } from '../../../models';
+import { Child, Person, Location, Gender, ParentRelation, Spouse } from '../../../models';
 import { createLocationForTest, createPersonForTest, randomString } from '../../utils/utils';
 
 describe('events mutations', () => {
@@ -337,6 +337,29 @@ describe('events mutations', () => {
 
       await personBeforeDeath?.reload();
       expect(personBeforeDeath?.dod).toBeTruthy();
+    });
+  });
+
+  describe('marriage', () => {
+    const partner1 = createPersonForTest();
+    const partner2 = createPersonForTest();
+
+    before(async () => {
+      await partner1.save();
+      await partner2.save();
+      await personEventResolvers.marriage({ partner1Id: partner1.id, partner2Id: partner2.id });
+    });
+
+    after(async () => {
+      partner1.destroy();
+      partner2.destroy();
+    });
+
+    it('should find a rec in spouse', async () => {
+      const marriage = await Spouse.findOne({
+        where: { partner1Id: partner1.id, partner2Id: partner2.id },
+      });
+      expect(marriage).toBeTruthy();
     });
   });
 });
