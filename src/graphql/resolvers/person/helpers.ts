@@ -2,8 +2,7 @@ import { Op } from 'sequelize';
 
 import { Child, ParentRelation, Person, PersonCreationAttributes, Spouse } from '../../../models';
 import { logger } from '../../../utils';
-import { PersonBirthInput } from './events';
-import { PersonInput } from './person';
+import { PersonInput, PersonBirthInput } from '../types';
 
 const log = logger('Person');
 

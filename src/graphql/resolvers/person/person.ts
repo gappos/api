@@ -1,45 +1,9 @@
-import {
-  Arg,
-  Ctx,
-  Field,
-  FieldResolver,
-  InputType,
-  Mutation,
-  Query,
-  Resolver,
-  Root,
-} from 'type-graphql';
+import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root } from 'type-graphql';
 
-import { Gender, Location, Person } from '../../../models';
+import { Location, Person } from '../../../models';
 import { Context } from '../../context';
+import { PersonInput } from '../types';
 import { addPerson, getChildren, getParents, getSpouses, updatePerson } from './helpers';
-
-@InputType()
-export class PersonInput {
-  @Field({ nullable: true })
-  firstName: string;
-
-  @Field({ nullable: true })
-  lastName: string;
-
-  @Field(() => String, { nullable: true })
-  gender: Gender;
-
-  @Field({ nullable: true })
-  middleName?: string;
-
-  @Field({ nullable: true })
-  dob?: string;
-
-  @Field({ nullable: true })
-  placeId?: string;
-
-  @Field({ nullable: true })
-  pobId?: string;
-
-  @Field({ nullable: true })
-  dod?: string;
-}
 
 @Resolver(() => Person)
 export class PersonResolvers {
