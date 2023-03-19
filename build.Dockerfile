@@ -7,6 +7,7 @@ COPY yarn.lock ./
 COPY tsconfig.json ./
 
 RUN yarn install --pure-lockfile
+RUN yarn compile
 
 COPY ./dist ./dist
 
