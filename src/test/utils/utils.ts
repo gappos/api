@@ -1,4 +1,7 @@
 import DataLoader from 'dataloader';
+import { QueryTypes } from 'sequelize';
+
+import { getTestSequelize } from './testSequelize';
 import { Context } from '../../graphql';
 import {
   Child,
@@ -63,4 +66,21 @@ export const createFamilyForTest = () => {
   });
 
   return { home, father, mother, child, spouse, childFather, childMother };
+};
+
+export const clearDB = async () => {
+  const sequelize = await getTestSequelize();
+  const query = `
+  DO $$ DECLARE
+    r RECORD;
+  BEGIN
+    FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public' AND tablename != 'SequelizeMeta') LOOP
+        EXECUTE 'TRUNCATE TABLE ' || quote_ident(r.tablename) || ' CASCADE;';
+    END LOOP;
+  END $$;`;
+  try {
+    await sequelize.query(query, { type: QueryTypes.RAW });
+  } catch (error) {
+    console.error(error);
+  }
 };
