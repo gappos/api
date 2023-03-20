@@ -1,17 +1,19 @@
 import expect from 'expect';
 
 import { PersonEventsResolvers, PersonInput } from '../../../graphql';
-import { Child, Person, Location, Gender, ParentRelation, Spouse } from '../../../models';
-import { createLocationForTest, createPersonForTest, randomString } from '../../utils/utils';
+import { Child, Person, Gender, ParentRelation, Spouse } from '../../../models';
+import {
+  clearDB,
+  createLocationForTest,
+  createPersonForTest,
+  randomString,
+} from '../../utils/utils';
 
 describe('events mutations', () => {
   const personEventResolvers = new PersonEventsResolvers();
 
   after(async () => {
-    await Child.destroy({ where: {} });
-    await Spouse.destroy({ where: {} });
-    await Person.destroy({ where: {} });
-    await Location.destroy({ where: {} });
+    await clearDB();
   });
 
   describe('birth', () => {
