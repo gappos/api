@@ -180,3 +180,16 @@ export const divorcePartner = async (partnerId: string): Promise<boolean> => {
   }
   return true;
 };
+
+export const updatePersonLocation = async (
+  personId: string,
+  locationId: string,
+): Promise<boolean> => {
+  try {
+    await updatePerson(personId, { placeId: locationId });
+    return true;
+  } catch (error) {
+    log.error('update', (error as Error).message);
+  }
+  return false;
+};

@@ -1,7 +1,13 @@
 import { Arg, Mutation, Resolver } from 'type-graphql';
 
 import { PersonBirthInput, PersonMarriageInput } from '../types';
-import { createBirth, createMarriage, divorcePartner, updatePerson } from './helpers';
+import {
+  createBirth,
+  createMarriage,
+  divorcePartner,
+  updatePerson,
+  updatePersonLocation,
+} from './helpers';
 
 @Resolver()
 export class PersonEventsResolvers {
@@ -25,5 +31,13 @@ export class PersonEventsResolvers {
   @Mutation(() => Boolean)
   async divorce(@Arg('partner') partnerId: string): Promise<boolean> {
     return await divorcePartner(partnerId);
+  }
+
+  @Mutation(() => Boolean)
+  async relocate(
+    @Arg('personId') personId: string,
+    @Arg('locationId') locationId: string,
+  ): Promise<boolean> {
+    return await updatePersonLocation(personId, locationId);
   }
 }
