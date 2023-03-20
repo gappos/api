@@ -1,9 +1,10 @@
 import { expect } from 'expect';
 import { SinonStub, stub } from 'sinon';
 
-import { Gender, Person, Location, Spouse } from '../../../models';
+import { Gender, Person, Location } from '../../../models';
 import { PersonResolvers, PersonInput } from '../../../graphql';
 import {
+  clearDB,
   createFamilyForTest,
   createLocationForTest,
   createPersonForTest,
@@ -133,9 +134,7 @@ describe('PersonResolvers', () => {
       });
 
       after(async () => {
-        Spouse.destroy({ where: {} });
-        Person.destroy({ where: {} });
-        Location.destroy({ where: {} });
+        await clearDB();
       });
 
       it('should return spouse for father', async () => {

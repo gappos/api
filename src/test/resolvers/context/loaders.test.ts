@@ -1,7 +1,6 @@
 import expect from 'expect';
 
-import { Location, Person } from '../../../models';
-import { createLocationForTest, createPersonForTest } from '../../utils/utils';
+import { clearDB, createLocationForTest, createPersonForTest } from '../../utils/utils';
 import { graphqlContext } from '../../../graphql';
 
 describe('context for resolvers', () => {
@@ -20,9 +19,8 @@ describe('context for resolvers', () => {
     people.forEach(async (person) => await person.save());
   });
 
-  after(() => {
-    Person.destroy({ where: {} });
-    Location.destroy({ where: {} });
+  after(async () => {
+    await clearDB();
   });
 
   it('should load correct places for persons', async () => {
