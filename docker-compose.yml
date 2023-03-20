@@ -12,7 +12,7 @@ services:
 
   api:
     container_name: gapp-backend
-    image: gapp/backend
+    image: arturasmckwcz/gapp-back
     build: .
     depends_on:
       - db

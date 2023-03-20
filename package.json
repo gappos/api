@@ -7,7 +7,7 @@
   "license": "MIT",
   "type": "commonjs",
   "scripts": {
-    "stage": "git checkout develop && git pull && yarn docker:migrate",
+    "stage": "git checkout develop && git pull && yarn docker:migrate && yarn docker:staging:clear && yarn docker:staging",
     "compile:watch": "tsc --watch",
     "compile:clear": "rm -rf ./dist && yarn compile",
     "compile": "tsc",
@@ -22,6 +22,8 @@
     "migrate:undo": "sequelize db:migrate:undo",
     "docker:create:volume": "docker volume create gapp-db || true",
     "docker:prepare": "yarn compile:clear && yarn docker:create:volume",
+    "docker:staging:clear": "docker container rm gapp-backend && docker rmi arturasmckwcz/gapp-back-staging",
+    "docker:staging": "docker-compose -f docker-compose.yml -f docker-compose.staging.yml -p gapp-backend up",
     "docker:dev": "yarn docker:prepare && docker-compose -f docker-compose.yml -f docker-compose.dev.yml -p gapp-backend up",
     "docker:test": "yarn docker:prepare && docker-compose -f docker-compose.yml -f docker-compose.test.yml -p gapp-backend run --rm api",
     "docker:migrate": "yarn docker:prepare && docker-compose -f docker-compose.yml -f docker-compose.migrate.yml -p gapp-backend run --rm api scripts/hold_on_for_db then yarn migrate",
