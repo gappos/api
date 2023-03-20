@@ -390,4 +390,25 @@ describe('events mutations', () => {
       expect(marriage?.divorce).toBeTruthy();
     });
   });
+
+  describe('relocate', () => {
+    const currentLocation = createLocationForTest();
+    const newLocation = createLocationForTest();
+    const person = createPersonForTest(currentLocation.id, currentLocation.id);
+
+    before(async () => {
+      await currentLocation.save();
+      await newLocation.save();
+      await person.save();
+    });
+
+    it('should change placeId for a person', async () => {
+      await personEventResolvers.relocate(person.id, newLocation.id);
+
+      await person.reload();
+
+      expect(person.pobId).toBe(currentLocation.id);
+      expect(person.placeId).toBe(newLocation.id);
+    });
+  });
 });
