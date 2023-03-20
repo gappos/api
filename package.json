@@ -7,7 +7,7 @@
   "license": "MIT",
   "type": "commonjs",
   "scripts": {
-    "stage": "git checkout develop && git pull && yarn docker:migrate && yarn docker:staging:clear && yarn docker:staging",
+    "stage": "git checkout develop && git pull && yarn docker:migrate && yarn docker:staging:clear && yarn docker:staging -d",
     "compile:watch": "tsc --watch",
     "compile:clear": "rm -rf ./dist && yarn compile",
     "compile": "tsc",
