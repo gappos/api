@@ -19,7 +19,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: Build and push Docker image
         env:
-          PR_DATE_NUMBER: ${{ format('{0}.{1}', formatDateTime(now(), 'yyyy-MM-dd'), (github.ref).split('/')[2]) }}
+          PR_DATE_NUMBER: ${{ format('{0}.{1}', formatTime(now(), 'yyyy-MM-dd'), (github.ref).split('/')[2]) }}
         run: |
           docker build --build-arg PR_DATE_NUMBER=${PR_DATE_NUMBER} -f build.Dockerfile -t arturasmckwcz/gapp-back-staging .
           docker push arturasmckwcz/gapp-back-staging
