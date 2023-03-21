@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+#
+# Hold on for postgres service to accept connections before running the CLI.
+#
+
+
+HOST=${HOLD_ON_FOR_DB_HOST:-db}
+USER=${HOLD_ON_FOR_DB_USER:-postgres}
+
+# process arguments
+while [[ $# -gt 0 ]]
+do
+    case "$1" in
+        then)
+        shift
+        CLI="$@"
+        break
+        ;;
+        *)
+        printf "Do not know what to do with: $1\n"
+        exit 1
+        ;;
+    esac
+done
+
+if [[ -z "$CLI" ]] ; then
+  printf "Unknown option. Try: './hold_on_for_db then command_to_run'\n"
+  exit 1
+fi
+
+check_postgres () {
+  pg_isready -h $HOST -U $USER
+}
+
+printf "\n-------> Holding on for $HOST...\n\n"
+
+count=0
+until ( check_postgres )
+do
+  ((count++))
+  if [ ${count} -gt 30 ]
+  then
+    printf "\n-------> $HOST is not up in time!\n\n"
+    exit 1
+  fi
+  sleep 3
+done
+
+printf "\n-------> Running '$CLI'...\n\n"
+$CLI

@@ -1,0 +1,21 @@
+version: '3.3'
+
+services:
+  api:
+    container_name: gapp-backend
+    image: gapp/backend
+    build: .
+    depends_on:
+      - db
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./:/gapp
+    ports:
+      - 3000:3000
+      - 9229:9229
+    command: yarn start:dev
+
+volumes:
+  gapp-db:
+    external: true

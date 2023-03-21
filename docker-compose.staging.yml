@@ -1,0 +1,17 @@
+version: '3.3'
+
+services:
+  api:
+    container_name: gapp-backend
+    image: arturasmckwcz/gapp-back-staging
+    depends_on:
+      - db
+    environment:
+      NODE_ENV: development
+    ports:
+      - 3000:3000
+    command: yarn start
+
+volumes:
+  gapp-db:
+    external: true

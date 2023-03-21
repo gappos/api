@@ -1,0 +1,23 @@
+version: '3.3'
+
+services:
+  api:
+    container_name: gapp-backend
+    image: gapp/backend
+    build: .
+    depends_on:
+      - db
+    environment:
+      NODE_ENV: test
+      HOLD_ON_FOR_DB_HOST: ${HOLD_ON_FOR_DB_HOST:-db}
+      HOLD_ON_FOR_DB_USER: ${HOLD_ON_FOR_DB_USER:-mocha}
+      DB_CONNECTION_STRING_TEST: postgres://mocha:mocha@db:5432/mocha
+    volumes:
+      - ./:/gapp
+    ports:
+      - 3000:3000
+    command: sh -c "scripts/hold_on_for_db then yarn migrate && yarn test"
+
+volumes:
+  gapp-db:
+    external: true

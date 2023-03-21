@@ -1,0 +1,22 @@
+version: '3.3'
+
+services:
+  api:
+    container_name: gapp-backend
+    image: gapp/backend
+    build: .
+    depends_on:
+      - db
+    environment:
+      NODE_ENV: migration
+      HOLD_ON_FOR_DB_HOST: ${HOLD_ON_FOR_DB_HOST:-db}
+      HOLD_ON_FOR_DB_USER: ${HOLD_ON_FOR_DB_USER:-postgres}
+      DB_CONNECTION_STRING: postgres://postgres:postgres@db:5432/gapp
+    volumes:
+      - ./:/gapp/
+    ports:
+      - 3000:3000
+
+volumes:
+  gapp-db:
+    external: true
