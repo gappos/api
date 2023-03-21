@@ -10,9 +10,6 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     steps:
-      - name: Set PR_DATE_NUMBER environment var
-        run: |
-          PR_DATE_NUMBER=$(echo $(date +'%Y-%m-%d')).$(echo "$GITHUB_REF" | awk 'BEGIN { FS="/" } ; { print $3 }')
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Login to Docker Hub
@@ -21,6 +18,8 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: Build and push Docker image
+        env:
+          PR_DATE_NUMBER: ${{ format('{0}.{1}', formatDateTime(now(), 'yyyy-MM-dd'), (github.ref).split('/')[2]) }}
         run: |
           docker build --build-arg PR_DATE_NUMBER=${PR_DATE_NUMBER} -f build.Dockerfile -t arturasmckwcz/gapp-back-staging .
           docker push arturasmckwcz/gapp-back-staging
