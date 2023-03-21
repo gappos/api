@@ -12,12 +12,7 @@ jobs:
     steps:
       - name: DEBUG
         run: |
-          echo ${{ github }}
-          echo ${{ github.ref }}
-          echo ${{ github.sha }}
-          echo ${{ github.event_name }}
-          echo ${{ github.event_path }}
-          echo ${{ github.repository }}
+          echo $(printenv)
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Login to Docker Hub
