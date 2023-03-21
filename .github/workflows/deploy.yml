@@ -10,9 +10,6 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     steps:
-      - name: DEBUG
-        run: |
-          echo $(printenv)
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Login to Docker Hub
@@ -22,6 +19,6 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: Build and push Docker image
         run: |
-          PR_DATE_NUMBER=$(echo $(date +'%Y-%m-%d')).${{ github.ref }}
+          PR_DATE_NUMBER=$(echo $(date +'%Y-%m-%d')).${GITHUB_RUN_NUMBER}
           docker build --build-arg PR_DATE_NUMBER=${PR_DATE_NUMBER} -f build.Dockerfile -t arturasmckwcz/gapp-backend .
           docker push arturasmckwcz/gapp-backend
