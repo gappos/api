@@ -12,10 +12,12 @@ jobs:
     steps:
       - name: DEBUG
         run: |
-          echo GITHUB_REF
-          echo $GITHUB_REF
-          echo github.ref
+          echo ${{ github }}
           echo ${{ github.ref }}
+          echo ${{ github.sha }}
+          echo ${{ github.event_name }}
+          echo ${{ github.event_path }}
+          echo ${{ github.repository }}
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Login to Docker Hub
@@ -27,4 +29,4 @@ jobs:
         run: |
           PR_DATE_NUMBER=$(echo $(date +'%Y-%m-%d')).${{ github.ref }}
           docker build --build-arg PR_DATE_NUMBER=${PR_DATE_NUMBER} -f build.Dockerfile -t arturasmckwcz/gapp-backend .
-          docker push arturasmckwcz/gapp-back-staging
+          docker push arturasmckwcz/gapp-backend
