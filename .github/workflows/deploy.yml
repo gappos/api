@@ -22,5 +22,5 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
       - name: Build and push Docker image
         run: |
-          docker build --build-arg PR_DATE_NUMBER=$PR_DATE_NUMBER -f build.Dockerfile -t arturasmckwcz/gapp-back-staging .
+          docker build --build-arg PR_DATE_NUMBER=${PR_DATE_NUMBER} -f build.Dockerfile -t arturasmckwcz/gapp-back-staging .
           docker push arturasmckwcz/gapp-back-staging
