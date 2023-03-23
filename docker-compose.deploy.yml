@@ -15,8 +15,6 @@ services:
     image: arturasmckwcz/gapp-backend
     depends_on:
       - db
-    environment:
-      NODE_ENV: development
     ports:
       - 3000:3000
     command: yarn start
