@@ -16,7 +16,7 @@ describe('context for resolvers', () => {
   before(async () => {
     await placeLiving.save();
     await placeBorn.save();
-    people.forEach(async (person) => await person.save());
+    await Promise.all(people.map((person) => person.save()));
   });
 
   after(async () => {
