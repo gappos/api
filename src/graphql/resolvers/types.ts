@@ -1,5 +1,5 @@
 import { InputType, Field } from 'type-graphql';
-import { Gender } from '../../models';
+import { Gender, ParentRelation } from '../../models';
 
 @InputType()
 export class LocationInput {
@@ -60,4 +60,22 @@ export class PersonMarriageInput {
   partner1Id: string;
   @Field({ nullable: false })
   partner2Id: string;
+}
+
+@InputType()
+export class ChildAttributesInput {
+  @Field({ nullable: false })
+  childId: string;
+
+  @Field({ nullable: true })
+  parent1Id?: string;
+
+  @Field({ nullable: true })
+  parent1relation?: ParentRelation;
+
+  @Field({ nullable: true })
+  parent2Id?: string;
+
+  @Field({ nullable: true })
+  parent2relation?: ParentRelation;
 }
