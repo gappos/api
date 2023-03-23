@@ -5,7 +5,7 @@ import { ChildResolvers } from '../../../graphql/resolvers/child';
 import { Child, ParentRelation } from '../../../models';
 import { clearDB, createPersonForTest } from '../../utils/utils';
 
-describe.only('ChildResolvers', () => {
+describe('ChildResolvers', () => {
   const addChildResolver = new ChildResolvers().addChild;
   const personChild = createPersonForTest();
   const personMother = createPersonForTest();
