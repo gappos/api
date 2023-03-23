@@ -39,15 +39,19 @@ describe('context for resolvers', () => {
 
   it('should load correct people as personsLiving', async () => {
     const persons = await ctx.peopleLivingLoader.load(placeLiving.id);
-    expect(persons.map(({ dataValues }) => dataValues).sort()).toEqual(
-      people.map(({ dataValues }) => dataValues).sort(),
+    expect(
+      persons.map(({ dataValues }) => dataValues).sort((a, b) => +a.firstName - +b.firstName),
+    ).toEqual(
+      people.map(({ dataValues }) => dataValues).sort((a, b) => +a.firstName - +b.firstName),
     );
   });
 
   it('should load correct people as personsBorn', async () => {
     const persons = await ctx.peopleBornLoader.load(placeBorn.id);
-    expect(persons.map(({ dataValues }) => dataValues).sort()).toEqual(
-      people.map(({ dataValues }) => dataValues).sort(),
+    expect(
+      persons.map(({ dataValues }) => dataValues).sort((a, b) => +a.firstName - +b.firstName),
+    ).toEqual(
+      people.map(({ dataValues }) => dataValues).sort((a, b) => +a.firstName - +b.firstName),
     );
   });
 });
