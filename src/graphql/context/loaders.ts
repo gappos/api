@@ -25,7 +25,7 @@ export const getPeopleLoader =
 export const getPlacesLoader =
   (): DataLoader.BatchLoadFn<string, Location> =>
   async (keys: readonly string[]): Promise<ArrayLike<Location | Error>> => {
-    const locations = await Location.findAll({ where: { id: { [Op.in]: keys } } });
+    const locations = await Location.findAll({ where: { id: { [Op.in]: keys.filter(Boolean) } } });
 
     const locationsById = locations.reduce(
       (acc, location) => ((acc[location.id] = location), acc),
