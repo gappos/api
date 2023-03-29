@@ -1,7 +1,7 @@
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript';
 import dotenv from 'dotenv';
 
-import { Book, Location, Person, Child, Spouse } from '../../models';
+import { Location, Person, Child, Spouse } from '../../models';
 
 dotenv.config();
 
@@ -19,8 +19,7 @@ export const getTestSequelize = async (): Promise<Sequelize> => {
   };
   sequelize = new Sequelize(testUri, sequelizeOptions);
 
-  // Define your models here
-  sequelize.addModels([Book, Person, Location, Child, Spouse]);
+  sequelize.addModels([Person, Location, Child, Spouse]);
 
   return sequelize;
 };
