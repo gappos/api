@@ -6,19 +6,18 @@ import { PersonInput, PersonBirthInput, PersonMarriageInput } from '../types';
 
 const log = logger('Person');
 
-export const addPerson = async (attributes: PersonInput): Promise<boolean> => {
+export const addPerson = async (attributes: PersonInput): Promise<Person | null> => {
   const personAttributes: PersonCreationAttributes = {
     ...(attributes as unknown as PersonCreationAttributes),
     dob: attributes.dob ? new Date(attributes.dob) : new Date(),
     ...(attributes.dod ? { dod: new Date(attributes.dod) } : {}),
   };
   try {
-    await Person.create(personAttributes);
-    return true;
+    return await Person.create(personAttributes);
   } catch (error) {
     log.error('create', (error as Error).message);
   }
-  return false;
+  return null;
 };
 
 export const updatePerson = async (
