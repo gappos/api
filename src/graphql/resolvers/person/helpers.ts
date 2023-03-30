@@ -23,19 +23,25 @@ export const addPerson = async (attributes: PersonInput): Promise<Person | null>
 export const updatePerson = async (
   id: string,
   attributes: Partial<PersonInput>,
-): Promise<boolean> => {
+): Promise<Person | null> => {
   const personAttributes: Partial<PersonCreationAttributes> = {
     ...(attributes as unknown as Partial<PersonCreationAttributes>),
     ...(attributes.dob ? { dob: new Date(attributes.dob) } : {}),
     ...(attributes.dod ? { dod: new Date(attributes.dod) } : {}),
   };
   try {
-    await Person.update(personAttributes, { where: { id } });
-    return true;
+    const [result] = await Person.update(personAttributes, { where: { id } });
+    if (result === 0) return null;
   } catch (error) {
     log.error('update', (error as Error).message);
+    return null;
   }
-  return false;
+  try {
+    return await Person.findByPk(id);
+  } catch (error) {
+    log.error('findByPk', (error as Error).message);
+  }
+  return null;
 };
 
 export const getSpouses = async (partner: Person): Promise<Person[]> => {

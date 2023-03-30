@@ -49,11 +49,11 @@ export class PersonResolvers {
     return await addPerson(personAttributes);
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => Person)
   async updatePerson(
     @Arg('id') id: string,
     @Arg('personAttributes', () => PersonInput) personAttributes: PersonInput,
-  ) {
+  ): Promise<Person | null> {
     return await updatePerson(id, personAttributes);
   }
 }
