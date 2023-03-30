@@ -11,7 +11,7 @@ import {
   getContextForTest,
 } from '../../utils/utils';
 
-describe.only('PersonResolvers', () => {
+describe('PersonResolvers', () => {
   let resolver: PersonResolvers;
   let modelMethodStub: SinonStub;
   const id = 'blah-blah';
