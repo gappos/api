@@ -21,4 +21,3 @@ const createApp = async () => {
 };
 
 export default createApp;
-console.debug('DEBUG: in app file');
