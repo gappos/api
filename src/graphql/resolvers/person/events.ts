@@ -1,4 +1,5 @@
 import { Arg, Mutation, Resolver } from 'type-graphql';
+import { Person } from '../../../models';
 
 import { PersonBirthInput, PersonMarriageInput } from '../types';
 import {
@@ -17,7 +18,7 @@ export class PersonEventsResolvers {
   }
 
   @Mutation(() => Boolean)
-  async death(@Arg('personId') personId: string): Promise<boolean> {
+  async death(@Arg('personId') personId: string): Promise<Person | null> {
     return await updatePerson(personId, { dod: new Date().toISOString() });
   }
 
