@@ -42,10 +42,10 @@ export class PersonResolvers {
     return await ctx.placeLoader.load(parent.pobId);
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => Person)
   async addPerson(
     @Arg('personAttributes', () => PersonInput) personAttributes: PersonInput,
-  ): Promise<boolean> {
+  ): Promise<Person | null> {
     return await addPerson(personAttributes);
   }
 

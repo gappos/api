@@ -19,10 +19,7 @@ export const getSequelize = (): Sequelize => {
     dialect: 'postgres',
   };
   sequelize = new Sequelize(uri, sequelizeOptions);
-
   sequelize.addModels(models);
-
-  console.debug('DEBUG: run prod sequelize');
 
   return sequelize;
 };
