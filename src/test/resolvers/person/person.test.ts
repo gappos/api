@@ -11,7 +11,7 @@ import {
   getContextForTest,
 } from '../../utils/utils';
 
-describe('PersonResolvers', () => {
+describe.only('PersonResolvers', () => {
   let resolver: PersonResolvers;
   let modelMethodStub: SinonStub;
   const id = 'blah-blah';
@@ -72,20 +72,23 @@ describe('PersonResolvers', () => {
     });
   });
   describe('updatePerson', () => {
-    let result: boolean;
+    let result: Person | null;
+    let findByPkMethodStub: SinonStub;
 
     before(async () => {
-      modelMethodStub = stub(Person, 'update').resolves();
+      modelMethodStub = stub(Person, 'update').resolves([1]);
+      findByPkMethodStub = stub(Person, 'findByPk').resolves(person);
 
       result = await resolver.updatePerson(id, personAttributes);
     });
 
     after(() => {
       modelMethodStub.restore();
+      findByPkMethodStub.restore();
     });
 
-    it('should return true', async () => {
-      expect(result).toBe(true);
+    it('should return person', async () => {
+      expect(result).toEqual(person);
     });
 
     it('should be called with proper args', async () => {
