@@ -15,6 +15,7 @@ describe('PersonResolvers', () => {
   let resolver: PersonResolvers;
   let modelMethodStub: SinonStub;
   const id = 'blah-blah';
+  const person = createPersonForTest();
   const personAttributes: PersonInput = {
     firstName: '',
     lastName: '',
@@ -48,10 +49,10 @@ describe('PersonResolvers', () => {
   });
 
   describe('addPerson', () => {
-    let result: boolean;
+    let result: Person | null;
 
     before(async () => {
-      modelMethodStub = stub(Person, 'create').resolves();
+      modelMethodStub = stub(Person, 'create').resolves(person);
 
       result = await resolver.addPerson(personAttributes);
     });
@@ -60,8 +61,8 @@ describe('PersonResolvers', () => {
       modelMethodStub.restore();
     });
 
-    it('should return true', async () => {
-      expect(result).toBe(true);
+    it('should return person', async () => {
+      expect(result).toEqual(person);
     });
 
     it('should be called with proper arg', async () => {
