@@ -24,19 +24,19 @@ export class LocationResolvers {
     return await ctx.peopleBornLoader.load(parent.id);
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => Location)
   async addLocation(
     @Arg('locationAttributes', () => LocationInput)
     locationAttributes: LocationInput,
-  ): Promise<boolean> {
+  ): Promise<Location | null> {
     return addLocation(locationAttributes);
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => Location)
   async updateLocation(
     @Arg('id') id: string,
     @Arg('locationAttributes', () => LocationInput) locationAttributes: LocationInput,
-  ) {
+  ): Promise<Location | null> {
     return await updateLocation(id, locationAttributes);
   }
 }
