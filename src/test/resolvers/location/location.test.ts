@@ -9,6 +9,8 @@ describe('LocationResolvers', () => {
   let resolver: LocationResolvers;
   let resolverStub: SinonStub;
 
+  const location = createLocationForTest();
+
   const locationAttributes: LocationInput = {
     country: '',
     city: '',
@@ -36,11 +38,11 @@ describe('LocationResolvers', () => {
   });
 
   describe('addLocation', () => {
-    let result: boolean;
+    let result: Location | null;
 
     before(async () => {
       resolver = new LocationResolvers();
-      resolverStub = stub(Location, 'create').resolves();
+      resolverStub = stub(Location, 'create').resolves(location);
 
       result = await resolver.addLocation(locationAttributes);
     });
@@ -50,7 +52,7 @@ describe('LocationResolvers', () => {
     });
 
     it('should return true', async () => {
-      expect(result).toBe(true);
+      expect(result).toEqual(location);
     });
 
     it('should be called with proper arg', async () => {
@@ -61,22 +63,25 @@ describe('LocationResolvers', () => {
   });
 
   describe('updateLocation', () => {
-    let result: boolean;
+    let result: Location | null;
     const id = 'blah-blah';
+    let findByPkLocationStub: SinonStub;
 
     before(async () => {
       resolver = new LocationResolvers();
-      resolverStub = stub(Location, 'update').resolves();
+      resolverStub = stub(Location, 'update').resolves([1]);
+      findByPkLocationStub = stub(Location, 'findByPk').resolves(location);
 
       result = await resolver.updateLocation(id, locationAttributes);
     });
 
     after(() => {
       resolverStub.restore();
+      findByPkLocationStub.restore();
     });
 
-    it('should return true', async () => {
-      expect(result).toBe(true);
+    it('should return location', async () => {
+      expect(result).toEqual(location);
     });
 
     it('should be called with proper arg', async () => {
