@@ -7,14 +7,14 @@ import { Spouse } from '../../../models';
 
 @Resolver()
 export class SpouseResolvers {
-  @Mutation(() => Boolean)
+  @Mutation(() => Spouse)
   async addSpouse(
     @Arg('spouseAttributes', () => SpouseInput) spouseAttributes: SpouseInput,
   ): Promise<Spouse | null> {
     return addSpouseRelations(dsSpouseInput(spouseAttributes));
   }
 
-  @Mutation(() => Boolean)
+  @Mutation(() => Spouse)
   async updateSpouse(
     @Arg('spouseAttributes', () => SpouseInput) spouseAttributes: SpouseInput,
   ): Promise<Spouse | null> {
