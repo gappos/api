@@ -7,6 +7,7 @@ import {
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
+import { Field, ObjectType } from 'type-graphql';
 
 import { Person } from './person';
 
@@ -17,6 +18,7 @@ export interface SpouseAttributes {
   divorce?: Date;
 }
 
+@ObjectType({ description: 'Spouse' })
 @Table({
   schema: 'public',
   tableName: 'spouse',
@@ -37,10 +39,12 @@ export class Spouse extends Model<SpouseAttributes> implements SpouseAttributes 
   @Column(DataType.UUID)
   partner2Id: string;
 
+  @Field({ nullable: true })
   @AllowNull(false)
   @Column
   wedding: Date;
 
+  @Field({ nullable: true })
   @AllowNull(true)
   @Column
   divorce?: Date;
