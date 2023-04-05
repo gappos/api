@@ -1,33 +1,57 @@
 import expect from 'expect';
-import { ChildAttributesInput } from '../../../graphql';
+import captureStream from 'capture-stream';
 
+import { ChildInput, ChildRelationsInput } from '../../../graphql';
 import { ChildResolvers } from '../../../graphql/resolvers/child';
 import { Child, ParentRelation } from '../../../models';
 import { clearDB, createPersonForTest } from '../../utils/utils';
 
 describe('ChildResolvers', () => {
-  describe('addChild', () => {
-    const addChildResolver = new ChildResolvers().addChild;
-    const personChild = createPersonForTest();
-    const personMother = createPersonForTest();
-    const personFather = createPersonForTest();
+  const childResolvers = new ChildResolvers();
+  const personChild = createPersonForTest();
+  const personMother = createPersonForTest();
+  const personFather = createPersonForTest();
 
-    before(async () => {
-      personChild.save();
-      personMother.save();
-      personFather.save();
-    });
+  before(async () => {
+    personChild.save();
+    personMother.save();
+    personFather.save();
+  });
+
+  after(async () => {
+    await clearDB();
+  });
+
+  describe('addChild', () => {
+    const childAttributes: ChildInput = {
+      childId: personChild.id,
+      parentId: personMother.id,
+      relation: ParentRelation.MOTHER,
+    };
 
     after(async () => {
-      await clearDB();
+      await Child.destroy({ where: {} });
     });
 
+    it('should create child object', async () => {
+      expect((await childResolvers.addChild(childAttributes))?.dataValues).toEqual(childAttributes);
+    });
+
+    it('should not create an object with the same parent-child relation', async () => {
+      const outputStream = captureStream(process.stderr);
+
+      expect(await childResolvers.addChild(childAttributes)).toBeFalsy();
+      expect(outputStream(true)).toContain('Validation error');
+    });
+  });
+
+  describe('addChildRelations', () => {
     afterEach(async () => {
       await Child.destroy({ where: {} });
     });
 
     it('should create father and mother relations', async () => {
-      const childAttributes: ChildAttributesInput = {
+      const childAttributes: ChildRelationsInput = {
         childId: personChild.id,
         parent1Id: personMother.id,
         parent1relation: ParentRelation.MOTHER,
@@ -35,11 +59,12 @@ describe('ChildResolvers', () => {
         parent2relation: ParentRelation.FATHER,
       };
 
-      expect(await addChildResolver(childAttributes)).toBeTruthy();
+      const childRelations = await childResolvers.addChildRelations(childAttributes);
 
-      const parents = await Child.findAll({ where: { childId: personChild.id } });
-      expect(parents.length).toBe(2);
-      expect(parents.map(({ dataValues }) => ({ ...dataValues })).sort()).toEqual(
+      expect(childRelations.length).toBe(2);
+      expect(
+        childRelations.map((childRelation) => ({ ...childRelation?.dataValues })).sort(),
+      ).toEqual(
         [
           { childId: personChild.id, parentId: personMother.id, relation: ParentRelation.MOTHER },
           { childId: personChild.id, parentId: personFather.id, relation: ParentRelation.FATHER },
@@ -48,17 +73,18 @@ describe('ChildResolvers', () => {
     });
 
     it('should create single mother relation', async () => {
-      const childAttributes: ChildAttributesInput = {
+      const childAttributes: ChildRelationsInput = {
         childId: personChild.id,
         parent1Id: personMother.id,
         parent1relation: ParentRelation.MOTHER,
       };
 
-      expect(await addChildResolver(childAttributes)).toBeTruthy();
+      const childRelations = await childResolvers.addChildRelations(childAttributes);
 
-      const parents = await Child.findAll({ where: { childId: personChild.id } });
-      expect(parents.length).toBe(1);
-      expect(parents[0].dataValues).toEqual({
+      expect(childRelations.length).toBe(1);
+
+      const childRelation = childRelations[0];
+      expect(childRelation?.dataValues).toEqual({
         childId: personChild.id,
         parentId: personMother.id,
         relation: ParentRelation.MOTHER,
@@ -66,16 +92,16 @@ describe('ChildResolvers', () => {
     });
 
     it('should create single parent relation', async () => {
-      const childAttributes: ChildAttributesInput = {
+      const childAttributes: ChildRelationsInput = {
         childId: personChild.id,
         parent1Id: personMother.id,
       };
 
-      expect(await addChildResolver(childAttributes)).toBeTruthy();
+      const childRelations = await childResolvers.addChildRelations(childAttributes);
 
-      const parents = await Child.findAll({ where: { childId: personChild.id } });
-      expect(parents.length).toBe(1);
-      expect(parents[0].dataValues).toEqual({
+      expect(childRelations.length).toBe(1);
+      const childRelation = childRelations[0];
+      expect(childRelation?.dataValues).toEqual({
         childId: personChild.id,
         parentId: personMother.id,
         relation: ParentRelation.PARENT,
@@ -83,14 +109,13 @@ describe('ChildResolvers', () => {
     });
 
     it('should create no relations', async () => {
-      const childAttributes: ChildAttributesInput = {
+      const childAttributes: ChildRelationsInput = {
         childId: personChild.id,
       };
 
-      expect(await addChildResolver(childAttributes)).toBeFalsy();
+      const childRelations = await childResolvers.addChildRelations(childAttributes);
 
-      const parents = await Child.findAll({ where: { childId: personChild.id } });
-      expect(parents.length).toBe(0);
+      expect(childRelations.length).toBe(0);
     });
   });
 });
