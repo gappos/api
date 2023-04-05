@@ -7,6 +7,7 @@ import {
   PrimaryKey,
   Table,
 } from 'sequelize-typescript';
+import { Field, ObjectType } from 'type-graphql';
 
 import { Person } from './person';
 import { ParentRelation } from './types';
@@ -17,6 +18,7 @@ export interface ChildAttributes {
   relation: ParentRelation;
 }
 
+@ObjectType({ description: 'Child' })
 @Table({
   schema: 'public',
   tableName: 'child',
@@ -37,6 +39,7 @@ export class Child extends Model<ChildAttributes> implements ChildAttributes {
   @Column(DataType.UUID)
   parentId: string;
 
+  @Field()
   @Column
   relation: ParentRelation;
 }
