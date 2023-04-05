@@ -75,7 +75,19 @@ export class PersonMarriageInput {
 }
 
 @InputType()
-export class ChildAttributesInput {
+export class ChildInput {
+  @Field({ nullable: false })
+  childId: string;
+
+  @Field({ nullable: true })
+  parentId?: string;
+
+  @Field({ nullable: true })
+  relation?: ParentRelation;
+}
+
+@InputType()
+export class ChildRelationsInput {
   @Field({ nullable: false })
   childId: string;
 
