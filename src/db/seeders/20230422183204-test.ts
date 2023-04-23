@@ -1,20 +1,37 @@
+// @ts-nocheck
 'use strict';
 import data from "../seedgen/mock-data-gen"
 const { locations } = data;
+const { persons } = data;
+const { spouses } = data;
+const { parents } = data;
 
-const TABLE_PATH = {
+
+const locationPath = {
   schema: 'public',
   tableName: 'location',
 };
 
+const personPath = {
+  schema: "public",
+  tableName: "person",
+}
+
+const spousePath = {
+  schema: "public",
+  tableName: "spouse",
+}
+
+const childPath = {
+  schema: "public",
+  tableName: "child",
+}
+
 /** @type {import('sequelize-cli').Migration} */
 export default {
-  // @ts-expect-error
   async up(queryInterface, Sequelize) {
-    console.log(locations)
-    return await queryInterface.bulkInsert(TABLE_PATH, locations)
+    return await queryInterface.bulkInsert(locationPath, locations) && await queryInterface.bulkInsert(personPath, persons) && await queryInterface.bulkInsert(spousePath, spouses) && await queryInterface.bulkInsert(childPath, parents)
   },
-  // @ts-expect-error
   async down(queryInterface, Sequelize) {
   }
 };

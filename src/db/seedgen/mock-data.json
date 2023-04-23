@@ -1,7 +1,7 @@
 [
  {
-   "firstName": "Tytos",
-   "lastName": "Lannister",
+   "first_name": "Tytos",
+   "last_name": "Lannister",
    "gender": "male",
    "dob": 220,
    "dod": 267,
@@ -12,8 +12,8 @@
    "children": "Tywin Lannister, Kevan Lannister"
  },
  {
-   "firstName": "Jeyne",
-   "lastName": "Lannister",
+   "first_name": "Jeyne",
+   "last_name": "Lannister",
    "gender": "female",
    "dob": 217,
    "dod": 255,
@@ -24,8 +24,8 @@
    "children": "Tywin Lannister, Kevan Lannister"
  },
  {
-   "firstName": "Tywin",
-   "lastName": "Lannister",
+   "first_name": "Tywin",
+   "last_name": "Lannister",
    "gender": "male",
    "dob": 242,
    "dod": 300,
@@ -36,8 +36,8 @@
    "children": "Jaime Lannister, Cercei Lannister, Tyrion Lannister"
  },
  {
-   "firstName": "Joanna",
-   "lastName": "Lannister",
+   "first_name": "Joanna",
+   "last_name": "Lannister",
    "gender": "female",
    "dob": 248,
    "dod": 273,
@@ -48,8 +48,8 @@
    "children": "Jaime Lannister, Cercei Lannister, Tyrion Lannister"
  },
  {
-   "firstName": "Jaime",
-   "lastName": "Lannister",
+   "first_name": "Jaime",
+   "last_name": "Lannister",
    "gender": "male",
    "dob": 266,
    "dod": null,
@@ -60,8 +60,8 @@
    "children": ""
  },
  {
-   "firstName": "Cercei",
-   "lastName": "Lannister",
+   "first_name": "Cercei",
+   "last_name": "Lannister",
    "gender": "female",
    "dob": 266,
    "dod": null,
@@ -72,8 +72,8 @@
    "children": "Joffrey Baratheon, Myrcella Baratheon, Tommen Baratheon"
  },
  {
-   "firstName": "Tyrion",
-   "lastName": "Lannister",
+   "first_name": "Tyrion",
+   "last_name": "Lannister",
    "gender": "male",
    "dob": 273,
    "dod": null,
@@ -84,8 +84,8 @@
    "children": ""
  },
  {
-   "firstName": "Kevan",
-   "lastName": "Lannister",
+   "first_name": "Kevan",
+   "last_name": "Lannister",
    "gender": "male",
    "dob": 244,
    "dod": 300,
@@ -96,8 +96,8 @@
    "children": "Lancel Lannister, Willem Lannister, Martyn Lannister"
  },
  {
-   "firstName": "Dorna",
-   "lastName": "Swyft",
+   "first_name": "Dorna",
+   "last_name": "Swyft",
    "gender": "female",
    "dob": 252,
    "dod": null,
@@ -108,8 +108,8 @@
    "children": "Lancel Lannister, Willem Lannister, Martyn Lannister"
  },
  {
-   "firstName": "Lancel",
-   "lastName": "Lannister",
+   "first_name": "Lancel",
+   "last_name": "Lannister",
    "gender": "male",
    "dob": 282,
    "dod": null,
@@ -120,8 +120,8 @@
    "children": ""
  },
  {
-   "firstName": "Willem",
-   "lastName": "Lannister",
+   "first_name": "Willem",
+   "last_name": "Lannister",
    "gender": "male",
    "dob": 286,
    "dod": 299,
@@ -132,8 +132,8 @@
    "children": ""
  },
  {
-   "firstName": "Martyn",
-   "lastName": "Lannister",
+   "first_name": "Martyn",
+   "last_name": "Lannister",
    "gender": "male",
    "dob": 286,
    "dod": null,
@@ -144,8 +144,8 @@
    "children": ""
  },
  {
-   "firstName": "Hoster",
-   "lastName": "Tully",
+   "first_name": "Hoster",
+   "last_name": "Tully",
    "gender": "male",
    "dob": 239,
    "dod": 300,
@@ -156,8 +156,8 @@
    "children": "Lysa Arryn, Catelyn Stark, Edmure Tully"
  },
  {
-   "firstName": "Brynden",
-   "lastName": "Tully",
+   "first_name": "Brynden",
+   "last_name": "Tully",
    "gender": "male",
    "dob": 242,
    "dod": null,
@@ -168,8 +168,8 @@
    "children": ""
  },
  {
-   "firstName": "Minisa",
-   "lastName": "Tully",
+   "first_name": "Minisa",
+   "last_name": "Tully",
    "gender": "female",
    "dob": 250,
    "dod": 273,
@@ -180,8 +180,8 @@
    "children": "Lysa Arryn, Catelyn Stark, Edmure Tully"
  },
  {
-   "firstName": "Catelyn",
-   "lastName": "Stark",
+   "first_name": "Catelyn",
+   "last_name": "Stark",
    "gender": "female",
    "dob": 264,
    "dod": 299,
@@ -192,8 +192,8 @@
    "children": "Robb Stark, Sansa Stark, Arya Stark, Bran Stark, Rickon Stark"
  },
  {
-   "firstName": "Lysa",
-   "lastName": "Arryn",
+   "first_name": "Lysa",
+   "last_name": "Arryn",
    "gender": "female",
    "dob": 268,
    "dod": 300,
@@ -204,8 +204,8 @@
    "children": "Robin Arryn"
  },
  {
-   "firstName": "Edmure",
-   "lastName": "Tully",
+   "first_name": "Edmure",
+   "last_name": "Tully",
    "gender": "male",
    "dob": 270,
    "dod": null,
@@ -216,8 +216,8 @@
    "children": ""
  },
  {
-   "firstName": "Steffon",
-   "lastName": "Baratheon",
+   "first_name": "Steffon",
+   "last_name": "Baratheon",
    "gender": "male",
    "dob": 246,
    "dod": 278,
@@ -228,8 +228,8 @@
    "children": "Robert Baratheon, Stannis Baratheon, Renly Baratheon"
  },
  {
-   "firstName": "Cassana",
-   "lastName": "Estermont",
+   "first_name": "Cassana",
+   "last_name": "Estermont",
    "gender": "female",
    "dob": 232,
    "dod": 278,
@@ -240,8 +240,8 @@
    "children": ""
  },
  {
-   "firstName": "Robert",
-   "lastName": "Baratheon",
+   "first_name": "Robert",
+   "last_name": "Baratheon",
    "gender": "male",
    "dob": 262,
    "dod": 298,
@@ -252,8 +252,8 @@
    "children": "Joffrey Baratheon, Myrcella Baratheon, Tommen Baratheon"
  },
  {
-   "firstName": "Stannis",
-   "lastName": "Baratheon",
+   "first_name": "Stannis",
+   "last_name": "Baratheon",
    "gender": "male",
    "dob": 264,
    "dod": null,
@@ -264,8 +264,8 @@
    "children": "Shireen Baratheon"
  },
  {
-   "firstName": "Renly",
-   "lastName": "Baratheon",
+   "first_name": "Renly",
+   "last_name": "Baratheon",
    "gender": "male",
    "dob": 277,
    "dod": 299,
@@ -276,8 +276,8 @@
    "children": ""
  },
  {
-   "firstName": "Joffrey",
-   "lastName": "Baratheon",
+   "first_name": "Joffrey",
+   "last_name": "Baratheon",
    "gender": "male",
    "dob": 286,
    "dod": 300,
@@ -288,8 +288,8 @@
    "children": ""
  },
  {
-   "firstName": "Myrcella",
-   "lastName": "Baratheon",
+   "first_name": "Myrcella",
+   "last_name": "Baratheon",
    "gender": "female",
    "dob": 290,
    "dod": null,
@@ -300,8 +300,8 @@
    "children": ""
  },
  {
-   "firstName": "Tommen",
-   "lastName": "Baratheon",
+   "first_name": "Tommen",
+   "last_name": "Baratheon",
    "gender": "male",
    "dob": 291,
    "dod": null,
@@ -312,8 +312,8 @@
    "children": ""
  },
  {
-   "firstName": "Luthor",
-   "lastName": "Tyrell",
+   "first_name": "Luthor",
+   "last_name": "Tyrell",
    "gender": "male",
    "dob": 237,
    "dod": 268,
@@ -324,8 +324,8 @@
    "children": "Mace Tyrell"
  },
  {
-   "firstName": "Olena",
-   "lastName": "Tyrell",
+   "first_name": "Olena",
+   "last_name": "Tyrell",
    "gender": "female",
    "dob": 228,
    "dod": null,
@@ -336,8 +336,8 @@
    "children": "Mace Tyrell"
  },
  {
-   "firstName": "Mace",
-   "lastName": "Tyrell",
+   "first_name": "Mace",
+   "last_name": "Tyrell",
    "gender": "male",
    "dob": 260,
    "dod": null,
@@ -348,8 +348,8 @@
    "children": "Loras Tyrell, Margaery Tyrell"
  },
  {
-   "firstName": "Alerie",
-   "lastName": "Tyrell",
+   "first_name": "Alerie",
+   "last_name": "Tyrell",
    "gender": "female",
    "dob": 261,
    "dod": null,
@@ -360,8 +360,8 @@
    "children": "Loras Tyrell, Margaery Tyrell"
  },
  {
-   "firstName": "Loras",
-   "lastName": "Tyrell",
+   "first_name": "Loras",
+   "last_name": "Tyrell",
    "gender": "male",
    "dob": 282,
    "dod": null,
@@ -372,8 +372,8 @@
    "children": ""
  },
  {
-   "firstName": "Margaery",
-   "lastName": "Tyrell",
+   "first_name": "Margaery",
+   "last_name": "Tyrell",
    "gender": "female",
    "dob": 283,
    "dod": null,
@@ -384,8 +384,8 @@
    "children": ""
  },
  {
-   "firstName": "Rickard",
-   "lastName": "Stark",
+   "first_name": "Rickard",
+   "last_name": "Stark",
    "gender": "male",
    "dob": 240,
    "dod": 282,
@@ -396,8 +396,8 @@
    "children": "Brandon Stark, Benjen Stark, Eddard Stark, Lyanna Stark"
  },
  {
-   "firstName": "Lyarra",
-   "lastName": "Stark",
+   "first_name": "Lyarra",
+   "last_name": "Stark",
    "gender": "female",
    "dob": 235,
    "dod": 288,
@@ -408,8 +408,8 @@
    "children": "Brandon Stark, Benjen Stark, Eddard Stark, Lyanna Stark"
  },
  {
-   "firstName": "Brandon",
-   "lastName": "Stark",
+   "first_name": "Brandon",
+   "last_name": "Stark",
    "gender": "male",
    "dob": 262,
    "dod": 282,
@@ -420,8 +420,8 @@
    "children": ""
  },
  {
-   "firstName": "Eddard",
-   "lastName": "Stark",
+   "first_name": "Eddard",
+   "last_name": "Stark",
    "gender": "male",
    "dob": 263,
    "dod": 299,
@@ -432,8 +432,8 @@
    "children": "Robb Stark, Sansa Stark, Arya Stark, Bran Stark, Rickon Stark"
  },
  {
-   "firstName": "Lyanna",
-   "lastName": "Stark",
+   "first_name": "Lyanna",
+   "last_name": "Stark",
    "gender": "female",
    "dob": 266,
    "dod": 283,
@@ -444,8 +444,8 @@
    "children": "Jon Snow"
  },
  {
-   "firstName": "Benjen",
-   "lastName": "Stark",
+   "first_name": "Benjen",
+   "last_name": "Stark",
    "gender": "male",
    "dob": 267,
    "dod": null,
@@ -456,8 +456,8 @@
    "children": ""
  },
  {
-   "firstName": "Jon",
-   "lastName": "Snow",
+   "first_name": "Jon",
+   "last_name": "Snow",
    "gender": "male",
    "dob": 283,
    "dod": null,
@@ -468,8 +468,8 @@
    "children": ""
  },
  {
-   "firstName": "Robb",
-   "lastName": "Stark",
+   "first_name": "Robb",
+   "last_name": "Stark",
    "gender": "male",
    "dob": 283,
    "dod": 299,
@@ -480,8 +480,8 @@
    "children": ""
  },
  {
-   "firstName": "Sansa",
-   "lastName": "Stark",
+   "first_name": "Sansa",
+   "last_name": "Stark",
    "gender": "female",
    "dob": 286,
    "dod": null,
@@ -492,8 +492,8 @@
    "children": ""
  },
  {
-   "firstName": "Arya",
-   "lastName": "Stark",
+   "first_name": "Arya",
+   "last_name": "Stark",
    "gender": "female",
    "dob": 289,
    "dod": null,
@@ -504,8 +504,8 @@
    "children": ""
  },
  {
-   "firstName": "Bran",
-   "lastName": "Stark",
+   "first_name": "Bran",
+   "last_name": "Stark",
    "gender": "male",
    "dob": 290,
    "dod": null,
@@ -516,8 +516,8 @@
    "children": ""
  },
  {
-   "firstName": "Rickon",
-   "lastName": "Stark",
+   "first_name": "Rickon",
+   "last_name": "Stark",
    "gender": "male",
    "dob": 295,
    "dod": null,
