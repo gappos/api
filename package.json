@@ -21,7 +21,8 @@
     "migration:create": "sequelize migration:create --migrations-path ./src/db/migrations",
     "seed:create": "sequelize seed:generate --seeders-path ./src/db/seeders",
     "migrate": "sequelize db:migrate",
-    "seed": "ls dist && sequelize db:seed:all --seeders-path ./dist/db/seeders",
+    "seed": "sequelize db:seed:all --seeders-path ./dist/db/seeders",
+    "seed:undo": "sequelize db:seed:undo --seeders-path ./dist/db/seeders",
     "migrate:undo": "sequelize db:migrate:undo",
     "docker:create:volume": "docker volume create gapp-db || true",
     "docker:prepare": "yarn compile:clear && yarn docker:create:volume",
@@ -33,6 +34,7 @@
     "docker:test": "yarn docker:prepare && docker-compose -f docker-compose.yml -f docker-compose.test.yml -p gapp-backend run --rm api",
     "docker:migrate": "yarn docker:prepare && docker-compose -f docker-compose.yml -f docker-compose.migrate.yml -p gapp-backend run --rm api scripts/hold_on_for_db then yarn migrate",
     "docker:seed": "yarn docker:prepare && docker-compose -f docker-compose.yml -f docker-compose.migrate.yml -p gapp-backend run --rm api scripts/hold_on_for_db then yarn seed",
+    "docker:seed:undo": "yarn docker:prepare && docker-compose -f docker-compose.yml -f docker-compose.migrate.yml -p gapp-backend run --rm api scripts/hold_on_for_db then yarn seed:undo",
     "docker:migrate:undo": "yarn docker:prepare && docker-compose -f docker-compose.yml -f docker-compose.migrate.yml -p gapp-backend run --rm api scripts/hold_on_for_db then yarn migrate:undo",
     "re-prettier": "npx prettier --write \"./**/*.{js,jsx,ts,tsx,json}\""
   },
