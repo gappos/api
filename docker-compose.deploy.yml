@@ -2,19 +2,23 @@ version: '3.3'
 
 services:
   db:
-    container_name: postgres
+    container_name: db
     image: gapp/db
     build: ./postgres
     volumes:
       - gapp-db:/var/lib/postgresql/data
+    networks:
+      - gapp-network
     ports:
       - 5432:5432
 
   api:
-    container_name: gapp-backend
-    image: arturasmckwcz/gapp-backend
+    container_name: api
+    image: arturasmckwcz/gapp-api
     depends_on:
       - db
+    networks:
+      - gapp-network
     ports:
       - 3000:3000
     command: yarn start
@@ -22,3 +26,5 @@ services:
 volumes:
   gapp-db:
     external: true
+networks:
+  gapp-network:
