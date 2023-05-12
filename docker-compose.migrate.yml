@@ -2,8 +2,8 @@ version: '3.3'
 
 services:
   api:
-    container_name: gapp-backend
-    image: gapp/backend
+    container_name: api
+    image: gapp/api
     build: .
     depends_on:
       - db
@@ -14,9 +14,13 @@ services:
       DB_CONNECTION_STRING: postgres://postgres:postgres@db:5432/gapp
     volumes:
       - ./:/gapp/
+    networks:
+      - gapp-network
     ports:
       - 3000:3000
 
 volumes:
   gapp-db:
     external: true
+networks:
+  gapp-network:
