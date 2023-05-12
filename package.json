@@ -24,7 +24,7 @@
     "docker:create:volume": "docker volume create gapp-db || true",
     "docker:prepare": "yarn compile:clear && yarn docker:create:volume",
     "docker:staging:update": "yarn docker:staging:clear && yarn docker:deploy:staging -d",
-    "docker:staging:clear": "docker container stop gapp-api && docker container rm api && docker rmi arturasmckwcz/api",
+    "docker:staging:clear": "docker container stop api && docker container rm api && docker rmi arturasmckwcz/gapp-api",
     "docker:deploy:staging": "yarn docker:create:volume && docker-compose -f docker-compose.deploy.yml --env-file staging.env -p gapp up",
     "docker:deploy:prod": "yarn docker:create:volume && docker-compose -f docker-compose.deploy.yml --env-file prod.env -p gapp up",
     "docker:dev": "yarn docker:prepare && docker-compose -f docker-compose.yml -f docker-compose.dev.yml -p gapp up",
