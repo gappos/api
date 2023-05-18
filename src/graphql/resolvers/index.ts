@@ -1,4 +1,3 @@
-export * from './book';
 export * from './child';
 export * from './location';
 export * from './person';
