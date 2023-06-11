@@ -5,7 +5,6 @@ import cors from 'cors';
 import { expressMiddleware } from '@apollo/server/express4';
 
 import context from './middlewares/context';
-import './db/sequelize';
 import { schema } from './graphql';
 
 const createApp = async () => {

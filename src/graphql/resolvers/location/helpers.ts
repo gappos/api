@@ -2,6 +2,9 @@ import { Op } from 'sequelize';
 
 import { Location, LocationCreationAttributes, Person } from '../../../models';
 import { LocationInput } from '../types';
+import { logger } from '../../../utils';
+
+const log = logger('Location');
 
 export const getLocations = async (): Promise<Location[]> => {
   try {
@@ -13,6 +16,7 @@ export const getLocations = async (): Promise<Location[]> => {
           as: 'personsLiving',
           foreignKey: 'placeId',
           where: { dod: { [Op.is]: null } },
+
           required: false,
         },
         {
@@ -29,22 +33,31 @@ export const getLocations = async (): Promise<Location[]> => {
   }
 };
 
-export const addLocation = async (locationAttributes: LocationInput): Promise<boolean> => {
+export const addLocation = async (locationAttributes: LocationInput): Promise<Location | null> => {
   try {
-    await Location.create(locationAttributes as LocationCreationAttributes);
-    return true;
+    return await Location.create(locationAttributes as LocationCreationAttributes);
   } catch (error) {
-    console.log('ERROR {model: Location, method: save}:', (error as Error).message);
+    log.error('create', (error as Error).message);
   }
-  return false;
+  return null;
 };
 
-export const updateLocation = async (id: string, attributes: LocationInput): Promise<boolean> => {
+export const updateLocation = async (
+  id: string,
+  attributes: LocationInput,
+): Promise<Location | null> => {
   try {
-    Location.update(attributes as LocationCreationAttributes, { where: { id } });
-    return true;
+    const [num] = await Location.update(attributes as LocationCreationAttributes, {
+      where: { id },
+    });
+    if (num === 0) return null;
   } catch (error) {
-    console.log('ERROR {model: Location, method: update}:', (error as Error).message);
+    log.error('update', (error as Error).message);
   }
-  return false;
+  try {
+    return await Location.findByPk(id);
+  } catch (error) {
+    log.error('findByPk', (error as Error).message);
+  }
+  return null;
 };

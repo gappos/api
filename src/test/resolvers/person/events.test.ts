@@ -329,7 +329,7 @@ describe('events mutations', () => {
     });
 
     it('should dod be set for the person', async () => {
-      expect(await personEventResolvers.death(personBeforeDeath?.id as string)).toBe(true);
+      await personEventResolvers.death(personBeforeDeath?.id as string);
 
       await personBeforeDeath?.reload();
       expect(personBeforeDeath?.dod).toBeTruthy();
