@@ -1,9 +1,14 @@
 import { expect } from 'expect';
 import { SinonStub, stub } from 'sinon';
 
-import { Location } from '../../../models';
+import { Country, Location } from '../../../models';
 import { LocationResolvers, LocationInput } from '../../../graphql';
-import { createLocationForTest, createPersonForTest, getContextForTest } from '../../utils/utils';
+import {
+  clearDB,
+  createLocationForTest,
+  createPersonForTest,
+  getContextForTest,
+} from '../../utils/utils';
 
 describe('LocationResolvers', () => {
   let resolver: LocationResolvers;
@@ -115,6 +120,64 @@ describe('LocationResolvers', () => {
 
       const result = await locationResolvers.personsLiving(parent, ctx);
       expect(result).toEqual(people);
+    });
+  });
+
+  describe('countries', () => {
+    const dataStructure = [
+      { country: 'country1', cities: ['1', '2', '3'], places: ['4', '5'] },
+      { country: 'country2', cities: ['6', '7'], places: [] },
+      { country: 'country3', cities: [], places: ['8', '9'] },
+    ];
+    let countries: Country[];
+
+    before(async () => {
+      await clearDB();
+      await Promise.all(
+        dataStructure.reduce(
+          (locations: Promise<Location>[], { country, cities, places }) => [
+            ...locations,
+            ...cities.map((city) => createLocationForTest(country, false, city).save()),
+            ...places.map((place) => createLocationForTest(country, true, place).save()),
+          ],
+          [],
+        ),
+      );
+
+      countries = await new LocationResolvers().countries();
+    });
+
+    after(async () => {
+      await clearDB();
+    });
+
+    it('should fetch 9 locations', async () => {
+      expect((await Location.findAll()).length).toEqual(9);
+    });
+
+    it('should fetch 3 countries', () => {
+      expect(countries.length).toBe(3);
+    });
+
+    it('should be 3 cities and 2 places in country1', () => {
+      const country = countries.find(({ country }) => country === 'country1');
+      expect(country).toBeTruthy();
+      expect(country?.cities.length).toBe(3);
+      expect(country?.places.length).toBe(2);
+    });
+
+    it('should be 2 cities and no places in country2', () => {
+      const country = countries.find(({ country }) => country === 'country2');
+      expect(country).toBeTruthy();
+      expect(country?.cities.length).toBe(2);
+      expect(country?.places.length).toBe(0);
+    });
+
+    it('should be no cities and 2 places in country3', () => {
+      const country = countries.find(({ country }) => country === 'country3');
+      expect(country).toBeTruthy();
+      expect(country?.cities.length).toBe(0);
+      expect(country?.places.length).toBe(2);
     });
   });
 });

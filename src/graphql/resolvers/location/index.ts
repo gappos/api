@@ -1,9 +1,9 @@
 import { Query, Mutation, Resolver, Arg, FieldResolver, Root, Ctx } from 'type-graphql';
 
-import { Location, Person } from '../../../models';
+import { Country, Location, Person } from '../../../models';
 import { Context } from '../../context';
 import { LocationInput } from '../types';
-import { addLocation, updateLocation } from './helpers';
+import { addLocation, getAllCountries, updateLocation } from './helpers';
 
 @Resolver(() => Location)
 export class LocationResolvers {
@@ -22,6 +22,11 @@ export class LocationResolvers {
   @Query(() => [Person])
   async personsBorn(@Root() parent: Location, @Ctx() ctx: Context) {
     return await ctx.peopleBornLoader.load(parent.id);
+  }
+
+  @Query(() => [Country])
+  async countries(): Promise<Country[]> {
+    return await getAllCountries();
   }
 
   @Mutation(() => Location)
