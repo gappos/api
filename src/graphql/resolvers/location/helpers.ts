@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
 
-import { Location, LocationCreationAttributes, Person } from '../../../models';
+import { Country, Location, LocationCreationAttributes, Person } from '../../../models';
 import { LocationInput } from '../types';
 import { logger } from '../../../utils';
 
@@ -60,4 +60,24 @@ export const updateLocation = async (
     log.error('findByPk', (error as Error).message);
   }
   return null;
+};
+
+export const getAllCountries = async (): Promise<Country[]> => {
+  const locations = await Location.findAll();
+
+  const countries = locations.reduce((countries: Country[], location) => {
+    let country = countries.find(({ country }) => location.country === country);
+
+    if (!country) {
+      country = new Country(location.country);
+      countries.push(country);
+    }
+
+    location.city && country.cities.push({ city: location.city, locationId: location.id });
+    location.place && country.places.push({ place: location.place, locationId: location.id });
+
+    return countries;
+  }, []);
+
+  return countries;
 };
