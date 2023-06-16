@@ -3,3 +3,4 @@ export * from './person';
 export * from './location';
 export * from './child';
 export * from './spouse';
+export * from './country';
