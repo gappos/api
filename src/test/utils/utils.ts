@@ -42,10 +42,14 @@ export const createPersonForTest = (placeId?: string, pobId?: string) =>
     pobId,
   });
 
-export const createLocationForTest = () =>
+export const createLocationForTest = (
+  country = randomString(),
+  place = false,
+  name = randomString(),
+) =>
   new Location({
-    country: randomString(),
-    city: randomString(),
+    country,
+    ...(place ? { place: name } : { city: name }),
   });
 
 export const createFamilyForTest = () => {
