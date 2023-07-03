@@ -103,3 +103,27 @@ export class ChildRelationsInput {
   @Field({ nullable: true })
   parent2relation?: ParentRelation;
 }
+
+@InputType()
+export class PersonSearch extends PersonInput {
+  name?: string;
+}
+
+@InputType()
+export class LocationSearch extends LocationInput {
+  address?: string;
+}
+
+@InputType()
+export class PeopleSearchInput {
+  @Field(() => PersonSearch, { nullable: true })
+  person: Partial<PersonSearch>;
+  @Field(() => PersonSearch, { nullable: true })
+  parents: Partial<PersonSearch>;
+  @Field(() => PersonSearch, { nullable: true })
+  children: Partial<PersonSearch>;
+  @Field(() => LocationSearch, { nullable: true })
+  place: Partial<LocationSearch>;
+  @Field(() => LocationSearch, { nullable: true })
+  placeOfBirth: Partial<LocationSearch>;
+}
