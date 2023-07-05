@@ -215,7 +215,7 @@ export const updatePersonLocation = async (
 
 type SearchOptions = Record<string, object>;
 
-export const getPersonsSearchOptions = (personSearchObj: Partial<PersonSearch>): SearchOptions =>
+export const getPersonsSearchOptions = (personSearchObj?: Partial<PersonSearch>): SearchOptions =>
   Object.keys(personSearchObj ?? {}).reduce((searchObj: SearchOptions, key) => {
     // TODO: how to handle dates, i.e. bod and dod?
     // TODO: logic for name field, should be used only if firstName and lastName are empty
@@ -223,18 +223,20 @@ export const getPersonsSearchOptions = (personSearchObj: Partial<PersonSearch>):
     searchObj[key] = {
       [operation]:
         operation === Op.iLike
-          ? `%${personSearchObj[key as keyof PersonSearch]}%`
-          : personSearchObj[key as keyof PersonSearch],
+          ? `%${(personSearchObj as PersonSearch)[key as keyof PersonSearch]}%`
+          : (personSearchObj as PersonSearch)[key as keyof PersonSearch],
     };
     return searchObj;
   }, {});
 
 export const getLocations = async (
-  locationSearchObj: Partial<LocationSearch>,
+  locationSearchObj?: Partial<LocationSearch>,
 ): Promise<Location[]> => {
   const searchObj = Object.keys(locationSearchObj ?? {}).reduce((searchObj: SearchOptions, key) => {
     // TODO: logic for address field, should be used only if other are empty
-    searchObj[key] = { [Op.iLike]: locationSearchObj[key as keyof LocationSearch] };
+    searchObj[key] = {
+      [Op.iLike]: (locationSearchObj as LocationSearch)[key as keyof LocationSearch],
+    };
     return searchObj;
   }, {});
 
@@ -242,9 +244,9 @@ export const getLocations = async (
 };
 
 export const getPeople = async (searchOptions: PeopleSearchInput): Promise<Person[]> => {
-  const personsSearchOptions = getPersonsSearchOptions(searchOptions.person);
+  const personsSearchOptions = getPersonsSearchOptions(searchOptions?.person);
 
-  const places = !searchOptions?.person?.placeId && (await getLocations(searchOptions.place));
+  const places = !searchOptions?.person?.placeId && (await getLocations(searchOptions?.place));
   if (places && places?.length) {
     personsSearchOptions.placeId = {
       [Op.in]: (places as unknown as Location[]).map(({ id }) => id),
@@ -252,13 +254,12 @@ export const getPeople = async (searchOptions: PeopleSearchInput): Promise<Perso
   }
 
   const placesOfBirth =
-    !searchOptions?.person?.pobId && (await getLocations(searchOptions.placeOfBirth));
+    !searchOptions?.person?.pobId && (await getLocations(searchOptions?.placeOfBirth));
   if (placesOfBirth && placesOfBirth?.length) {
     personsSearchOptions.pobId = {
       [Op.in]: (placesOfBirth as unknown as Location[]).map(({ id }) => id),
     };
   }
 
-  console.log('DEBUG:personsSearchOptions', personsSearchOptions);
   return isEmpty(personsSearchOptions) ? [] : await Person.findAll({ where: personsSearchOptions });
 };

@@ -117,13 +117,13 @@ export class LocationSearch extends LocationInput {
 @InputType()
 export class PeopleSearchInput {
   @Field(() => PersonSearch, { nullable: true })
-  person: Partial<PersonSearch>;
+  person?: Partial<PersonSearch>;
   @Field(() => PersonSearch, { nullable: true })
-  parents: Partial<PersonSearch>;
+  parents?: Partial<PersonSearch>;
   @Field(() => PersonSearch, { nullable: true })
-  children: Partial<PersonSearch>;
+  children?: Partial<PersonSearch>;
   @Field(() => LocationSearch, { nullable: true })
-  place: Partial<LocationSearch>;
+  place?: Partial<LocationSearch>;
   @Field(() => LocationSearch, { nullable: true })
-  placeOfBirth: Partial<LocationSearch>;
+  placeOfBirth?: Partial<LocationSearch>;
 }
