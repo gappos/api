@@ -122,6 +122,8 @@ export class PeopleSearchInput {
   parents?: Partial<PersonSearch>;
   @Field(() => PersonSearch, { nullable: true })
   children?: Partial<PersonSearch>;
+  @Field(() => PersonSearch, { nullable: true })
+  spouses?: Partial<PersonSearch>;
   @Field(() => LocationSearch, { nullable: true })
   place?: Partial<LocationSearch>;
   @Field(() => LocationSearch, { nullable: true })
