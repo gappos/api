@@ -7,6 +7,7 @@ import {
   clearDB,
   createFamilyForTest,
   createLocationForTest,
+  createPeopleAtLocationForTest,
   createPersonForTest,
   getContextForTest,
 } from '../../utils/utils';
@@ -165,6 +166,87 @@ describe('PersonResolvers', () => {
         const children = await resolver.children(family.mother);
 
         expect(children.map(({ dataValues }) => dataValues)).toEqual([family.child.dataValues]);
+      });
+    });
+
+    describe('people', () => {
+      let gotham: Location;
+      let mordor: Location;
+
+      before(async () => {
+        gotham = await Location.create({
+          country: 'Nowhere',
+          city: 'Gotham',
+        });
+        mordor = await Location.create({
+          country: 'Nowhere',
+          place: 'Mordor',
+        });
+        await createPeopleAtLocationForTest({
+          placeId: gotham.id,
+          pobId: mordor.id,
+          doSave: true,
+          number: 2,
+        });
+      });
+      after(async () => {
+        await clearDB();
+      });
+
+      describe('empty search', () => {
+        it('should return empty array of people', async () => {
+          const people = await resolver.people({});
+
+          expect(people.length).toBe(0);
+        });
+      });
+
+      describe('returns people from the location', () => {
+        describe('searching by setting the location of a person', () => {
+          it('should return people living at the location', async () => {
+            const people = await resolver.people({ person: { placeId: gotham.id } });
+
+            expect(people.length).toBe(2);
+            expect(people.every(({ placeId }) => placeId === gotham.id));
+          });
+          it('should return people born at the location', async () => {
+            const people = await resolver.people({ person: { pobId: mordor.id } });
+
+            expect(people.length).toBe(2);
+            expect(people.every(({ pobId }) => pobId === mordor.id));
+          });
+        });
+        describe('searching by setting attributes of location', () => {
+          it('should return people living at the location', async () => {
+            const people = await resolver.people({ place: { city: 'Gotham' } });
+
+            expect(people.length).toBe(2);
+            expect(people.every(({ placeId }) => placeId === gotham.id));
+          });
+          it('should return people born at the location', async () => {
+            const people = await resolver.people({ placeOfBirth: { place: 'Mordor' } });
+
+            expect(people.length).toBe(2);
+            expect(people.every(({ placeId }) => placeId === mordor.id));
+          });
+          it('should return people living in the country', async () => {
+            const people = await resolver.people({ place: { country: 'Nowhere' } });
+
+            expect(people.length).toBe(2);
+            expect(people.every(({ placeId }) => placeId === mordor.id && placeId === gotham.id));
+          });
+          it('should return people born in the country', async () => {
+            const people = await resolver.people({ placeOfBirth: { country: 'Nowhere' } });
+
+            expect(people.length).toBe(2);
+            expect(people.every(({ pobId }) => pobId === mordor.id && pobId === gotham.id));
+          });
+          it('should return empty array if location not exists', async () => {
+            const people = await resolver.people({ place: { country: 'Some Other County' } });
+
+            expect(people.length).toBe(0);
+          });
+        });
       });
     });
   });

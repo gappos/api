@@ -2,14 +2,21 @@ import { Arg, Ctx, FieldResolver, Mutation, Query, Resolver, Root } from 'type-g
 
 import { Location, Person } from '../../../models';
 import { Context } from '../../context';
-import { PersonInput } from '../types';
-import { addPerson, getChildren, getParents, getSpouses, updatePerson } from './helpers';
+import { PeopleSearchInput, PersonInput } from '../types';
+import { addPerson, getChildren, getParents, getPeople, getSpouses, updatePerson } from './helpers';
 
 @Resolver(() => Person)
 export class PersonResolvers {
   @Query(() => [Person])
   async persons(): Promise<Person[]> {
     return await Person.findAll();
+  }
+
+  @Query(() => [Person])
+  async people(
+    @Arg('searchOptions', () => PeopleSearchInput) searchOptions: PeopleSearchInput,
+  ): Promise<Person[]> {
+    return await getPeople(searchOptions);
   }
 
   @FieldResolver()
