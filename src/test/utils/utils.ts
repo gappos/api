@@ -1,5 +1,6 @@
 import DataLoader from 'dataloader';
 import { QueryTypes } from 'sequelize';
+import { v4 as uuidv4 } from 'uuid';
 
 import { getTestSequelize } from './testSequelize';
 import { Context } from '../../graphql';
@@ -13,8 +14,9 @@ import {
   PersonCreationAttributes,
   Spouse,
 } from '../../models';
+import { range } from '../../utils';
 
-export const randomString = () => '' + Math.random();
+export const randomString = () => ('' + Math.random()).substring(2);
 
 export const getPersonAttributes = (
   personAttributes: PersonCreationAttributes,
@@ -51,6 +53,28 @@ export const createLocationForTest = (
     country,
     ...(place ? { place: name } : { city: name }),
   });
+
+interface CreatePeopleAtLocationForTest {
+  number?: number;
+  doSave?: boolean;
+  placeId?: string;
+  pobId?: string;
+}
+export const createPeopleAtLocationForTest = async (
+  { number, doSave, placeId, pobId }: CreatePeopleAtLocationForTest = {
+    number: 2,
+    doSave: false,
+    placeId: uuidv4(),
+    pobId: uuidv4(),
+  },
+) =>
+  await Promise.all(
+    range(number as number).map(async () => {
+      const person = createPersonForTest(placeId, pobId);
+      if (doSave) await person.save();
+      return person;
+    }),
+  );
 
 export const createFamilyForTest = () => {
   const home = createLocationForTest();
