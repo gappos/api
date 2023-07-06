@@ -11,8 +11,8 @@ import {
 } from '../../utils/utils';
 
 describe('LocationResolvers', () => {
-  let resolver: LocationResolvers;
-  let resolverStub: SinonStub;
+  const resolver = new LocationResolvers();
+  let locationModelStub: SinonStub;
 
   const location = createLocationForTest();
 
@@ -22,48 +22,63 @@ describe('LocationResolvers', () => {
     place: '',
   };
 
-  describe('locations', () => {
+  describe('allLocations', () => {
     before(() => {
-      resolver = new LocationResolvers();
-      resolverStub = stub(Location, 'findAll');
+      locationModelStub = stub(Location, 'findAll');
     });
 
     after(() => {
-      resolverStub.restore();
+      locationModelStub.restore();
     });
 
     it('should return an array of locations', async () => {
       const expectedLocations: Location[] = [];
-      resolverStub.resolves(expectedLocations);
+      locationModelStub.resolves(expectedLocations);
 
-      const actualLocations = await resolver.locations();
+      const actualLocations = await resolver.allLocations();
 
       expect(actualLocations).toEqual(expectedLocations);
     });
   });
 
   describe('addLocation', () => {
-    let result: Location | null;
-
+    let locationModelStubForFindAll: SinonStub;
     before(async () => {
-      resolver = new LocationResolvers();
-      resolverStub = stub(Location, 'create').resolves(location);
-
-      result = await resolver.addLocation(locationAttributes);
+      locationModelStub = stub(Location, 'create').resolves(location);
     });
 
     after(() => {
-      resolverStub.restore();
+      locationModelStub.restore();
+      locationModelStubForFindAll.restore();
+    });
+
+    afterEach(() => {
+      locationModelStub.reset();
     });
 
     it('should return true', async () => {
+      const result = await resolver.addLocation(locationAttributes);
+
       expect(result).toEqual(location);
     });
 
     it('should be called with proper arg', async () => {
-      const calledAttributesProps = Object.keys(resolverStub.args[0][0]).sort();
+      await resolver.addLocation(locationAttributes);
+
+      const calledAttributesProps = Object.keys(locationModelStub.args[0][0]).sort();
       const expectedAttributesProps = Object.keys(locationAttributes).sort();
       expect(calledAttributesProps).toEqual(expectedAttributesProps);
+    });
+
+    it('should throw an error, if locations already exists', async () => {
+      locationModelStubForFindAll = stub(Location, 'findAll').resolves([location]);
+
+      try {
+        await resolver.addLocation(locationAttributes);
+        throw new Error('Failed to throw an Error');
+      } catch (error) {
+        expect((error as Error).message).toBe('Location already exists');
+      }
     });
   });
 
@@ -73,15 +88,14 @@ describe('LocationResolvers', () => {
     let findByPkLocationStub: SinonStub;
 
     before(async () => {
-      resolver = new LocationResolvers();
-      resolverStub = stub(Location, 'update').resolves([1]);
+      locationModelStub = stub(Location, 'update').resolves([1]);
       findByPkLocationStub = stub(Location, 'findByPk').resolves(location);
 
       result = await resolver.updateLocation(id, locationAttributes);
     });
 
     after(() => {
-      resolverStub.restore();
+      locationModelStub.restore();
       findByPkLocationStub.restore();
     });
 
@@ -90,10 +104,10 @@ describe('LocationResolvers', () => {
     });
 
     it('should be called with proper arg', async () => {
-      const calledId = resolverStub.args[0][1];
+      const calledId = locationModelStub.args[0][1];
       expect(calledId).toEqual({ where: { id } });
 
-      const calledAttributesProps = Object.keys(resolverStub.args[0][0]).sort();
+      const calledAttributesProps = Object.keys(locationModelStub.args[0][0]).sort();
       const expectedAttributesProps = ['country', 'city', 'place'].sort();
       expect(calledAttributesProps).toEqual(expectedAttributesProps);
     });
