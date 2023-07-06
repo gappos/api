@@ -3,13 +3,29 @@ import { Query, Mutation, Resolver, Arg, FieldResolver, Root, Ctx } from 'type-g
 import { Country, Location, Person } from '../../../models';
 import { Context } from '../../context';
 import { LocationInput } from '../types';
-import { addLocation, getAllCountries, updateLocation } from './helpers';
+import {
+  addLocation,
+  doesLocationExist,
+  getAllCountries,
+  getLocations,
+  updateLocation,
+} from './helpers';
 
 @Resolver(() => Location)
 export class LocationResolvers {
   @Query(() => [Location])
-  async locations(): Promise<Location[]> {
+  async allLocations(): Promise<Location[]> {
     return await Location.findAll();
+  }
+
+  @Query(() => [Location])
+  async locations(
+    @Arg('locationAttributes', () => LocationInput)
+    locationAttributes: LocationInput,
+  ): Promise<Location[]> {
+    const result = await getLocations(locationAttributes);
+    console.log('DEBUG:LocationResolvers:locations:result:', result);
+    return result;
   }
 
   @FieldResolver()
@@ -34,6 +50,8 @@ export class LocationResolvers {
     @Arg('locationAttributes', () => LocationInput)
     locationAttributes: LocationInput,
   ): Promise<Location | null> {
+    if (await doesLocationExist(locationAttributes)) throw new Error('Location already exists');
+
     return addLocation(locationAttributes);
   }
 

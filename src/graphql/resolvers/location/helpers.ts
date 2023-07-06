@@ -1,36 +1,20 @@
-import { Op } from 'sequelize';
-
-import { Country, Location, LocationCreationAttributes, Person } from '../../../models';
-import { LocationInput } from '../types';
-import { logger } from '../../../utils';
+import { Country, Location, LocationCreationAttributes } from '../../../models';
+import { LocationInput, LocationSearch } from '../types';
+import { InputToSearchOptions, inputToSearchOptions, logger } from '../../../utils';
 
 const log = logger('Location');
 
-export const getLocations = async (): Promise<Location[]> => {
+export const getLocations = async (
+  locationAttributes: Partial<LocationSearch>,
+  options: InputToSearchOptions = {},
+): Promise<Location[]> => {
   try {
-    // return await Location.findAll();
-    return await Location.findAll({
-      include: [
-        {
-          model: Person,
-          as: 'personsLiving',
-          foreignKey: 'placeId',
-          where: { dod: { [Op.is]: null } },
-
-          required: false,
-        },
-        {
-          model: Person,
-          as: 'personsBorn',
-          foreignKey: 'pobId',
-          where: { dod: { [Op.is]: null } },
-          required: false,
-        },
-      ],
-    });
+    const searchOptions = inputToSearchOptions(locationAttributes, options);
+    return await Location.findAll({ where: searchOptions });
   } catch (error) {
-    throw error;
+    log.error('create', (error as Error).message);
   }
+  return [];
 };
 
 export const addLocation = async (locationAttributes: LocationInput): Promise<Location | null> => {
@@ -80,4 +64,11 @@ export const getAllCountries = async (): Promise<Country[]> => {
   }, []);
 
   return countries;
+};
+
+export const doesLocationExist = async (locationAttributes: LocationInput) => {
+  return (
+    (await getLocations(locationAttributes, { equalKeys: Object.keys(locationAttributes) }))
+      .length !== 0
+  );
 };
