@@ -104,24 +104,41 @@ describe('PersonResolvers', () => {
 
   describe('field resolvers', () => {
     describe('locations', () => {
-      let place: Location;
-      let placeOfBirth: Location;
+      let place: Location | null;
+      let placeOfBirth: Location | null;
       const ctx = getContextForTest();
       const location = createLocationForTest();
       const person = createPersonForTest(location.id, location.id);
 
-      before(async () => {
-        ctx.placeLoader.load = () => Promise.resolve(location);
-        place = await resolver.place(person, ctx);
-        placeOfBirth = await resolver.placeOfBirth(person, ctx);
-      });
+      describe('person has got set location ids', () => {
+        before(async () => {
+          ctx.placeLoader.load = () => Promise.resolve(location);
+          place = await resolver.place(person, ctx);
+          placeOfBirth = await resolver.placeOfBirth(person, ctx);
+        });
 
-      it('place should return a location', () => {
-        expect(place).toEqual(location);
-      });
+        it('place should return a location', () => {
+          expect(place).toEqual(location);
+        });
 
-      it('placeOfBirth should return a location', () => {
-        expect(placeOfBirth).toEqual(location);
+        it('placeOfBirth should return a location', () => {
+          expect(placeOfBirth).toEqual(location);
+        });
+      });
+      describe('person has got set location ids to null', () => {
+        before(async () => {
+          ctx.placeLoader.load = () => Promise.resolve(null as unknown as Location);
+          place = await resolver.place(person, ctx);
+          placeOfBirth = await resolver.placeOfBirth(person, ctx);
+        });
+
+        it('place should return null', () => {
+          expect(place).toBe(null);
+        });
+
+        it('placeOfBirth should return null', () => {
+          expect(placeOfBirth).toBe(null);
+        });
       });
     });
 
