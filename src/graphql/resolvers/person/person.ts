@@ -40,13 +40,13 @@ export class PersonResolvers {
   @FieldResolver()
   @Query(() => Location)
   async place(@Root() parent: Person, @Ctx() ctx: Context) {
-    return await ctx.placeLoader.load(parent.placeId);
+    return parent.placeId ? await ctx.placeLoader.load(parent.placeId) : null;
   }
 
   @FieldResolver()
   @Query(() => Location)
   async placeOfBirth(@Root() parent: Person, @Ctx() ctx: Context) {
-    return await ctx.placeLoader.load(parent.pobId);
+    return parent.pobId ? await ctx.placeLoader.load(parent.pobId) : null;
   }
 
   @Mutation(() => Person)
