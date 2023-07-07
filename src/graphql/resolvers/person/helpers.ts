@@ -213,7 +213,12 @@ export const getLocations = async (locationSearchObj: SearchOptions): Promise<Lo
 };
 
 export const getPeople = async (searchOptions: PeopleSearchInput): Promise<Person[]> => {
-  const personsSearchOptions = inputToSearchOptions(searchOptions?.person as SearchOptions);
+  const equalKeys = Object.keys(
+    searchOptions.person ? (searchOptions.person as SearchOptions) : [],
+  ).filter((key) => key.includes('Id'));
+  const personsSearchOptions = inputToSearchOptions(searchOptions?.person as SearchOptions, {
+    equalKeys,
+  });
 
   const places =
     !searchOptions?.person?.placeId && (await getLocations(searchOptions?.place as SearchOptions));
