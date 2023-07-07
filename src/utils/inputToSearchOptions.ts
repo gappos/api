@@ -7,8 +7,8 @@ export interface InputToSearchOptions {
 }
 export const inputToSearchOptions = (inputObj: SearchOptions, options?: InputToSearchOptions) =>
   Object.keys(inputObj ?? {}).reduce((searchObj: SearchOptions, key) => {
-    if (options?.equalKeys && key in options.equalKeys) searchObj[key] = inputObj[key];
-    else if (options?.dateKeys && options.dateKeys)
+    if (options?.equalKeys && options.equalKeys.includes(key)) searchObj[key] = inputObj[key];
+    else if (options?.dateKeys && options.dateKeys.includes(key))
       searchObj[key] = inputObj[key]; // TODO: logic for date fields
     else searchObj[key] = { [Op.iLike]: inputObj[key] };
     return searchObj;
