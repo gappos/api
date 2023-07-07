@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
 
-type SearchOptions = Record<string, unknown>;
+export type SearchOptions = Record<string, unknown>;
 export interface InputToSearchOptions {
   equalKeys?: string[];
   dateKeys?: string[];

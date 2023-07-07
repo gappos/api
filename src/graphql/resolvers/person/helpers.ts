@@ -8,15 +8,8 @@ import {
   PersonCreationAttributes,
   Spouse,
 } from '../../../models';
-import { isEmpty, logger } from '../../../utils';
-import {
-  PersonInput,
-  PersonBirthInput,
-  PersonMarriageInput,
-  PeopleSearchInput,
-  PersonSearch,
-  LocationSearch,
-} from '../types';
+import { SearchOptions, inputToSearchOptions, isEmpty, logger } from '../../../utils';
+import { PersonInput, PersonBirthInput, PersonMarriageInput, PeopleSearchInput } from '../types';
 
 const log = logger('Person');
 
@@ -213,40 +206,17 @@ export const updatePersonLocation = async (
   return false;
 };
 
-type SearchOptions = Record<string, object>;
-
-export const getPersonsSearchOptions = (personSearchObj?: Partial<PersonSearch>): SearchOptions =>
-  Object.keys(personSearchObj ?? {}).reduce((searchObj: SearchOptions, key) => {
-    // TODO: how to handle dates, i.e. bod and dod?
-    // TODO: logic for name field, should be used only if firstName and lastName are empty
-    const operation = key.includes('Id') ? Op.eq : Op.iLike;
-    searchObj[key] = {
-      [operation]:
-        operation === Op.iLike
-          ? `%${(personSearchObj as PersonSearch)[key as keyof PersonSearch]}%`
-          : (personSearchObj as PersonSearch)[key as keyof PersonSearch],
-    };
-    return searchObj;
-  }, {});
-
-export const getLocations = async (
-  locationSearchObj?: Partial<LocationSearch>,
-): Promise<Location[]> => {
-  const searchObj = Object.keys(locationSearchObj ?? {}).reduce((searchObj: SearchOptions, key) => {
-    // TODO: logic for address field, should be used only if other are empty
-    searchObj[key] = {
-      [Op.iLike]: (locationSearchObj as LocationSearch)[key as keyof LocationSearch],
-    };
-    return searchObj;
-  }, {});
+export const getLocations = async (locationSearchObj: SearchOptions): Promise<Location[]> => {
+  const searchObj = inputToSearchOptions(locationSearchObj);
 
   return isEmpty(searchObj) ? [] : await Location.findAll({ where: searchObj });
 };
 
 export const getPeople = async (searchOptions: PeopleSearchInput): Promise<Person[]> => {
-  const personsSearchOptions = getPersonsSearchOptions(searchOptions?.person);
+  const personsSearchOptions = inputToSearchOptions(searchOptions?.person as SearchOptions);
 
-  const places = !searchOptions?.person?.placeId && (await getLocations(searchOptions?.place));
+  const places =
+    !searchOptions?.person?.placeId && (await getLocations(searchOptions?.place as SearchOptions));
   if (places && places?.length) {
     personsSearchOptions.placeId = {
       [Op.in]: (places as unknown as Location[]).map(({ id }) => id),
@@ -254,7 +224,8 @@ export const getPeople = async (searchOptions: PeopleSearchInput): Promise<Perso
   }
 
   const placesOfBirth =
-    !searchOptions?.person?.pobId && (await getLocations(searchOptions?.placeOfBirth));
+    !searchOptions?.person?.pobId &&
+    (await getLocations(searchOptions?.placeOfBirth as SearchOptions));
   if (placesOfBirth && placesOfBirth?.length) {
     personsSearchOptions.pobId = {
       [Op.in]: (placesOfBirth as unknown as Location[]).map(({ id }) => id),
