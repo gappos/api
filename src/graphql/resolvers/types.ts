@@ -129,3 +129,5 @@ export class PeopleSearchInput {
   @Field(() => LocationSearch, { nullable: true })
   placeOfBirth?: Partial<LocationSearch>;
 }
+
+export const dateFields = ['dob', 'dod', 'wedding', 'divorce'];
