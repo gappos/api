@@ -24,7 +24,6 @@ export class LocationResolvers {
     locationAttributes: LocationInput,
   ): Promise<Location[]> {
     const result = await getLocations(locationAttributes);
-    console.log('DEBUG:LocationResolvers:locations:result:', result);
     return result;
   }
 

@@ -9,7 +9,13 @@ import {
   Spouse,
 } from '../../../models';
 import { SearchOptions, inputToSearchOptions, isEmpty, logger } from '../../../utils';
-import { PersonInput, PersonBirthInput, PersonMarriageInput, PeopleSearchInput } from '../types';
+import {
+  dateFields,
+  PersonInput,
+  PersonBirthInput,
+  PersonMarriageInput,
+  PeopleSearchInput,
+} from '../types';
 
 const log = logger('Person');
 
@@ -218,6 +224,7 @@ export const getPeople = async (searchOptions: PeopleSearchInput): Promise<Perso
   ).filter((key) => key.includes('Id'));
   const personsSearchOptions = inputToSearchOptions(searchOptions?.person as SearchOptions, {
     equalKeys,
+    dateKeys: dateFields,
   });
 
   const places =
